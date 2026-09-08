@@ -1,10 +1,10 @@
 /**
- * THE LINK REACTION — Application Controller & Educational Database
- * Fulfills Rubric Rows 1-6 with complete Core/Deeper content,
- * state management, carbon tracking, molecule modals, and flat mode.
+ * THE LINK REACTION — 2D / Semi-2D Application Controller
+ * Manages the Bottom Process Bar, 8-stage narrative progression,
+ * Core/Deeper tiers, carbon tracker, and flat summary grading fallback.
  */
 
-import { init3DScene, update3DStage, toggleAll3DLabels, get3DCameraFocusName } from './scene3d.js';
+import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js';
 
 // =============================================================================
 // 1. COMPREHENSIVE EDUCATIONAL DATABASE (STAGES 00 - 07)
@@ -15,17 +15,18 @@ export const STAGES_DATA = [
     id: 0,
     number: "00 / 07",
     shortName: "Arrival",
+    iconLabel: "Mito",
     title: "Arrival at the Mitochondrion",
     conceptHeadline: "The molecular bridge between glycolysis and the Krebs cycle.",
     compartment: "Cytosol / Outer Membrane",
     nature: "Preparatory",
     where: "Cytoplasm bordering the mitochondrial outer membrane.",
     what: "Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.",
-    how: "Small polar molecules pass through large, non-selective outer membrane porin channels.",
-    why: "Glycolysis breaks 1 glucose into 2 pyruvates, but glycolysis alone yields only 2 net ATP. Accessing the ~30 ATP of aerobic respiration requires entering the mitochondrial matrix.",
+    how: "Small polar metabolites pass through large, non-selective outer membrane porin channels.",
+    why: "Glycolysis yields only 2 net ATP in the cytoplasm. Accessing the ~30 ATP of aerobic respiration requires entering the mitochondrial matrix.",
     coreText: `
       Aerobic cellular respiration requires pyruvate to migrate from the <strong>cytosol</strong> into the <strong>mitochondrial matrix</strong>. 
-      The Link Reaction is the mandatory, irreversible metabolic gateway linking anaerobic glycolysis to the oxygen-consuming aerobic pathways (Krebs Cycle &amp; Oxidative Phosphorylation).
+      The Link Reaction serves as the mandatory, irreversible metabolic gateway linking anaerobic glycolysis to the oxygen-consuming aerobic pathways (Krebs Cycle &amp; Oxidative Phosphorylation).
     `,
     moleculesInFocus: ["pyruvate", "porin"],
     carbonState: {
@@ -33,24 +34,25 @@ export const STAGES_DATA = [
       beads: ["active", "active", "active"]
     },
     deeper: {
-      enzymology: "Glycolysis ends in the cytoplasm with 2 pyruvate molecules per glucose. At this outer boundary, porin channels (voltage-dependent anion channels, VDAC) allow passive diffusion of molecules under 5,000 Daltons into the intermembrane space.",
-      mechanism: "Pyruvate is an alpha-keto acid (CH₃-CO-COO⁻). It carries a net negative charge at physiological pH (7.2-7.4), allowing it to freely traverse the outer membrane aqueous pore.",
-      regulation: "If cellular oxygen is depleted, pyruvate cannot proceed through the link reaction; instead, it is diverted to lactate dehydrogenase in animals (anaerobic lactic acid fermentation) or ethanolic fermentation in yeast to regenerate NAD⁺.",
-      simplificationNote: "The outer membrane is permeable, but the inner membrane is highly impermeable and strictly regulated."
+      enzymology: "Glycolysis ends in the cytoplasm with 2 pyruvate molecules per glucose. Porin channels (voltage-dependent anion channels, VDAC) in the outer membrane allow passive diffusion of small molecules under 5,000 Daltons into the intermembrane space.",
+      mechanism: "Pyruvate is an alpha-keto acid (CH₃-CO-COO⁻) with a net negative charge at physiological pH (7.2–7.4), allowing it to traverse the outer membrane aqueous pore.",
+      regulation: "If cellular oxygen is depleted, pyruvate cannot proceed through the link reaction; instead, it is diverted to lactate dehydrogenase in animals (fermentation) to regenerate NAD⁺.",
+      simplificationNote: "The outer membrane is permeable to small molecules, but the inner membrane is an impermeable barrier that requires specific carrier proteins."
     }
   },
   {
     id: 1,
     number: "01 / 07",
     shortName: "Matrix Entry",
+    iconLabel: "Entry",
     title: "Entry into the Matrix",
     conceptHeadline: "Crossing the impermeable inner membrane into the reaction chamber.",
     compartment: "Inner Membrane & Matrix",
     nature: "Active Transport",
     where: "Across the inner mitochondrial membrane into the mitochondrial matrix.",
     what: "Pyruvate moves through the intermembrane space and crosses into the matrix via a specific transport protein.",
-    how: "The Mitochondrial Pyruvate Carrier (MPC) transports pyruvate via proton-coupled symport down the proton gradient established by the electron transport chain.",
-    why: "The inner mitochondrial membrane is an impermeable barrier that maintains the chemiosmotic gradient. Pyruvate cannot diffuse freely; it must be specifically imported into the matrix where the link enzymes reside.",
+    how: "The Mitochondrial Pyruvate Carrier (MPC) transports pyruvate via proton-coupled symport down the proton motive force.",
+    why: "The inner mitochondrial membrane maintains the chemiosmotic gradient. Pyruvate cannot diffuse freely; it must be specifically imported into the matrix where the link enzymes reside.",
     coreText: `
       Unlike the porous outer membrane, the <strong>inner mitochondrial membrane</strong> is strictly impermeable to charged ions and metabolites. 
       Pyruvate utilizes the <strong>Mitochondrial Pyruvate Carrier (MPC)</strong> to enter the matrix. 
@@ -62,22 +64,23 @@ export const STAGES_DATA = [
       beads: ["active", "active", "active"]
     },
     deeper: {
-      enzymology: "The MPC is an obligate heterodimer of MPC1 and MPC2 proteins located in the inner mitochondrial membrane. It operates as a pyruvate⁻ / H⁺ symporter (or pyruvate⁻ / OH⁻ antiporter).",
-      mechanism: "Because the electron transport chain pumps H⁺ ions from the matrix into the intermembrane space, the matrix has a lower H⁺ concentration (pH ~8.0 vs 7.2 in intermembrane space) and an interior-negative electrical potential (~-160 to -180 mV). Pyruvate import is energetically driven by this electrochemical gradient.",
-      regulation: "MPC activity is a key regulatory bottleneck in cellular metabolism. In cancer cells (Warburg effect), MPC is frequently downregulated, trapping pyruvate in the cytosol to drive aerobic glycolysis.",
-      simplificationNote: "Many general textbooks omit the MPC and simply mention 'active transport' or 'carrier proteins'."
+      enzymology: "The MPC is an obligate heterodimer of MPC1 and MPC2 proteins located in the inner membrane. It operates as a pyruvate⁻ / H⁺ symporter.",
+      mechanism: "The electron transport chain pumps H⁺ ions into the intermembrane space, creating a membrane potential (~-180 mV) and pH gradient (pH ~8.0 in matrix vs 7.2 in IMS). Pyruvate import is energetically coupled to this electrochemical gradient.",
+      regulation: "MPC activity is a key regulatory bottleneck. In cancer cells (Warburg effect), MPC is frequently downregulated, trapping pyruvate in the cytosol to drive aerobic glycolysis.",
+      simplificationNote: "Many general textbooks omit the MPC and simply state 'pyruvate enters via active transport'."
     }
   },
   {
     id: 2,
     number: "02 / 07",
     shortName: "PDC Complex",
+    iconLabel: "PDC",
     title: "Meeting the Pyruvate Dehydrogenase Complex",
     conceptHeadline: "A colossal macromolecular machine coordinating three coupled enzymes.",
     compartment: "Mitochondrial Matrix",
     nature: "Enzyme Assembly",
     where: "Soluble mitochondrial matrix, surrounded by high concentrations of metabolic enzymes.",
-    what: "Pyruvate encounters the Pyruvate Dehydrogenase Complex (PDC), a giant multi-enzyme assembly larger than a ribosome.",
+    what: "Pyruvate encounters the Pyruvate Dehydrogenase Complex (PDC), a multi-enzyme assembly larger than a ribosome.",
     how: "The PDC coordinates three distinct catalytic subunits (E1, E2, E3) and 5 coenzymes via substrate channeling on a flexible lipoamide arm.",
     why: "Multi-enzyme complexes dramatically increase reaction velocity, prevent toxic or reactive intermediates from leaking into solution, and prevent side reactions.",
     coreText: `
@@ -91,9 +94,9 @@ export const STAGES_DATA = [
       beads: ["active", "active", "active"]
     },
     deeper: {
-      enzymology: "The PDC contains 3 core catalytic enzymes: E1 (pyruvate dehydrogenase, 24-30 copies), E2 (dihydrolipoyl transacetylase, 24-60 copies forming the structural dodecahedral core), and E3 (dihydrolipoyl dehydrogenase, 12 copies). It also contains structural E3-binding protein (E3BP) and regulatory kinases/phosphatases.",
-      mechanism: "Five vital coenzymes cooperate in PDC catalysis: Thiamine Pyrophosphate (TPP, on E1), Lipoic Acid / Lipoamide (on E2), Coenzyme A (free substrate), Flavin Adenine Dinucleotide (FAD, on E3), and Nicotinamide Adenine Dinucleotide (NAD⁺, free substrate).",
-      regulation: "PDC is tightly controlled. Inactivated by Pyruvate Dehydrogenase Kinase (PDK) which phosphorylates E1 in response to high energy states (high ATP, NADH, Acetyl-CoA). Activated by Pyruvate Dehydrogenase Phosphatase (PDP) in response to high ADP, pyruvate, and Ca²⁺ (signaling muscle contraction).",
+      enzymology: "The PDC contains 3 core catalytic enzymes: E1 (pyruvate dehydrogenase, 24-30 copies), E2 (dihydrolipoyl transacetylase, 24-60 copies forming the structural dodecahedral core), and E3 (dihydrolipoyl dehydrogenase, 12 copies).",
+      mechanism: "Five vital coenzymes cooperate in PDC catalysis: Thiamine Pyrophosphate (TPP, on E1), Lipoamide (on E2), Coenzyme A (free substrate), Flavin Adenine Dinucleotide (FAD, on E3), and NAD⁺ (free substrate).",
+      regulation: "PDC is tightly controlled. Inactivated by Pyruvate Dehydrogenase Kinase (PDK) which phosphorylates E1 in response to high energy states (high ATP, NADH, Acetyl-CoA). Activated by Pyruvate Dehydrogenase Phosphatase (PDP) in response to high ADP, pyruvate, and Ca²⁺.",
       simplificationNote: "Core syllabus models present PDC as a single black box; in reality, its three distinct subunits perform distinct consecutive chemical reactions."
     }
   },
@@ -101,6 +104,7 @@ export const STAGES_DATA = [
     id: 3,
     number: "03 / 07",
     shortName: "Decarboxylation",
+    iconLabel: "–CO₂",
     title: "Decarboxylation: Carbon Leaves",
     conceptHeadline: "The loss of the first carbon atom in cellular respiration as CO₂.",
     compartment: "PDC Subunit E1 Active Site",
@@ -121,9 +125,9 @@ export const STAGES_DATA = [
       beads: ["detached", "active", "active"]
     },
     deeper: {
-      enzymology: "Enzyme E1 uses Thiamine Pyrophosphate (TPP), derived from Vitamin B1 (thiamine). The thiazolium ring of TPP readily loses a proton to form a resonance-stabilized carbanion (ylide), which acts as a nucleophile.",
-      mechanism: "The TPP carbanion attacks the central carbonyl carbon of pyruvate. The carboxyl group (-COO⁻) is released as CO₂ gas. The remaining 2-carbon fragment remains covalently attached to TPP as a stable carbanion: hydroxyethyl-TPP.",
-      regulation: "Severe thiamine deficiency (Beriberi or Wernicke-Korsakoff syndrome) inhibits E1, crippling aerobic glucose metabolism and causing devastating neurological and cardiovascular symptoms.",
+      enzymology: "Enzyme E1 uses Thiamine Pyrophosphate (TPP), derived from Vitamin B1 (thiamine). The thiazolium ring of TPP forms a carbanion (ylide) that attacks the carbonyl carbon of pyruvate.",
+      mechanism: "CO₂ gas is released, leaving a resonance-stabilized 2-carbon hydroxyethyl-TPP carbanion covalently bound to E1.",
+      regulation: "Severe thiamine deficiency (Beriberi or Wernicke-Korsakoff syndrome) inhibits E1, crippling aerobic glucose metabolism and causing devastating neurological symptoms.",
       simplificationNote: "The 2-carbon fragment does not float free as acetate; it remains tightly bound to TPP on E1 until the lipoamide arm of E2 arrives."
     }
   },
@@ -131,6 +135,7 @@ export const STAGES_DATA = [
     id: 4,
     number: "04 / 07",
     shortName: "Oxidation",
+    iconLabel: "Redox",
     title: "Oxidation: Transfer of Electrons to NAD⁺",
     conceptHeadline: "Harvesting high-energy electrons to reduce NAD⁺ into NADH.",
     compartment: "PDC Subunit E2 & E3 Active Sites",
@@ -151,15 +156,16 @@ export const STAGES_DATA = [
     },
     deeper: {
       enzymology: "Subunit E2 utilizes lipoamide (lipoic acid covalently bound to a lysine residue). This 14 Ångström flexible swinging arm visits E1, oxidizes hydroxyethyl-TPP to an acetyl group, and becomes reduced to dihydrolipoamide.",
-      mechanism: "Subunit E3 (dihydrolipoyl dehydrogenase) contains tightly bound FAD and a redox-active disulfide. E3 re-oxidizes dihydrolipoamide back to oxidized lipoamide. Electrons pass from lipoamide → E3 disulfide → FAD → FADH₂ → NAD⁺, yielding NADH and a free proton (H⁺).",
+      mechanism: "Subunit E3 (dihydrolipoyl dehydrogenase) re-oxidizes dihydrolipoamide back to oxidized lipoamide. Electrons pass from lipoamide → E3 disulfide → FAD → FADH₂ → NAD⁺, yielding NADH and a free proton (H⁺).",
       regulation: "High matrix [NADH]/[NAD⁺] ratio strongly inhibits E3 via competitive product inhibition, signaling that downstream electron transport is saturated.",
-      simplificationNote: "In our Core educational presentation, oxidation and CoA attachment are shown sequentially for clarity. In biochemical reality, the oxidation happens simultaneously when lipoamide's disulfide bond is reduced as it accepts the acetyl group on E2."
+      simplificationNote: "In introductory syllabi, oxidation and CoA attachment are shown as separate sequential beats for clarity. In biochemical reality, the oxidation happens simultaneously when lipoamide's disulfide bond is reduced as it accepts the acetyl group on E2."
     }
   },
   {
     id: 5,
     number: "05 / 07",
     shortName: "Acetyl-CoA",
+    iconLabel: "CoA",
     title: "Formation of Acetyl-CoA",
     conceptHeadline: "Coupling the 2-carbon acetyl group to Coenzyme A via a high-energy thioester bond.",
     compartment: "PDC Subunit E2 Active Site",
@@ -182,14 +188,15 @@ export const STAGES_DATA = [
     deeper: {
       enzymology: "Coenzyme A consists of a 3'-phosphoadenosine diphosphate linked to pantothenate (vitamin B5) and beta-mercaptoethylamine. The reactive business end is the terminal sulfhydryl / thiol group (-SH).",
       mechanism: "Transesterification on E2: Acetyldihydrolipoamide + CoA-SH ⇌ Acetyl-CoA + Dihydrolipoamide. The acetyl group is transferred to sulfur, preserving the chemical energy released by the earlier oxidation of pyruvate.",
-      regulation: "Acetyl-CoA exerts potent product inhibition on subunit E2. It also acts as an allosteric activator of pyruvate carboxylase (diverting pyruvate to oxaloacetate for gluconeogenesis when acetyl-CoA accumulates).",
-      simplificationNote: "Because sulfur does not form effective pi-bonds with carbon, thioesters lack the resonance stabilization of oxygen esters. This lack of resonance gives the thioester bond its high chemical transfer potential."
+      regulation: "Acetyl-CoA exerts potent product inhibition on subunit E2. It also acts as an allosteric activator of pyruvate carboxylase.",
+      simplificationNote: "Because sulfur does not form effective pi-bonds with carbon, thioesters lack the resonance stabilization of oxygen esters. This gives the thioester bond its high chemical transfer potential."
     }
   },
   {
     id: 6,
     number: "06 / 07",
     shortName: "Complete Equation",
+    iconLabel: "Eq.",
     title: "The Balanced Equation & Stoichiometry",
     conceptHeadline: "Resolving per-pyruvate versus per-glucose yields.",
     compartment: "Mitochondrial Matrix Chamber",
@@ -214,14 +221,15 @@ export const STAGES_DATA = [
     deeper: {
       enzymology: "Standard free energy change: ΔG°' = -33.4 kJ/mol. The large negative free energy and loss of volatile CO₂ gas makes this reaction physiologically irreversible in vivo. Animals cannot convert acetyl-CoA into pyruvate or glucose.",
       mechanism: "Carbon balance: 3C (Pyruvate) = 2C (Acetyl-CoA) + 1C (CO₂). Redox balance: NAD⁺ + 2e⁻ + 2H⁺ → NADH + H⁺. Energy balance: 0 ATP directly, but the 2 NADH generated will yield ~5 ATP via oxidative phosphorylation.",
-      regulation: "PDC is the central commitment point in animal metabolism: once pyruvate passes this gate, the carbons are destined either for complete oxidation in the Krebs cycle or for fatty acid / cholesterol synthesis.",
+      regulation: "PDC is the central commitment point in animal metabolism: once pyruvate passes this gate, the carbons are destined either for complete oxidation in the Krebs cycle or for fatty acid synthesis.",
       simplificationNote: "Always check whether an exam question specifies 'per pyruvate' (1 Acetyl-CoA, 1 CO₂, 1 NADH) or 'per glucose' (2 Acetyl-CoA, 2 CO₂, 2 NADH)."
     }
   },
   {
     id: 7,
     number: "07 / 07",
-    shortName: "Respiration Context",
+    shortName: "Respiration Map",
+    iconLabel: "Map",
     title: "Where This Sits in Respiration",
     conceptHeadline: "The master metabolic map connecting all four stages of cellular respiration.",
     compartment: "Whole Mitochondrion & Cytosol",
@@ -244,7 +252,7 @@ export const STAGES_DATA = [
     },
     deeper: {
       enzymology: "The link reaction and Krebs cycle share the same compartment (matrix) which prevents dilution of Acetyl-CoA and maintains high local substrate concentrations for Citrate Synthase.",
-      mechanism: "CO₂ produced by the link reaction (and Krebs cycle) is non-polar and diffuses freely out of the mitochondrion, through the cytosol and cell membrane, into the blood capillaries, to be exhaled by the lungs.",
+      mechanism: "CO₂ produced by the link reaction (and Krebs cycle) is non-polar and diffuses freely out of the mitochondrion, into the capillaries, to be exhaled by the lungs.",
       regulation: "If oxygen is unavailable, the electron transport chain halts, NADH and FADH₂ accumulate, matrix NAD⁺ is depleted, and both the Krebs cycle and Link Reaction shut down completely.",
       simplificationNote: "Although taught as distinct chapters in textbooks, in a living cell these four stages operate simultaneously and in direct physical proximity."
     }
@@ -252,7 +260,7 @@ export const STAGES_DATA = [
 ];
 
 // =============================================================================
-// 2. MOLECULE INSPECTOR DATABASE (Section §9 & §12)
+// 2. MOLECULE INSPECTOR DATABASE
 // =============================================================================
 
 export const MOLECULES_DATA = {
@@ -297,7 +305,7 @@ export const MOLECULES_DATA = {
     carbons: 0,
     diagram: `Nicotinamide-H (Reduced) -- Dinucleotide Backbone`,
     role: "Carries 2 high-energy electrons extracted from the oxidation of the 2-carbon fragment.",
-    fate: "Diffuses to the inner mitochondrial membrane where it donates its electrons to Complex I (NADH dehydrogenase) of the Electron Transport Chain, powering proton pumping.",
+    fate: "Diffuses to the inner mitochondrial membrane where it donates its electrons to Complex I of the Electron Transport Chain, powering proton pumping.",
     alert: "CRITICAL SYLLABUS RULE: No ATP is generated directly in the link reaction! Each NADH produced will yield ~2.5 ATP downstream in oxidative phosphorylation."
   },
   acetyl_coa: {
@@ -319,7 +327,7 @@ CH₃ - C - S - CoA`,
     carbons: 1,
     diagram: `O = C = O`,
     role: "The first molecule of carbon dioxide released during cellular respiration.",
-    fate: "As a small non-polar gas, CO₂ diffuses freely through the mitochondrial membranes, into the cytoplasm, across the plasma membrane, and into the bloodstream to be expired.",
+    fate: "As a small non-polar gas, CO₂ diffuses freely through the mitochondrial membranes, into the cytoplasm, and into the bloodstream to be expired.",
     alert: "A common exam misconception is that all CO₂ comes from the Krebs cycle. In fact, 2 of the 6 CO₂ molecules produced per glucose originate right here in the Link Reaction!"
   },
   h_plus: {
@@ -381,13 +389,11 @@ export const state = {
 // =============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  initScrubber();
+  initBottomProcessBar();
   bindUIEvents();
   renderStage(state.currentStage);
-  populateFlatMode();
-  
-  // Initialize 3D scene
-  init3DScene();
+  populateFlatSummary();
+  init2DScene();
 });
 
 function bindUIEvents() {
@@ -396,18 +402,30 @@ function bindUIEvents() {
   const btnNext = document.getElementById('btn-next-stage');
   
   btnPrev?.addEventListener('click', () => {
-    if (state.currentStage > 0) {
-      goToStage(state.currentStage - 1);
-    }
+    if (state.currentStage > 0) goToStage(state.currentStage - 1);
   });
 
   btnNext?.addEventListener('click', () => {
-    if (state.currentStage < STAGES_DATA.length - 1) {
-      goToStage(state.currentStage + 1);
-    }
+    if (state.currentStage < STAGES_DATA.length - 1) goToStage(state.currentStage + 1);
   });
 
-  // Keyboard navigation
+  // Arrow buttons on bottom process bar
+  const btnBarPrev = document.getElementById('btn-process-prev');
+  const btnBarNext = document.getElementById('btn-process-next');
+  btnBarPrev?.addEventListener('click', () => {
+    if (state.currentStage > 0) goToStage(state.currentStage - 1);
+  });
+  btnBarNext?.addEventListener('click', () => {
+    if (state.currentStage < STAGES_DATA.length - 1) goToStage(state.currentStage + 1);
+  });
+
+  // Replay animation button
+  const btnReplay = document.getElementById('btn-replay-scene');
+  btnReplay?.addEventListener('click', () => {
+    replayCurrentStageAnimation();
+  });
+
+  // Keyboard navigation (Arrow keys Left / Right)
   window.addEventListener('keydown', (e) => {
     if (state.flatMode) {
       if (e.key === 'Escape') toggleFlatMode(false);
@@ -429,10 +447,35 @@ function bindUIEvents() {
       toggleLabels();
     } else if (e.key === 'f' || e.key === 'F') {
       toggleFlatMode(true);
+    } else if (e.key === 'r' || e.key === 'R') {
+      replayCurrentStageAnimation();
     }
   });
 
-  // Toggle "Show All Labels" (§9)
+  // Touch swipe support for mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+  }, { passive: true });
+
+  function handleSwipe() {
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && state.currentStage < STAGES_DATA.length - 1) {
+        goToStage(state.currentStage + 1); // Swipe left = next
+      } else if (diff < 0 && state.currentStage > 0) {
+        goToStage(state.currentStage - 1); // Swipe right = prev
+      }
+    }
+  }
+
+  // Toggle "Show All Labels" (§8)
   const btnToggleLabels = document.getElementById('btn-toggle-labels');
   btnToggleLabels?.addEventListener('click', toggleLabels);
 
@@ -440,7 +483,7 @@ function bindUIEvents() {
   const btnToggleGlucose = document.getElementById('btn-toggle-glucose');
   btnToggleGlucose?.addEventListener('click', toggleGlucoseYield);
 
-  // Toggle "Flat Mode" Fallback (§15)
+  // Toggle "Flat Summary" Fallback (§13)
   const btnOpenFlat = document.getElementById('btn-open-flatmode');
   const btnCloseFlat = document.getElementById('btn-close-flatmode');
   btnOpenFlat?.addEventListener('click', () => toggleFlatMode(true));
@@ -457,44 +500,33 @@ function bindUIEvents() {
   modalBackdrop?.addEventListener('click', (e) => {
     if (e.target === modalBackdrop) closeMoleculeModal();
   });
-
-  // Wheel / Scroll event to smoothly advance stages when scrolling over 3D canvas
-  let scrollTimeout = null;
-  window.addEventListener('wheel', (e) => {
-    // If hovering over the educational card or flat mode, let normal scroll occur
-    if (e.target.closest('#stage-card') || state.flatMode) return;
-
-    if (scrollTimeout) return;
-    scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 350);
-
-    if (e.deltaY > 30) {
-      if (state.currentStage < STAGES_DATA.length - 1) goToStage(state.currentStage + 1);
-    } else if (e.deltaY < -30) {
-      if (state.currentStage > 0) goToStage(state.currentStage - 1);
-    }
-  }, { passive: true });
 }
 
 // =============================================================================
-// 5. STAGE MANAGEMENT & SCRUBBER
+// 5. BOTTOM PROCESS BAR INITIALIZATION & COORDINATION (Section §3)
 // =============================================================================
 
-function initScrubber() {
-  const container = document.getElementById('scrubber-steps-container');
+function initBottomProcessBar() {
+  const container = document.getElementById('process-nodes-container');
   if (!container) return;
   container.innerHTML = '';
 
   STAGES_DATA.forEach((stage, idx) => {
-    const stepBtn = document.createElement('button');
-    stepBtn.className = `scrubber-step ${idx === 0 ? 'active' : ''}`;
-    stepBtn.setAttribute('data-stage', idx);
-    stepBtn.setAttribute('title', `${stage.number} - ${stage.title}`);
-    stepBtn.innerHTML = `
-      <span class="step-num">${stage.number.split(' ')[0]}</span>
-      <span class="step-name">${stage.shortName}</span>
+    const nodeBtn = document.createElement('button');
+    nodeBtn.className = `process-node ${idx === 0 ? 'active' : ''}`;
+    nodeBtn.setAttribute('data-stage', idx);
+    nodeBtn.setAttribute('title', `Jump to ${stage.number}: ${stage.title}`);
+
+    nodeBtn.innerHTML = `
+      <div class="node-icon-circle">${stage.iconLabel || stage.number.split(' ')[0]}</div>
+      <div class="node-label-group">
+        <span class="node-step-num">${stage.number.split(' ')[0]}</span>
+        <span class="node-step-name">${stage.shortName}</span>
+      </div>
     `;
-    stepBtn.addEventListener('click', () => goToStage(idx));
-    container.appendChild(stepBtn);
+
+    nodeBtn.addEventListener('click', () => goToStage(idx));
+    container.appendChild(nodeBtn);
   });
 }
 
@@ -502,7 +534,7 @@ export function goToStage(stageIndex) {
   if (stageIndex < 0 || stageIndex >= STAGES_DATA.length) return;
   state.currentStage = stageIndex;
   renderStage(stageIndex);
-  update3DStage(stageIndex);
+  render2DStage(stageIndex);
 }
 
 function renderStage(stageIndex) {
@@ -560,29 +592,42 @@ function renderStage(stageIndex) {
     `;
   }
 
-  // 6. Update Navigation Buttons
+  // 6. Navigation Buttons on Card and Process Bar
   const btnPrev = document.getElementById('btn-prev-stage');
   const btnNext = document.getElementById('btn-next-stage');
-  if (btnPrev) btnPrev.disabled = (stageIndex === 0);
-  if (btnNext) btnNext.disabled = (stageIndex === STAGES_DATA.length - 1);
-
-  // 7. Update Scrubber
-  const allSteps = document.querySelectorAll('.scrubber-step');
-  allSteps.forEach((step, idx) => {
-    step.classList.toggle('active', idx === stageIndex);
-  });
+  const btnBarPrev = document.getElementById('btn-process-prev');
+  const btnBarNext = document.getElementById('btn-process-next');
   
-  const fill = document.getElementById('scrubber-fill');
-  if (fill) {
-    const pct = ((stageIndex) / (STAGES_DATA.length - 1)) * 100;
-    fill.style.width = `${Math.max(12.5, pct)}%`;
+  const isFirst = (stageIndex === 0);
+  const isLast = (stageIndex === STAGES_DATA.length - 1);
+
+  if (btnPrev) btnPrev.disabled = isFirst;
+  if (btnNext) btnNext.disabled = isLast;
+  if (btnBarPrev) btnBarPrev.disabled = isFirst;
+  if (btnBarNext) btnBarNext.disabled = isLast;
+
+  // 7. Update Bottom Process Bar Nodes & Progress Fill Line
+  const allNodes = document.querySelectorAll('.process-node');
+  allNodes.forEach((node, idx) => {
+    node.classList.remove('active', 'completed');
+    if (idx === stageIndex) {
+      node.classList.add('active');
+    } else if (idx < stageIndex) {
+      node.classList.add('completed');
+    }
+  });
+
+  const progressFill = document.getElementById('process-track-fill');
+  if (progressFill) {
+    const pct = (stageIndex / (STAGES_DATA.length - 1)) * 100;
+    progressFill.style.width = `${pct}%`;
   }
 
   // 8. Update Carbon Tracker
   updateCarbonTracker(stage.carbonState);
 
-  // 9. Update Camera Focus Badge
-  setText('cam-focus-name', get3DCameraFocusName(stageIndex));
+  // 9. Update Focus Pill in Scene Header
+  setText('stage-focus-name', getStageFocusName(stageIndex));
 }
 
 // =============================================================================
@@ -617,7 +662,7 @@ function toggleLabels() {
   if (btn) btn.setAttribute('aria-pressed', state.showAllLabels.toString());
   if (statusText) statusText.textContent = state.showAllLabels ? 'All On' : 'Default';
   
-  toggleAll3DLabels(state.showAllLabels);
+  toggleAll2DLabels(state.showAllLabels);
 }
 
 function toggleGlucoseYield() {
@@ -629,6 +674,8 @@ function toggleGlucoseYield() {
   
   if (btn) btn.setAttribute('aria-pressed', state.perGlucoseMode.toString());
   
+  const stoichFactors = document.querySelectorAll('.stoich-factor');
+  
   if (state.perGlucoseMode) {
     if (yieldText) yieldText.textContent = 'Per Glucose (2×)';
     if (badge) badge.textContent = '2× GLUCOSE CYCLE';
@@ -639,6 +686,7 @@ function toggleGlucoseYield() {
         <span class="m-prod">2 acetyl-CoA</span> + <span class="m-prod">2 CO₂</span> + <span class="m-prod">2 NADH</span> + <span class="m-prod">2 H⁺</span>
       `;
     }
+    stoichFactors.forEach(el => { el.textContent = '2×'; });
   } else {
     if (yieldText) yieldText.textContent = 'Per Pyruvate (1×)';
     if (badge) badge.textContent = '1× PYRUVATE';
@@ -649,6 +697,7 @@ function toggleGlucoseYield() {
         <span class="m-prod">acetyl-CoA</span> + <span class="m-prod">CO₂</span> + <span class="m-prod">NADH</span> + <span class="m-prod">H⁺</span>
       `;
     }
+    stoichFactors.forEach(el => { el.textContent = '1×'; });
   }
 }
 
@@ -694,7 +743,7 @@ function closeMoleculeModal() {
 }
 
 // =============================================================================
-// 9. FLAT MODE / OVERVIEW GENERATOR (§15)
+// 9. FLAT SUMMARY / OVERVIEW GENERATOR (§13)
 // =============================================================================
 
 function toggleFlatMode(open) {
@@ -704,7 +753,7 @@ function toggleFlatMode(open) {
   document.body.style.overflow = open ? 'auto' : 'hidden';
 }
 
-function populateFlatMode() {
+function populateFlatSummary() {
   const list = document.getElementById('flat-stages-list-container');
   if (!list) return;
 

@@ -3,30 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Link Reaction — 3D Interactive Scientific Visualization</title>
-  <meta name="description" content="A rubric-aligned, cinematic 3D interactive educational experience exploring the Link Reaction of aerobic cellular respiration in the mitochondrial matrix.">
+  <title>The Link Reaction — 2D Interactive Scientific Visualization</title>
+  <meta name="description" content="A rubric-aligned, 2D interactive educational experience exploring the Link Reaction of aerobic cellular respiration in the mitochondrial matrix.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
 </head>
 <body class="theme-dark">
 
-  <!-- Main Viewport for Three.js WebGL Scene -->
-  <div id="canvas-container" aria-label="3D Molecular Visualization of the Link Reaction"></div>
-
-  <!-- Screen Space 3D Overlay Labels Container -->
-  <div id="labels-overlay" aria-hidden="true"></div>
-
-  <!-- Ambient Cinematic Background Effects -->
+  <!-- Ambient Cinematic Background Atmosphere -->
   <div class="vignette-overlay"></div>
   <div class="matrix-glow"></div>
 
@@ -64,8 +50,8 @@
         <span class="tracker-status" id="carbon-status">3C (Pyruvate)</span>
       </div>
 
-      <!-- Toggle: Show All Labels (Section §9 requirement) -->
-      <button class="btn btn-glass" id="btn-toggle-labels" aria-pressed="false" title="Toggle visible labels on all 3D structures">
+      <!-- Toggle: Show All Labels (Section §8 requirement) -->
+      <button class="btn btn-glass" id="btn-toggle-labels" aria-pressed="false" title="Toggle visible labels on all structures">
         <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M7 7h10M7 12h10M7 17h6" />
           <rect x="3" y="3" width="18" height="18" rx="3" />
@@ -82,8 +68,8 @@
         <span class="btn-text">Yield: <strong id="yield-mode-text">Per Pyruvate (1&times;)</strong></span>
       </button>
 
-      <!-- Fallback: Flat Mode / Overview (Section §15 requirement) -->
-      <button class="btn btn-accent" id="btn-open-flatmode" title="Open static accessible overview for grading without 3D WebGL">
+      <!-- Fallback: Flat Summary (Section §13 requirement) -->
+      <button class="btn btn-accent" id="btn-open-flatmode" title="Open static accessible overview for grading without interactions">
         <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
           <polyline points="14 2 14 8 20 8" />
@@ -91,113 +77,150 @@
           <line x1="16" y1="17" x2="8" y2="17" />
           <polyline points="10 9 9 9 8 9" />
         </svg>
-        <span class="btn-text">Flat Mode (Grading Pass)</span>
+        <span class="btn-text">Flat Summary (Grading Pass)</span>
       </button>
     </div>
   </header>
 
-  <!-- FLOATING EDUCATIONAL STAGE CARD (Glassmorphic Side Panel) -->
-  <main class="educational-card-container" id="main-content" role="main">
-    <article class="glass-card educational-card" id="stage-card">
+  <!-- MAIN VIEW: 2D ILLUSTRATION VIEWPORT & EDUCATIONAL PANEL -->
+  <div class="workspace-layout">
+    
+    <!-- 2D / Semi-2D Stage Canvas Container -->
+    <div class="scene-stage-area">
+      <div id="scene-2d-viewport" class="scene-2d-viewport" aria-label="2D Scientific Illustration of the Link Reaction">
+        <!-- Injected dynamically via scene2d.js -->
+      </div>
       
-      <!-- Stage Breadcrumb & Step Navigation -->
-      <div class="card-header">
-        <div class="stage-tag" id="stage-number-tag">STAGE 00 / 07</div>
-        <div class="stage-pills">
-          <span class="badge badge-compartment" id="badge-compartment">Mitochondrial Exterior</span>
-          <span class="badge badge-nature" id="badge-nature">Preparatory Phase</span>
+      <!-- Scene Stage Header Overlay: Focus & Replay Controls -->
+      <div class="stage-controls-overlay">
+        <div class="stage-focus-pill" id="stage-focus-pill">
+          <span class="focus-label">FOCUS:</span>
+          <span class="focus-name" id="stage-focus-name">Mitochondrial Anatomy</span>
         </div>
-      </div>
-
-      <!-- Main Stage Title & Concept Headline -->
-      <h2 class="stage-title" id="stage-title">Arrival at the Mitochondrion</h2>
-      <p class="stage-concept-headline" id="stage-concept">The molecular bridge between glycolysis and the Krebs cycle.</p>
-
-      <!-- Educational UX 4-Pack (Section §19 Requirement - Where, What, How, Why) -->
-      <div class="edu-anchors-grid">
-        <div class="edu-anchor-item">
-          <span class="anchor-label"><span class="anchor-icon">📍</span> WHERE</span>
-          <p class="anchor-content" id="anchor-where">Cytoplasm bordering the mitochondrial outer membrane.</p>
-        </div>
-        <div class="edu-anchor-item">
-          <span class="anchor-label"><span class="anchor-icon">⚡</span> WHAT</span>
-          <p class="anchor-content" id="anchor-what">Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.</p>
-        </div>
-        <div class="edu-anchor-item">
-          <span class="anchor-label"><span class="anchor-icon">🔬</span> HOW</span>
-          <p class="anchor-content" id="anchor-how">Passive diffusion carries small metabolites through large outer membrane porin channels.</p>
-        </div>
-        <div class="edu-anchor-item">
-          <span class="anchor-label"><span class="anchor-icon">🔗</span> WHY & CONNECTIONS</span>
-          <p class="anchor-content" id="anchor-why">Glycolysis breaks 1 glucose into 2 pyruvates, but cannot access the Krebs cycle without entering the mitochondrial matrix.</p>
-        </div>
-      </div>
-
-      <!-- Core Educational Text (Always Visible) -->
-      <div class="stage-core-text" id="stage-core-text">
-        <p>
-          Aerobic respiration requires pyruvate to enter the <strong>mitochondrial matrix</strong>. 
-          The Link Reaction serves as the irreversible metabolic bridge converting pyruvate into acetyl-CoA, 
-          capturing high-energy electrons into NADH while releasing the first carbon dioxide molecule of cellular respiration.
-        </p>
-      </div>
-
-      <!-- Quick Interactive Molecule Legend for this stage -->
-      <div class="stage-molecules-bar">
-        <span class="sm-label">Molecules in focus (click to inspect):</span>
-        <div class="sm-tags" id="stage-molecules-list">
-          <button class="mol-chip" data-mol="pyruvate">Pyruvate (3C)</button>
-        </div>
-      </div>
-
-      <!-- "+ GO DEEPER" Accordion (Section §11 Requirement - Enzymology & Mechanisms) -->
-      <div class="deeper-accordion">
-        <button class="deeper-toggle-btn" id="btn-deeper-toggle" aria-expanded="false">
-          <span class="toggle-text">+ GO DEEPER: Enzymology, Regulation &amp; Mechanism</span>
-          <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+        <button class="btn btn-glass btn-replay" id="btn-replay-scene" title="Replay current stage biological animation">
+          <span class="replay-icon">&#x21BB;</span> Replay Animation
         </button>
-        <div class="deeper-content" id="deeper-content" hidden>
-          <div class="deeper-body" id="deeper-body-text">
-            <!-- Dynamic content inserted by app.js -->
+      </div>
+    </div>
+
+    <!-- FLOATING EDUCATIONAL STAGE CARD (Glassmorphic Side Panel) -->
+    <aside class="educational-card-container" id="main-content" role="region" aria-label="Educational Concept Guide">
+      <article class="glass-card educational-card" id="stage-card">
+        
+        <!-- Stage Breadcrumb & Step Navigation -->
+        <div class="card-header">
+          <div class="stage-tag" id="stage-number-tag">STAGE 00 / 07</div>
+          <div class="stage-pills">
+            <span class="badge badge-compartment" id="badge-compartment">Mitochondrial Exterior</span>
+            <span class="badge badge-nature" id="badge-nature">Preparatory Phase</span>
           </div>
         </div>
-      </div>
 
-      <!-- Navigation Footer on Card -->
-      <div class="card-footer">
-        <button class="btn btn-secondary" id="btn-prev-stage" disabled aria-label="Go to previous stage">
-          &larr; Previous Stage
-        </button>
-        <div class="drag-hint">
-          <span class="hint-icon">&#x21BB;</span> Drag 3D view to inspect structures
+        <!-- Main Stage Title & Concept Headline -->
+        <h2 class="stage-title" id="stage-title">Arrival at the Mitochondrion</h2>
+        <p class="stage-concept-headline" id="stage-concept">The molecular bridge between glycolysis and the Krebs cycle.</p>
+
+        <!-- Educational UX 4-Pack (Section §4 Requirement - Where, What, How, Why) -->
+        <div class="edu-anchors-grid">
+          <div class="edu-anchor-item">
+            <span class="anchor-label"><span class="anchor-icon">📍</span> WHERE</span>
+            <p class="anchor-content" id="anchor-where">Cytoplasm bordering the mitochondrial outer membrane.</p>
+          </div>
+          <div class="edu-anchor-item">
+            <span class="anchor-label"><span class="anchor-icon">⚡</span> WHAT</span>
+            <p class="anchor-content" id="anchor-what">Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.</p>
+          </div>
+          <div class="edu-anchor-item">
+            <span class="anchor-label"><span class="anchor-icon">🔬</span> HOW</span>
+            <p class="anchor-content" id="anchor-how">Passive diffusion carries small metabolites through large outer membrane porin channels.</p>
+          </div>
+          <div class="edu-anchor-item">
+            <span class="anchor-label"><span class="anchor-icon">🔗</span> WHY & CONNECTIONS</span>
+            <p class="anchor-content" id="anchor-why">Glycolysis breaks 1 glucose into 2 pyruvates, but cannot access the Krebs cycle without entering the mitochondrial matrix.</p>
+          </div>
         </div>
-        <button class="btn btn-primary" id="btn-next-stage" aria-label="Go to next stage">
-          Next Stage &rarr;
-        </button>
+
+        <!-- Core Educational Text (Always Visible) -->
+        <div class="stage-core-text" id="stage-core-text">
+          <p>
+            Aerobic respiration requires pyruvate to enter the <strong>mitochondrial matrix</strong>. 
+            The Link Reaction serves as the irreversible metabolic bridge converting pyruvate into acetyl-CoA, 
+            capturing high-energy electrons into NADH while releasing the first carbon dioxide molecule of cellular respiration.
+          </p>
+        </div>
+
+        <!-- Quick Interactive Molecule Legend for this stage -->
+        <div class="stage-molecules-bar">
+          <span class="sm-label">Molecules in focus (click to inspect):</span>
+          <div class="sm-tags" id="stage-molecules-list">
+            <button class="mol-chip" data-mol="pyruvate">Pyruvate (3C)</button>
+          </div>
+        </div>
+
+        <!-- "+ GO DEEPER" Accordion (Section §7 Requirement - Enzymology & Mechanisms) -->
+        <div class="deeper-accordion">
+          <button class="deeper-toggle-btn" id="btn-deeper-toggle" aria-expanded="false">
+            <span class="toggle-text">+ GO DEEPER: Enzymology, Regulation &amp; Mechanism</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="deeper-content" id="deeper-content" hidden>
+            <div class="deeper-body" id="deeper-body-text">
+              <!-- Dynamic content inserted by app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Footer on Card -->
+        <div class="card-footer">
+          <button class="btn btn-secondary" id="btn-prev-stage" disabled aria-label="Go to previous stage">
+            &larr; Previous Stage
+          </button>
+          <button class="btn btn-primary" id="btn-next-stage" aria-label="Go to next stage">
+            Next Stage &rarr;
+          </button>
+        </div>
+
+      </article>
+    </aside>
+  </div>
+
+  <!-- THE BOTTOM PROCESS BAR (Section §3 Deliverable - Persistent Fixed Stepper) -->
+  <nav class="bottom-process-bar" id="bottom-process-bar" aria-label="Link Reaction Seven-Stage Horizontal Process Timeline">
+    <div class="process-bar-container">
+      
+      <!-- Prev Step Arrow Control -->
+      <button class="process-arrow-btn" id="btn-process-prev" aria-label="Previous stage">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <!-- Main Step Track -->
+      <div class="process-track-wrapper">
+        <!-- Continuous Progress Line connecting nodes -->
+        <div class="process-track-line">
+          <div class="process-track-fill" id="process-track-fill"></div>
+        </div>
+
+        <!-- 8 Interactive Stage Nodes -->
+        <div class="process-nodes-container" id="process-nodes-container">
+          <!-- Populated dynamically via JS -->
+        </div>
       </div>
 
-    </article>
-  </main>
+      <!-- Next Step Arrow Control -->
+      <button class="process-arrow-btn" id="btn-process-next" aria-label="Next stage">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
 
-  <!-- PERSISTENT STAGE SCRUBBER (Section §12 & §10) -->
-  <nav class="hud-scrubber" aria-label="Link Reaction Stages Timeline">
-    <div class="scrubber-bar">
-      <div class="scrubber-progress-fill" id="scrubber-fill"></div>
-      <div class="scrubber-steps" id="scrubber-steps-container">
-        <!-- 8 Steps Generated via JS -->
-      </div>
     </div>
   </nav>
 
-  <!-- 3D INTERACTION HELPER OVERLAY (Camera controls & quick help) -->
-  <div class="camera-hud-badge" id="camera-hud-badge">
-    <span class="cam-target-label">FOCUS:</span>
-    <span class="cam-target-name" id="cam-focus-name">Mitochondrion Exterior</span>
-  </div>
-
-  <!-- MODAL: MOLECULE DETAIL INSPECTOR (Section §9 & §12) -->
+  <!-- MODAL: MOLECULE DETAIL INSPECTOR (Section §8 & §12) -->
   <div class="modal-backdrop" id="molecule-modal-backdrop" hidden>
     <div class="glass-card molecule-modal" role="dialog" aria-modal="true" aria-labelledby="modal-mol-name">
       <button class="modal-close-btn" id="btn-close-mol-modal" aria-label="Close details">&times;</button>
@@ -231,7 +254,7 @@
     </div>
   </div>
 
-  <!-- FULLSCREEN STATIC "FLAT MODE" (Section §15: Grading-Safety Fallback) -->
+  <!-- FULLSCREEN STATIC "FLAT SUMMARY" (Section §13: Grading-Safety Fallback) -->
   <section class="flat-mode-container" id="flat-mode-container" hidden aria-label="Static Grading Overview of The Link Reaction">
     <div class="flat-mode-header">
       <div class="flat-mode-brand">
@@ -239,7 +262,7 @@
         <p>Static Non-WebGL Fallback View &bull; Syllabus-Verified Aerobic Respiration Curriculum &bull; Designed for Rapid Assessment</p>
       </div>
       <button class="btn btn-glass" id="btn-close-flatmode">
-        &times; Exit Flat Mode (Return to 3D Scene)
+        &times; Exit Flat Summary (Return to Interactive Site)
       </button>
     </div>
 
@@ -392,7 +415,7 @@
     </div>
   </section>
 
-  <!-- Scripts: Main Application and Three.js 3D Engine -->
+  <!-- Application Controller -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
