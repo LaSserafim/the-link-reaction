@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body class="theme-dark">
 
@@ -128,23 +128,77 @@
         <h2 class="stage-title" id="stage-title">Arrival at the Mitochondrion</h2>
         <p class="stage-concept-headline" id="stage-concept">The molecular bridge between glycolysis and the Krebs cycle.</p>
 
-        <!-- Educational UX 4-Pack (Section §4 Requirement - Where, What, How, Why) -->
-        <div class="edu-anchors-grid">
-          <div class="edu-anchor-item">
-            <span class="anchor-label"><span class="anchor-icon">📍</span> WHERE</span>
-            <p class="anchor-content" id="anchor-where">Cytoplasm bordering the mitochondrial outer membrane.</p>
+        <!-- Educational UX 4-Pack: Interactive Slide-Down Info Boxes -->
+        <div class="edu-anchors-container" id="edu-anchors-container">
+          <div class="edu-anchors-header-bar">
+            <span class="edu-anchors-title">
+              <span class="pulse-dot-sm"></span>
+              CORE BIOLOGICAL ANCHORS
+            </span>
+            <button class="btn-toggle-all-anchors" id="btn-toggle-anchors" title="Slide down or slide up all info boxes" aria-label="Toggle all info boxes">
+              <span id="anchors-toggle-text">Slide Down All</span>
+              <span class="anchors-toggle-chevron">▼</span>
+            </button>
           </div>
-          <div class="edu-anchor-item">
-            <span class="anchor-label"><span class="anchor-icon">⚡</span> WHAT</span>
-            <p class="anchor-content" id="anchor-what">Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.</p>
+
+          <div class="edu-anchors-grid" id="edu-anchors-grid" role="region" aria-label="Biological anchors information boxes">
+            <!-- Box 1: WHERE -->
+            <div class="edu-anchor-box is-open" id="box-where" data-anchor="where">
+              <button class="anchor-box-header" aria-expanded="true" aria-controls="anchor-body-where" title="Click to slide down/up WHERE information">
+                <span class="anchor-label"><span class="anchor-icon">📍</span> WHERE</span>
+                <span class="anchor-chevron">▼</span>
+              </button>
+              <div class="anchor-box-body" id="anchor-body-where">
+                <div class="anchor-box-inner">
+                  <p class="anchor-content" id="anchor-where">Cytoplasm bordering the mitochondrial outer membrane.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box 2: WHAT -->
+            <div class="edu-anchor-box is-open" id="box-what" data-anchor="what">
+              <button class="anchor-box-header" aria-expanded="true" aria-controls="anchor-body-what" title="Click to slide down/up WHAT information">
+                <span class="anchor-label"><span class="anchor-icon">⚡</span> WHAT</span>
+                <span class="anchor-chevron">▼</span>
+              </button>
+              <div class="anchor-box-body" id="anchor-body-what">
+                <div class="anchor-box-inner">
+                  <p class="anchor-content" id="anchor-what">Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box 3: HOW -->
+            <div class="edu-anchor-box is-open" id="box-how" data-anchor="how">
+              <button class="anchor-box-header" aria-expanded="true" aria-controls="anchor-body-how" title="Click to slide down/up HOW information">
+                <span class="anchor-label"><span class="anchor-icon">🔬</span> HOW</span>
+                <span class="anchor-chevron">▼</span>
+              </button>
+              <div class="anchor-box-body" id="anchor-body-how">
+                <div class="anchor-box-inner">
+                  <p class="anchor-content" id="anchor-how">Passive diffusion carries small metabolites through large outer membrane porin channels.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box 4: WHY -->
+            <div class="edu-anchor-box is-open" id="box-why" data-anchor="why">
+              <button class="anchor-box-header" aria-expanded="true" aria-controls="anchor-body-why" title="Click to slide down/up WHY information">
+                <span class="anchor-label"><span class="anchor-icon">🔗</span> WHY &amp; CONNECTIONS</span>
+                <span class="anchor-chevron">▼</span>
+              </button>
+              <div class="anchor-box-body" id="anchor-body-why">
+                <div class="anchor-box-inner">
+                  <p class="anchor-content" id="anchor-why">Glycolysis breaks 1 glucose into 2 pyruvates, but cannot access the Krebs cycle without entering the mitochondrial matrix.</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="edu-anchor-item">
-            <span class="anchor-label"><span class="anchor-icon">🔬</span> HOW</span>
-            <p class="anchor-content" id="anchor-how">Passive diffusion carries small metabolites through large outer membrane porin channels.</p>
-          </div>
-          <div class="edu-anchor-item">
-            <span class="anchor-label"><span class="anchor-icon">🔗</span> WHY & CONNECTIONS</span>
-            <p class="anchor-content" id="anchor-why">Glycolysis breaks 1 glucose into 2 pyruvates, but cannot access the Krebs cycle without entering the mitochondrial matrix.</p>
+
+          <!-- Slide down indicator if content overflows -->
+          <div class="anchors-scroll-hint" id="anchors-scroll-hint" title="Scroll down to read more anchors">
+            <span>Slide down for more</span>
+            <span class="scroll-arrow-down">&darr;</span>
           </div>
         </div>
 
@@ -428,6 +482,6 @@
   </section>
 
   <!-- Application Controller -->
-  <script type="module" src="app.js?v=4"></script>
+  <script type="module" src="app.js?v=5"></script>
 </body>
 </html>

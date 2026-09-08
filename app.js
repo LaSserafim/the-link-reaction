@@ -511,6 +511,103 @@ function bindUIEvents() {
   modalBackdrop?.addEventListener('click', (e) => {
     if (e.target === modalBackdrop) closeMoleculeModal();
   });
+
+  // Setup interactive slide-down info boxes (WHERE, WHAT, HOW, WHY)
+  setupAnchorsInteraction();
+}
+
+function setupAnchorsInteraction() {
+  const grid = document.getElementById('edu-anchors-grid');
+  const btnToggleAll = document.getElementById('btn-toggle-anchors');
+  const toggleText = document.getElementById('anchors-toggle-text');
+  const toggleChevron = document.querySelector('.anchors-toggle-chevron');
+  const boxes = document.querySelectorAll('.edu-anchor-box');
+  const scrollHint = document.getElementById('anchors-scroll-hint');
+
+  // Toggle individual box slide down / slide up
+  boxes.forEach(box => {
+    const btn = box.querySelector('.anchor-box-header');
+    btn?.addEventListener('click', () => {
+      box.classList.toggle('is-open');
+      const isOpen = box.classList.contains('is-open');
+      btn.setAttribute('aria-expanded', isOpen.toString());
+      updateToggleAllButton();
+      updateScrollHint();
+    });
+  });
+
+  // Toggle all boxes at once
+  btnToggleAll?.addEventListener('click', () => {
+    const allOpen = Array.from(boxes).every(b => b.classList.contains('is-open'));
+    boxes.forEach(b => {
+      const btn = b.querySelector('.anchor-box-header');
+      if (allOpen) {
+        b.classList.remove('is-open');
+        btn?.setAttribute('aria-expanded', 'false');
+      } else {
+        b.classList.add('is-open');
+        btn?.setAttribute('aria-expanded', 'true');
+      }
+    });
+    updateToggleAllButton();
+    updateScrollHint();
+  });
+
+  function updateToggleAllButton() {
+    const allOpen = Array.from(boxes).every(b => b.classList.contains('is-open'));
+    if (toggleText) toggleText.textContent = allOpen ? 'Slide Up All' : 'Slide Down All';
+    if (toggleChevron) toggleChevron.style.transform = allOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  }
+
+  function updateScrollHint() {
+    if (!grid || !scrollHint) return;
+    const canScroll = grid.scrollHeight > grid.clientHeight + 8;
+    const isAtBottom = grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 6;
+    scrollHint.style.display = (canScroll && !isAtBottom) ? 'flex' : 'none';
+  }
+
+  grid?.addEventListener('scroll', updateScrollHint, { passive: true });
+
+  scrollHint?.addEventListener('click', () => {
+    if (grid) {
+      grid.scrollBy({ top: 120, behavior: 'smooth' });
+    }
+  });
+
+  // Drag-to-slide inside grid
+  let isDragging = false;
+  let startY = 0;
+  let scrollTopStart = 0;
+
+  grid?.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.anchor-box-header') || e.target.closest('button')) return;
+    isDragging = true;
+    startY = e.clientY;
+    scrollTopStart = grid.scrollTop;
+    grid.style.cursor = 'grabbing';
+    try { grid.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+
+  grid?.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    const deltaY = e.clientY - startY;
+    grid.scrollTop = scrollTopStart - deltaY;
+  });
+
+  const endDrag = (e) => {
+    if (isDragging) {
+      isDragging = false;
+      if (grid) grid.style.cursor = 'default';
+      try { grid.releasePointerCapture(e.pointerId); } catch (_) {}
+    }
+  };
+
+  grid?.addEventListener('pointerup', endDrag);
+  grid?.addEventListener('pointercancel', endDrag);
+
+  // Initial status check
+  updateToggleAllButton();
+  setTimeout(updateScrollHint, 150);
 }
 
 // =============================================================================
@@ -564,6 +661,27 @@ function renderStage(stageIndex) {
   setText('anchor-what', stage.what);
   setText('anchor-how', stage.how);
   setText('anchor-why', stage.why);
+
+  // Trigger fresh slide-down animation on anchor text
+  ['anchor-where', 'anchor-what', 'anchor-how', 'anchor-why'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('slide-down-fresh');
+      void el.offsetWidth;
+      el.classList.add('slide-down-fresh');
+    }
+  });
+
+  // Check scroll hint for info boxes
+  const grid = document.getElementById('edu-anchors-grid');
+  const scrollHint = document.getElementById('anchors-scroll-hint');
+  if (grid && scrollHint) {
+    setTimeout(() => {
+      const canScroll = grid.scrollHeight > grid.clientHeight + 8;
+      const isAtBottom = grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 6;
+      scrollHint.style.display = (canScroll && !isAtBottom) ? 'flex' : 'none';
+    }, 80);
+  }
 
   // 3. Core Text
   const coreEl = document.getElementById('stage-core-text');
