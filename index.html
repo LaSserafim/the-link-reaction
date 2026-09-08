@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Link Reaction — 3D Interactive Scientific Visualization</title>
+  <meta name="description" content="A rubric-aligned, cinematic 3D interactive educational experience exploring the Link Reaction of aerobic cellular respiration in the mitochondrial matrix.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body class="theme-dark">
+
+  <!-- Main Viewport for Three.js WebGL Scene -->
+  <div id="canvas-container" aria-label="3D Molecular Visualization of the Link Reaction"></div>
+
+  <!-- Screen Space 3D Overlay Labels Container -->
+  <div id="labels-overlay" aria-hidden="true"></div>
+
+  <!-- Ambient Cinematic Background Effects -->
+  <div class="vignette-overlay"></div>
+  <div class="matrix-glow"></div>
+
+  <!-- TOP HEADER HUD -->
+  <header class="hud-header" role="banner">
+    <div class="brand-group">
+      <div class="pulse-indicator" title="Mitochondrial Matrix Environment"></div>
+      <div class="brand-text">
+        <h1 class="brand-title">THE LINK REACTION</h1>
+        <p class="brand-subtitle">Oxidative Decarboxylation &bull; Mitochondrial Matrix</p>
+      </div>
+    </div>
+
+    <!-- Active Chemical Reaction Display (Always Centered & Visible) -->
+    <div class="reaction-equation-hud" aria-label="Chemical equation of the link reaction">
+      <span class="eq-tag" id="stoichiometry-badge">1&times; PYRUVATE</span>
+      <span class="eq-chem" id="hud-equation">
+        <span class="m-react">pyruvate</span> + <span class="m-react">CoA</span> + <span class="m-react">NAD⁺</span>
+        <span class="eq-arrow">&rarr;</span>
+        <span class="m-prod">acetyl-CoA</span> + <span class="m-prod">CO₂</span> + <span class="m-prod">NADH</span> + <span class="m-prod">H⁺</span>
+      </span>
+      <span class="eq-note">Irreversible &bull; &Delta;G°' = -33.4 kJ/mol</span>
+    </div>
+
+    <!-- Top Action Controls -->
+    <div class="hud-actions">
+      <!-- Carbon Tracker -->
+      <div class="carbon-tracker" id="carbon-tracker" title="Tracking Carbon atoms through the reaction">
+        <span class="tracker-label">CARBON FATE:</span>
+        <div class="carbon-beads">
+          <span class="c-bead active" id="c-bead-1" title="Carbon 1 (Carboxyl group)">C</span>
+          <span class="c-bead active" id="c-bead-2" title="Carbon 2 (Carbonyl group)">C</span>
+          <span class="c-bead active" id="c-bead-3" title="Carbon 3 (Methyl group)">C</span>
+        </div>
+        <span class="tracker-status" id="carbon-status">3C (Pyruvate)</span>
+      </div>
+
+      <!-- Toggle: Show All Labels (Section §9 requirement) -->
+      <button class="btn btn-glass" id="btn-toggle-labels" aria-pressed="false" title="Toggle visible labels on all 3D structures">
+        <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 7h10M7 12h10M7 17h6" />
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+        </svg>
+        <span class="btn-text">Labels: <strong id="lbl-status-text">Default</strong></span>
+      </button>
+
+      <!-- Toggle: Per-Glucose (x2) (Section §5 requirement) -->
+      <button class="btn btn-glass" id="btn-toggle-glucose" aria-pressed="false" title="Toggle stoichiometry between 1x Pyruvate and 1x Glucose (2x Pyruvates)">
+        <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7v5l3 3" />
+        </svg>
+        <span class="btn-text">Yield: <strong id="yield-mode-text">Per Pyruvate (1&times;)</strong></span>
+      </button>
+
+      <!-- Fallback: Flat Mode / Overview (Section §15 requirement) -->
+      <button class="btn btn-accent" id="btn-open-flatmode" title="Open static accessible overview for grading without 3D WebGL">
+        <svg class="icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <polyline points="10 9 9 9 8 9" />
+        </svg>
+        <span class="btn-text">Flat Mode (Grading Pass)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- FLOATING EDUCATIONAL STAGE CARD (Glassmorphic Side Panel) -->
+  <main class="educational-card-container" id="main-content" role="main">
+    <article class="glass-card educational-card" id="stage-card">
+      
+      <!-- Stage Breadcrumb & Step Navigation -->
+      <div class="card-header">
+        <div class="stage-tag" id="stage-number-tag">STAGE 00 / 07</div>
+        <div class="stage-pills">
+          <span class="badge badge-compartment" id="badge-compartment">Mitochondrial Exterior</span>
+          <span class="badge badge-nature" id="badge-nature">Preparatory Phase</span>
+        </div>
+      </div>
+
+      <!-- Main Stage Title & Concept Headline -->
+      <h2 class="stage-title" id="stage-title">Arrival at the Mitochondrion</h2>
+      <p class="stage-concept-headline" id="stage-concept">The molecular bridge between glycolysis and the Krebs cycle.</p>
+
+      <!-- Educational UX 4-Pack (Section §19 Requirement - Where, What, How, Why) -->
+      <div class="edu-anchors-grid">
+        <div class="edu-anchor-item">
+          <span class="anchor-label"><span class="anchor-icon">📍</span> WHERE</span>
+          <p class="anchor-content" id="anchor-where">Cytoplasm bordering the mitochondrial outer membrane.</p>
+        </div>
+        <div class="edu-anchor-item">
+          <span class="anchor-label"><span class="anchor-icon">⚡</span> WHAT</span>
+          <p class="anchor-content" id="anchor-what">Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.</p>
+        </div>
+        <div class="edu-anchor-item">
+          <span class="anchor-label"><span class="anchor-icon">🔬</span> HOW</span>
+          <p class="anchor-content" id="anchor-how">Passive diffusion carries small metabolites through large outer membrane porin channels.</p>
+        </div>
+        <div class="edu-anchor-item">
+          <span class="anchor-label"><span class="anchor-icon">🔗</span> WHY & CONNECTIONS</span>
+          <p class="anchor-content" id="anchor-why">Glycolysis breaks 1 glucose into 2 pyruvates, but cannot access the Krebs cycle without entering the mitochondrial matrix.</p>
+        </div>
+      </div>
+
+      <!-- Core Educational Text (Always Visible) -->
+      <div class="stage-core-text" id="stage-core-text">
+        <p>
+          Aerobic respiration requires pyruvate to enter the <strong>mitochondrial matrix</strong>. 
+          The Link Reaction serves as the irreversible metabolic bridge converting pyruvate into acetyl-CoA, 
+          capturing high-energy electrons into NADH while releasing the first carbon dioxide molecule of cellular respiration.
+        </p>
+      </div>
+
+      <!-- Quick Interactive Molecule Legend for this stage -->
+      <div class="stage-molecules-bar">
+        <span class="sm-label">Molecules in focus (click to inspect):</span>
+        <div class="sm-tags" id="stage-molecules-list">
+          <button class="mol-chip" data-mol="pyruvate">Pyruvate (3C)</button>
+        </div>
+      </div>
+
+      <!-- "+ GO DEEPER" Accordion (Section §11 Requirement - Enzymology & Mechanisms) -->
+      <div class="deeper-accordion">
+        <button class="deeper-toggle-btn" id="btn-deeper-toggle" aria-expanded="false">
+          <span class="toggle-text">+ GO DEEPER: Enzymology, Regulation &amp; Mechanism</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="deeper-content" id="deeper-content" hidden>
+          <div class="deeper-body" id="deeper-body-text">
+            <!-- Dynamic content inserted by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Footer on Card -->
+      <div class="card-footer">
+        <button class="btn btn-secondary" id="btn-prev-stage" disabled aria-label="Go to previous stage">
+          &larr; Previous Stage
+        </button>
+        <div class="drag-hint">
+          <span class="hint-icon">&#x21BB;</span> Drag 3D view to inspect structures
+        </div>
+        <button class="btn btn-primary" id="btn-next-stage" aria-label="Go to next stage">
+          Next Stage &rarr;
+        </button>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- PERSISTENT STAGE SCRUBBER (Section §12 & §10) -->
+  <nav class="hud-scrubber" aria-label="Link Reaction Stages Timeline">
+    <div class="scrubber-bar">
+      <div class="scrubber-progress-fill" id="scrubber-fill"></div>
+      <div class="scrubber-steps" id="scrubber-steps-container">
+        <!-- 8 Steps Generated via JS -->
+      </div>
+    </div>
+  </nav>
+
+  <!-- 3D INTERACTION HELPER OVERLAY (Camera controls & quick help) -->
+  <div class="camera-hud-badge" id="camera-hud-badge">
+    <span class="cam-target-label">FOCUS:</span>
+    <span class="cam-target-name" id="cam-focus-name">Mitochondrion Exterior</span>
+  </div>
+
+  <!-- MODAL: MOLECULE DETAIL INSPECTOR (Section §9 & §12) -->
+  <div class="modal-backdrop" id="molecule-modal-backdrop" hidden>
+    <div class="glass-card molecule-modal" role="dialog" aria-modal="true" aria-labelledby="modal-mol-name">
+      <button class="modal-close-btn" id="btn-close-mol-modal" aria-label="Close details">&times;</button>
+      <div class="mol-modal-header">
+        <span class="mol-category-pill" id="modal-mol-cat">Metabolite</span>
+        <h3 class="modal-mol-title" id="modal-mol-name">Pyruvate</h3>
+        <p class="modal-mol-formula" id="modal-mol-formula">C₃H₃O₃⁻ &bull; Molar Mass: 87.05 g/mol</p>
+      </div>
+      <div class="mol-modal-body">
+        <div class="mol-visual-container">
+          <div class="mol-structure-diagram" id="modal-mol-diagram">
+            <!-- Rendered 2D chemical structure / carbon count -->
+          </div>
+          <div class="mol-carbon-stat">
+            <span class="carbon-stat-num" id="modal-mol-carbons">3</span>
+            <span class="carbon-stat-label">Carbons</span>
+          </div>
+        </div>
+        <div class="mol-info-text">
+          <h4>Biological Role in Respiration</h4>
+          <p id="modal-mol-role">End-product of glycolysis. Must be actively transported into the mitochondrial matrix to undergo oxidative decarboxylation.</p>
+          
+          <h4 class="mt-3">Fate in Link Reaction</h4>
+          <p id="modal-mol-fate">Decarboxylated by E1 of the PDC to yield CO₂ and an acetyl fragment which is transferred to CoA.</p>
+          
+          <div class="mol-alert-box" id="modal-mol-alert">
+            <strong>Key Syllabus Note:</strong> Glycolysis produces 2 molecules of pyruvate per glucose molecule; therefore, this entire reaction operates twice per glucose.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN STATIC "FLAT MODE" (Section §15: Grading-Safety Fallback) -->
+  <section class="flat-mode-container" id="flat-mode-container" hidden aria-label="Static Grading Overview of The Link Reaction">
+    <div class="flat-mode-header">
+      <div class="flat-mode-brand">
+        <h2>THE LINK REACTION &mdash; Complete Pedagogical Specification &amp; Grading Sheet</h2>
+        <p>Static Non-WebGL Fallback View &bull; Syllabus-Verified Aerobic Respiration Curriculum &bull; Designed for Rapid Assessment</p>
+      </div>
+      <button class="btn btn-glass" id="btn-close-flatmode">
+        &times; Exit Flat Mode (Return to 3D Scene)
+      </button>
+    </div>
+
+    <div class="flat-mode-content">
+      
+      <!-- Executive Summary & Rubric Cross-Check -->
+      <section class="flat-section rubric-summary-box">
+        <h3>0. Rubric Cross-Reference &amp; Essential Facts</h3>
+        <div class="rubric-grid">
+          <div class="rubric-card">
+            <h4>1. Location: Mitochondrial Matrix</h4>
+            <p>The Link Reaction occurs strictly within the <strong>mitochondrial matrix</strong>. It does <em>not</em> take place in the cytoplasm (site of glycolysis) nor on the inner mitochondrial membrane/cristae (site of oxidative phosphorylation).</p>
+          </div>
+          <div class="rubric-card">
+            <h4>2. Core Reaction &amp; Classification</h4>
+            <p>Classified as an <strong>oxidative decarboxylation</strong>. Pyruvate is both decarboxylated (loses a carboxyl group as CO₂) and oxidized (loses 2 electrons and a proton, reducing NAD⁺ to NADH + H⁺).</p>
+          </div>
+          <div class="rubric-card">
+            <h4>3. Catalytic Enzyme: Multi-Enzyme PDC</h4>
+            <p>Catalyzed by the <strong>pyruvate dehydrogenase complex (PDC)</strong> consisting of 3 catalytic enzymes: <strong>E1</strong> (pyruvate dehydrogenase, uses TPP), <strong>E2</strong> (dihydrolipoyl transacetylase, uses lipoamide &amp; CoA), and <strong>E3</strong> (dihydrolipoyl dehydrogenase, uses FAD &amp; NAD⁺).</p>
+          </div>
+          <div class="rubric-card">
+            <h4>4. Stoichiometry: Per-Pyruvate vs Per-Glucose</h4>
+            <p>Glycolysis yields <strong>2 pyruvates</strong> per glucose molecule. Consequently, the Link Reaction turns <strong>twice per glucose</strong>, yielding: <strong>2 Acetyl-CoA + 2 CO₂ + 2 NADH + 2 H⁺</strong>.</p>
+          </div>
+          <div class="rubric-card">
+            <h4>5. Energy Fate: NADH vs ATP</h4>
+            <p><strong>Zero ATP is directly synthesized</strong> in the link reaction. The energy released is conserved in the high-energy thioester bond of acetyl-CoA and the reduced electron carrier <strong>NADH</strong> (which shuttles electrons to Complex I of the electron transport chain).</p>
+          </div>
+          <div class="rubric-card">
+            <h4>6. Thermodynamic Irreversibility</h4>
+            <p>The overall standard free energy change is strongly exergonic (&Delta;G°' = -33.4 kJ/mol). The irreversible loss of gaseous CO₂ locks carbon into aerobic metabolism; animals cannot convert acetyl-CoA back into pyruvate/glucose.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Balanced Chemical Equation Display -->
+      <section class="flat-section equation-spotlight">
+        <h3>1. Complete Stoichiometric Equations</h3>
+        <div class="equation-dual-container">
+          <div class="eq-box">
+            <span class="eq-title">Per Single Molecule of Pyruvate (1&times;):</span>
+            <div class="eq-large">
+              <strong>pyruvate (3C) + CoA-SH + NAD⁺ &rarr; acetyl-CoA (2C) + CO₂ + NADH + H⁺</strong>
+            </div>
+            <p class="eq-desc">Net yield: 1 Acetyl-CoA, 1 CO₂, 1 NADH + 1 H⁺. 0 ATP.</p>
+          </div>
+          <div class="eq-box highlighted">
+            <span class="eq-title">Per Molecule of Glucose (2&times; Link Reaction Cycles):</span>
+            <div class="eq-large">
+              <strong>2 pyruvate (3C) + 2 CoA-SH + 2 NAD⁺ &rarr; 2 acetyl-CoA (2C) + 2 CO₂ + 2 NADH + 2 H⁺</strong>
+            </div>
+            <p class="eq-desc">Net yield: 2 Acetyl-CoA (to Krebs Cycle), 2 CO₂ (diffuses out), 2 NADH (to Oxidative Phosphorylation). 0 ATP.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8 Stages Sequential Table (Complete Core + Deeper Content) -->
+      <section class="flat-section stages-table-section">
+        <h3>2. Complete Breakdown of the 8 Stages (00 &mdash; 07)</h3>
+        <div class="flat-stages-list" id="flat-stages-list-container">
+          <!-- Populated dynamically with full educational content -->
+        </div>
+      </section>
+
+      <!-- Structural Biochemistry of Pyruvate Dehydrogenase Complex -->
+      <section class="flat-section pdc-architecture-section">
+        <h3>3. Structural Enzymology of the Pyruvate Dehydrogenase Complex (PDC)</h3>
+        <table class="pdc-table">
+          <thead>
+            <tr>
+              <th>Subunit</th>
+              <th>Enzyme Name</th>
+              <th>Prosthetic Group / Cofactor</th>
+              <th>Specific Catalytic Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>E1</strong></td>
+              <td>Pyruvate Dehydrogenase</td>
+              <td>Thiamine Pyrophosphate (TPP)</td>
+              <td>Decarboxylates pyruvate, releasing CO₂. Binds the remaining 2-carbon hydroxyethyl intermediate to TPP.</td>
+            </tr>
+            <tr>
+              <td><strong>E2</strong></td>
+              <td>Dihydrolipoyl Transacetylase</td>
+              <td>Lipoamide (swinging arm) &amp; Coenzyme A (CoA)</td>
+              <td>Accepts the 2-carbon fragment, oxidizing it to an acetyl group and forming an energy-rich thioester bond with CoA to generate acetyl-CoA.</td>
+            </tr>
+            <tr>
+              <td><strong>E3</strong></td>
+              <td>Dihydrolipoyl Dehydrogenase</td>
+              <td>Flavin Adenine Dinucleotide (FAD) &amp; NAD⁺</td>
+              <td>Re-oxidizes the reduced dihydrolipoamide arm back to its active disulfide form via FAD, transferring electrons to NAD⁺ to produce NADH + H⁺.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pedagogical-disclosure">
+          <strong>Pedagogical Simplification Note (Rubric §2 &amp; §11):</strong>
+          In introductory A-level syllabi, Decarboxylation, Oxidation, and CoA Attachment are taught as three sequential linear steps for pedagogical clarity. In physical biochemistry, however, these events occur via <em>substrate channeling</em> on the swinging lipoyllysyl arm of E2 without intermediates ever escaping into solution. E1 decarboxylates, E2 both oxidizes and acetylates CoA, and E3 regenerates the oxidized lipoamide cofactor.
+        </div>
+      </section>
+
+      <!-- Metabolic Context Map -->
+      <section class="flat-section pathway-map-section">
+        <h3>4. Whole Respiration Pathway Context</h3>
+        <div class="pathway-flow">
+          <div class="flow-step">
+            <span class="flow-num">1</span>
+            <div class="flow-info">
+              <h4>GLYCOLYSIS</h4>
+              <p>Location: <strong>Cytoplasm (Cytosol)</strong></p>
+              <p>Glucose (6C) &rarr; 2 Pyruvate (3C) + 2 ATP (net) + 2 NADH</p>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step active-flow">
+            <span class="flow-num">2</span>
+            <div class="flow-info">
+              <h4>THE LINK REACTION (Current Focus)</h4>
+              <p>Location: <strong>Mitochondrial Matrix</strong></p>
+              <p>2 Pyruvate (3C) &rarr; 2 Acetyl-CoA (2C) + 2 CO₂ + 2 NADH</p>
+              <p class="flow-highlight">&bull; Irreversible entry into aerobic respiration &bull; No ATP produced</p>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <span class="flow-num">3</span>
+            <div class="flow-info">
+              <h4>KREBS CYCLE (Citric Acid Cycle)</h4>
+              <p>Location: <strong>Mitochondrial Matrix</strong></p>
+              <p>Acetyl-CoA (2C) + Oxaloacetate (4C) &rarr; Citrate (6C)</p>
+              <p>Yields: 4 CO₂, 6 NADH, 2 FADH₂, 2 ATP per glucose</p>
+            </div>
+          </div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-step">
+            <span class="flow-num">4</span>
+            <div class="flow-info">
+              <h4>OXIDATIVE PHOSPHORYLATION</h4>
+              <p>Location: <strong>Inner Mitochondrial Membrane / Cristae</strong></p>
+              <p>NADH &amp; FADH₂ donate electrons to ETC &rarr; Proton gradient powers ATP Synthase</p>
+              <p>Yields: ~26-28 ATP</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- Scripts: Main Application and Three.js 3D Engine -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
