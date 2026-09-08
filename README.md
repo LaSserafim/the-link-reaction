@@ -4,7 +4,7 @@ A cinematic, rubric-aligned 2D / semi-2D interactive educational visualization o
 
 Designed to fulfill all six criteria of senior biology curricula (A-Level / AP / IB Biology):
 1. **Biological Understanding**: Explicit mitochondrial matrix localization, irreversible thermodynamics ($\Delta G^\circ{'}=-33.4\text{ kJ/mol}$), and balanced reaction stoichiometry.
-2. **Scientific Accuracy**: Multi-enzyme Pyruvate Dehydrogenase Complex ($E_1, E_2, E_3$ with cofactors TPP, lipoamide swinging arm, FAD), substrate channeling, and clear distinction that NADH is an electron carrier (not ATP).
+2. **Scientific Accuracy**: Multi-enzyme Pyruvate Dehydrogenase Complex (PDC) as a unified matrix enzyme machine coordinating decarboxylation, oxidation, and CoA attachment, and clear distinction that NADH is an electron carrier (not ATP).
 3. **Key Components & Details**: Pyruvate ($C_3$), CoA-SH (reactive thiol), $\text{NAD}^+$, Acetyl-CoA, $\text{CO}_2$, $\text{NADH}$, $\text{H}^+$, Mitochondrial Pyruvate Carrier (MPC symporter), and outer membrane Porins.
 4. **Explanation & Connections**: Standardized **WHERE / WHAT / HOW / WHY** 4-pack on every stage, linking Glycolysis $\rightarrow$ Link Reaction $\rightarrow$ Krebs Cycle $\rightarrow$ Oxidative Phosphorylation.
 5. **Communication & Organisation**: 8-stage horizontal **Bottom Process Bar** with step thumbnails, progress fill, keyboard arrow controls, mobile swipe, and an instant non-interactive **Flat Summary** grading sheet.
@@ -47,10 +47,11 @@ This project uses modern vanilla HTML5, CSS, and ES Modules, requiring **zero bu
 ## 🧭 Navigation & Interaction
 
 - **Bottom Process Bar**: Click any step node (`00 Arrival` to `07 Respiration Map`) or use arrow buttons to navigate.
+- **Interactive Zoom & Pan**: Use the floating `+` / `−` / `Reset` toolbar, mouse scroll wheel, pointer drag, or touch pinch-to-zoom to inspect diagram details up close. Zoom resets smoothly on stage change.
 - **Keyboard Shortcuts**: Left/Right Arrow keys jump between stages; `R` replays the active scene animation; `L` toggles all labels; `F` opens the Flat Summary.
-- **Mobile Touch**: Swipe left or right on the illustration viewport to change stages.
+- **Mobile Touch**: Swipe left or right on the illustration viewport to change stages, or pinch to zoom.
 - **Molecule Inspector**: Click any molecule tag or diagram item (e.g. *Pyruvate*, *CoA*, *NAD⁺*, *CO₂*, *Acetyl-CoA*) to inspect formula and role.
-- **+ GO DEEPER**: In-place accordion revealing $E_1/E_2/E_3$ enzymology, allosteric regulation, and pedagogical simplification notes.
+- **+ GO DEEPER**: In-place accordion revealing PDC enzymology, allosteric regulation, and pedagogical simplification notes.
 - **Flat Summary**: Click the blue button in the top bar to review a static, print/screenshot-ready overview of the entire curriculum.
 
 ---

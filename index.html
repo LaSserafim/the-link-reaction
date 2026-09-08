@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body class="theme-dark">
 
@@ -100,6 +100,14 @@
         <button class="btn btn-glass btn-replay" id="btn-replay-scene" title="Replay current stage biological animation">
           <span class="replay-icon">&#x21BB;</span> Replay Animation
         </button>
+      </div>
+
+      <!-- Interactive Zoom & Pan Controls Overlay (Fix 2) -->
+      <div class="zoom-controls-overlay" role="toolbar" aria-label="Illustration zoom and fit controls">
+        <button class="btn-zoom" id="btn-zoom-out" title="Zoom Out (−)" aria-label="Zoom out">−</button>
+        <span class="zoom-level-text" id="zoom-level-text" title="Current zoom level">100%</span>
+        <button class="btn-zoom" id="btn-zoom-in" title="Zoom In (+)" aria-label="Zoom in">+</button>
+        <button class="btn-zoom btn-zoom-reset" id="btn-zoom-reset" title="Reset Zoom to Fit (100%)" aria-label="Reset zoom">Reset</button>
       </div>
     </div>
 
@@ -244,7 +252,7 @@
           <p id="modal-mol-role">End-product of glycolysis. Must be actively transported into the mitochondrial matrix to undergo oxidative decarboxylation.</p>
           
           <h4 class="mt-3">Fate in Link Reaction</h4>
-          <p id="modal-mol-fate">Decarboxylated by E1 of the PDC to yield CO₂ and an acetyl fragment which is transferred to CoA.</p>
+          <p id="modal-mol-fate">Decarboxylated by the PDC to yield CO₂ and an acetyl fragment which is transferred to CoA.</p>
           
           <div class="mol-alert-box" id="modal-mol-alert">
             <strong>Key Syllabus Note:</strong> Glycolysis produces 2 molecules of pyruvate per glucose molecule; therefore, this entire reaction operates twice per glucose.
@@ -282,7 +290,7 @@
           </div>
           <div class="rubric-card">
             <h4>3. Catalytic Enzyme: Multi-Enzyme PDC</h4>
-            <p>Catalyzed by the <strong>pyruvate dehydrogenase complex (PDC)</strong> consisting of 3 catalytic enzymes: <strong>E1</strong> (pyruvate dehydrogenase, uses TPP), <strong>E2</strong> (dihydrolipoyl transacetylase, uses lipoamide &amp; CoA), and <strong>E3</strong> (dihydrolipoyl dehydrogenase, uses FAD &amp; NAD⁺).</p>
+            <p>Catalyzed by the <strong>pyruvate dehydrogenase complex (PDC)</strong>, a unified multi-enzyme machine in the mitochondrial matrix that coordinates decarboxylation, oxidation, and CoA attachment.</p>
           </div>
           <div class="rubric-card">
             <h4>4. Stoichiometry: Per-Pyruvate vs Per-Glucose</h4>
@@ -328,42 +336,46 @@
         </div>
       </section>
 
-      <!-- Structural Biochemistry of Pyruvate Dehydrogenase Complex -->
+      <!-- Architecture of the Pyruvate Dehydrogenase Complex -->
       <section class="flat-section pdc-architecture-section">
-        <h3>3. Structural Enzymology of the Pyruvate Dehydrogenase Complex (PDC)</h3>
+        <h3>3. The Pyruvate Dehydrogenase Complex (PDC) Overview</h3>
+        <p style="color: #cbd5e1; margin-bottom: 14px; font-size: 13.5px;">
+          The Link Reaction is catalysed by the <strong>Pyruvate Dehydrogenase Complex (PDC)</strong>, a colossal multi-enzyme complex located in the mitochondrial matrix. It coordinates the conversion of pyruvate into acetyl-CoA by tightly coupling three vital events: decarboxylation, oxidation, and acetyl transfer.
+        </p>
         <table class="pdc-table">
           <thead>
             <tr>
-              <th>Subunit</th>
-              <th>Enzyme Name</th>
-              <th>Prosthetic Group / Cofactor</th>
-              <th>Specific Catalytic Function</th>
+              <th>Substrate Inputs</th>
+              <th>Catalytic Machine</th>
+              <th>Product Outputs</th>
+              <th>Biological Purpose</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>E1</strong></td>
-              <td>Pyruvate Dehydrogenase</td>
-              <td>Thiamine Pyrophosphate (TPP)</td>
-              <td>Decarboxylates pyruvate, releasing CO₂. Binds the remaining 2-carbon hydroxyethyl intermediate to TPP.</td>
+              <td><strong>Pyruvate (3C)</strong></td>
+              <td rowspan="3" style="vertical-align: middle; background: rgba(236,72,153,0.08); border-left: 3px solid #ec4899;">
+                <strong style="color: #f472b6;">Pyruvate Dehydrogenase Complex (PDC)</strong><br>
+                <span style="font-size:11px;color:#94a3b8;">Unified Matrix Multi-Enzyme Machine (~9.5 MDa)</span>
+              </td>
+              <td><strong>CO₂ (1C)</strong></td>
+              <td>Decarboxylation cleaves 1 carbon atom, yielding a 2C intermediate</td>
             </tr>
             <tr>
-              <td><strong>E2</strong></td>
-              <td>Dihydrolipoyl Transacetylase</td>
-              <td>Lipoamide (swinging arm) &amp; Coenzyme A (CoA)</td>
-              <td>Accepts the 2-carbon fragment, oxidizing it to an acetyl group and forming an energy-rich thioester bond with CoA to generate acetyl-CoA.</td>
+              <td><strong>NAD⁺</strong></td>
+              <td><strong>NADH + H⁺</strong></td>
+              <td>Harvests 2 high-energy electrons for downstream ATP synthesis</td>
             </tr>
             <tr>
-              <td><strong>E3</strong></td>
-              <td>Dihydrolipoyl Dehydrogenase</td>
-              <td>Flavin Adenine Dinucleotide (FAD) &amp; NAD⁺</td>
-              <td>Re-oxidizes the reduced dihydrolipoamide arm back to its active disulfide form via FAD, transferring electrons to NAD⁺ to produce NADH + H⁺.</td>
+              <td><strong>Coenzyme A (CoA)</strong></td>
+              <td><strong>Acetyl-CoA (2C)</strong></td>
+              <td>Forms high-energy thioester bond, priming fuel for the Krebs cycle</td>
             </tr>
           </tbody>
         </table>
         <div class="pedagogical-disclosure">
-          <strong>Pedagogical Simplification Note (Rubric §2 &amp; §11):</strong>
-          In introductory A-level syllabi, Decarboxylation, Oxidation, and CoA Attachment are taught as three sequential linear steps for pedagogical clarity. In physical biochemistry, however, these events occur via <em>substrate channeling</em> on the swinging lipoyllysyl arm of E2 without intermediates ever escaping into solution. E1 decarboxylates, E2 both oxidizes and acetylates CoA, and E3 regenerates the oxidized lipoamide cofactor.
+          <strong>Key Syllabus Concept:</strong>
+          The Pyruvate Dehydrogenase Complex functions as an integrated molecular machine. Substrates and intermediate fragments remain within the complex throughout the catalytic cycle, ensuring rapid, efficient coupling of decarboxylation, electron capture, and acetyl-CoA formation without side reactions.
         </div>
       </section>
 
@@ -416,6 +428,6 @@
   </section>
 
   <!-- Application Controller -->
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js?v=4"></script>
 </body>
 </html>

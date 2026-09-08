@@ -76,28 +76,28 @@ export const STAGES_DATA = [
     shortName: "PDC Complex",
     iconLabel: "PDC",
     title: "Meeting the Pyruvate Dehydrogenase Complex",
-    conceptHeadline: "A colossal macromolecular machine coordinating three coupled enzymes.",
+    conceptHeadline: "A colossal macromolecular machine coordinating the link reaction.",
     compartment: "Mitochondrial Matrix",
     nature: "Enzyme Assembly",
     where: "Soluble mitochondrial matrix, surrounded by high concentrations of metabolic enzymes.",
     what: "Pyruvate encounters the Pyruvate Dehydrogenase Complex (PDC), a multi-enzyme assembly larger than a ribosome.",
-    how: "The PDC coordinates three distinct catalytic subunits (E1, E2, E3) and 5 coenzymes via substrate channeling on a flexible lipoamide arm.",
-    why: "Multi-enzyme complexes dramatically increase reaction velocity, prevent toxic or reactive intermediates from leaking into solution, and prevent side reactions.",
+    how: "The PDC organizes multiple catalytic sites that couple decarboxylation, oxidation, and CoA attachment in rapid succession.",
+    why: "A multi-enzyme complex dramatically increases reaction velocity and prevents reactive intermediates from dissipating into the matrix.",
     coreText: `
-      The link reaction is not catalysed by a single simple enzyme, but by the <strong>Pyruvate Dehydrogenase Complex (PDC)</strong>. 
-      In mammalian cells, this behemoth has a molecular mass of over 9 million Daltons. 
-      Substrates are channeled directly between active sites without ever diffusing into the bulk matrix.
+      The link reaction is catalysed by a massive macromolecular assembly: the <strong>Pyruvate Dehydrogenase Complex (PDC)</strong> located in the mitochondrial matrix. 
+      In eukaryotic cells, this multi-enzyme complex is larger than a ribosome. 
+      It coordinates three chemical events—decarboxylation, oxidation, and acetyl-CoA formation—as a single integrated catalytic machine.
     `,
     moleculesInFocus: ["pdc", "pyruvate"],
     carbonState: {
-      status: "3C (Docked at E1)",
+      status: "3C (Docked at PDC)",
       beads: ["active", "active", "active"]
     },
     deeper: {
-      enzymology: "The PDC contains 3 core catalytic enzymes: E1 (pyruvate dehydrogenase, 24-30 copies), E2 (dihydrolipoyl transacetylase, 24-60 copies forming the structural dodecahedral core), and E3 (dihydrolipoyl dehydrogenase, 12 copies).",
-      mechanism: "Five vital coenzymes cooperate in PDC catalysis: Thiamine Pyrophosphate (TPP, on E1), Lipoamide (on E2), Coenzyme A (free substrate), Flavin Adenine Dinucleotide (FAD, on E3), and NAD⁺ (free substrate).",
-      regulation: "PDC is tightly controlled. Inactivated by Pyruvate Dehydrogenase Kinase (PDK) which phosphorylates E1 in response to high energy states (high ATP, NADH, Acetyl-CoA). Activated by Pyruvate Dehydrogenase Phosphatase (PDP) in response to high ADP, pyruvate, and Ca²⁺.",
-      simplificationNote: "Core syllabus models present PDC as a single black box; in reality, its three distinct subunits perform distinct consecutive chemical reactions."
+      enzymology: "The Pyruvate Dehydrogenase Complex (PDC) is a multi-enzyme machine in the matrix with a mass exceeding 9 million Daltons. It groups the catalytic machinery together so that substrates and intermediates are processed with maximal efficiency.",
+      mechanism: "The complex coordinates three substrates (pyruvate, Coenzyme A, and NAD⁺) to generate three products (acetyl-CoA, CO₂, and NADH + H⁺). All intermediate fragments remain within the complex throughout the catalytic cycle.",
+      regulation: "PDC is tightly controlled. Inactivated by Pyruvate Dehydrogenase Kinase (PDK) in response to high energy states (high ATP, NADH, Acetyl-CoA). Activated by Pyruvate Dehydrogenase Phosphatase (PDP) in response to high ADP, pyruvate, and Ca²⁺.",
+      simplificationNote: "The PDC operates as a unified multi-enzyme complex in the mitochondrial matrix, acting as the primary gateway into aerobic cellular respiration."
     }
   },
   {
@@ -107,11 +107,11 @@ export const STAGES_DATA = [
     iconLabel: "–CO₂",
     title: "Decarboxylation: Carbon Leaves",
     conceptHeadline: "The loss of the first carbon atom in cellular respiration as CO₂.",
-    compartment: "PDC Subunit E1 Active Site",
+    compartment: "PDC Active Site",
     nature: "Decarboxylation",
-    where: "Active site of enzyme subunit E1 (Pyruvate Dehydrogenase) in the matrix.",
+    where: "Active site of the Pyruvate Dehydrogenase Complex (PDC) in the mitochondrial matrix.",
     what: "Pyruvate (3C) loses its carboxyl group (-COO⁻), releasing one molecule of gaseous carbon dioxide (CO₂).",
-    how: "The carbanion of the cofactor Thiamine Pyrophosphate (TPP) on E1 attacks the C2 carbonyl of pyruvate, displacing CO₂ and forming a 2-carbon hydroxyethyl-TPP intermediate.",
+    how: "The active site of the PDC cleaves the carboxyl group from pyruvate, releasing CO₂ gas and retaining the remaining 2-carbon acetyl fragment.",
     why: "Decarboxylation eliminates a carbon atom, transforming a 3-carbon glycolytic product into a 2-carbon acetyl fragment that fits the entry requirement of the Krebs cycle.",
     coreText: `
       This is the first chemical transformation: <strong>Decarboxylation</strong>. 
@@ -125,10 +125,10 @@ export const STAGES_DATA = [
       beads: ["detached", "active", "active"]
     },
     deeper: {
-      enzymology: "Enzyme E1 uses Thiamine Pyrophosphate (TPP), derived from Vitamin B1 (thiamine). The thiazolium ring of TPP forms a carbanion (ylide) that attacks the carbonyl carbon of pyruvate.",
-      mechanism: "CO₂ gas is released, leaving a resonance-stabilized 2-carbon hydroxyethyl-TPP carbanion covalently bound to E1.",
-      regulation: "Severe thiamine deficiency (Beriberi or Wernicke-Korsakoff syndrome) inhibits E1, crippling aerobic glucose metabolism and causing devastating neurological symptoms.",
-      simplificationNote: "The 2-carbon fragment does not float free as acetate; it remains tightly bound to TPP on E1 until the lipoamide arm of E2 arrives."
+      enzymology: "Decarboxylation is the initial step of the link reaction. The PDC specifically targets the carboxyl group of pyruvate, converting a 3-carbon intermediate into a 2-carbon unit.",
+      mechanism: "CO₂ gas is released from pyruvate, leaving a 2-carbon acetyl group retained within the active site of the complex for immediate oxidation.",
+      regulation: "The release of CO₂ gas and large negative free energy make this reaction physiologically irreversible in vivo.",
+      simplificationNote: "CO₂ is a non-polar gas that diffuses freely out of the mitochondrial matrix, across the inner and outer membranes, into the cytosol, and into the bloodstream."
     }
   },
   {
@@ -138,11 +138,11 @@ export const STAGES_DATA = [
     iconLabel: "Redox",
     title: "Oxidation: Transfer of Electrons to NAD⁺",
     conceptHeadline: "Harvesting high-energy electrons to reduce NAD⁺ into NADH.",
-    compartment: "PDC Subunit E2 & E3 Active Sites",
+    compartment: "PDC Active Site",
     nature: "Redox Reaction",
-    where: "Enzyme subunit E2 and E3 active sites within the PDC in the mitochondrial matrix.",
-    what: "The 2-carbon hydroxyethyl fragment is oxidized to an acetyl group; NAD⁺ is reduced to NADH + H⁺.",
-    how: "The disulfide bond of lipoamide on E2 oxidizes the 2-carbon fragment; electrons are subsequently transferred through FAD on E3 to reduce NAD⁺ into NADH + H⁺.",
+    where: "Catalytic active site of the PDC in the mitochondrial matrix.",
+    what: "The 2-carbon fragment is oxidized to an acetyl group; NAD⁺ is reduced to NADH + H⁺.",
+    how: "High-energy electrons and protons are extracted from the 2-carbon fragment by the PDC and transferred to the electron carrier NAD⁺, yielding NADH + H⁺.",
     why: "NADH is a high-energy electron carrier. It carries these harvested electrons directly to Complex I of the Electron Transport Chain, which drives bulk ATP synthesis.",
     coreText: `
       This is the <strong>oxidation</strong> beat of oxidative decarboxylation. 
@@ -155,10 +155,10 @@ export const STAGES_DATA = [
       beads: ["detached", "active", "active"]
     },
     deeper: {
-      enzymology: "Subunit E2 utilizes lipoamide (lipoic acid covalently bound to a lysine residue). This 14 Ångström flexible swinging arm visits E1, oxidizes hydroxyethyl-TPP to an acetyl group, and becomes reduced to dihydrolipoamide.",
-      mechanism: "Subunit E3 (dihydrolipoyl dehydrogenase) re-oxidizes dihydrolipoamide back to oxidized lipoamide. Electrons pass from lipoamide → E3 disulfide → FAD → FADH₂ → NAD⁺, yielding NADH and a free proton (H⁺).",
-      regulation: "High matrix [NADH]/[NAD⁺] ratio strongly inhibits E3 via competitive product inhibition, signaling that downstream electron transport is saturated.",
-      simplificationNote: "In introductory syllabi, oxidation and CoA attachment are shown as separate sequential beats for clarity. In biochemical reality, the oxidation happens simultaneously when lipoamide's disulfide bond is reduced as it accepts the acetyl group on E2."
+      enzymology: "Dehydrogenase activity within the PDC catalyzes the oxidation of the 2-carbon fragment, directly coupling the release of electrons to the reduction of NAD⁺.",
+      mechanism: "NAD⁺ accepts two electrons and one proton (a hydride ion, :H⁻), reducing to NADH, while a second proton (H⁺) is released into the matrix proton pool.",
+      regulation: "High matrix [NADH]/[NAD⁺] ratio strongly inhibits the PDC via competitive product inhibition, signaling that downstream electron transport is saturated.",
+      simplificationNote: "Remember: NADH is an electron shuttle, not an ATP molecule. It will yield ATP later when its electrons are donated to the electron transport chain on the inner mitochondrial membrane."
     }
   },
   {
@@ -168,11 +168,11 @@ export const STAGES_DATA = [
     iconLabel: "CoA",
     title: "Formation of Acetyl-CoA",
     conceptHeadline: "Coupling the 2-carbon acetyl group to Coenzyme A via a high-energy thioester bond.",
-    compartment: "PDC Subunit E2 Active Site",
+    compartment: "PDC Active Site",
     nature: "Thioester Synthesis",
-    where: "Catalytic core of subunit E2 (Dihydrolipoyl Transacetylase) in the mitochondrial matrix.",
+    where: "Catalytic active site of the PDC in the mitochondrial matrix.",
     what: "The 2-carbon acetyl fragment is transferred to the reactive thiol group (-SH) of Coenzyme A, forming Acetyl-CoA.",
-    how: "Transesterification transfers the acetyl group from the acetyldihydrolipoamide arm to the sulfur atom of Coenzyme A (CoA-SH).",
+    how: "The PDC attaches the oxidized 2-carbon acetyl fragment to the reactive thiol group (-SH) of Coenzyme A, creating a high-energy thioester bond.",
     why: "The thioester bond in Acetyl-CoA has a very high free energy of hydrolysis (-31.5 kJ/mol), activating the 2-carbon acetate so it can spontaneously condense with 4-carbon oxaloacetate in the first step of the Krebs cycle.",
     coreText: `
       The final chemical step produces <strong>Acetyl-CoA</strong>. 
@@ -187,8 +187,8 @@ export const STAGES_DATA = [
     },
     deeper: {
       enzymology: "Coenzyme A consists of a 3'-phosphoadenosine diphosphate linked to pantothenate (vitamin B5) and beta-mercaptoethylamine. The reactive business end is the terminal sulfhydryl / thiol group (-SH).",
-      mechanism: "Transesterification on E2: Acetyldihydrolipoamide + CoA-SH ⇌ Acetyl-CoA + Dihydrolipoamide. The acetyl group is transferred to sulfur, preserving the chemical energy released by the earlier oxidation of pyruvate.",
-      regulation: "Acetyl-CoA exerts potent product inhibition on subunit E2. It also acts as an allosteric activator of pyruvate carboxylase.",
+      mechanism: "The PDC transfers the acetyl group to the reactive sulfur of CoA-SH, forming a high-energy thioester bond (C–S–CoA) that preserves the energy released during oxidation.",
+      regulation: "Acetyl-CoA exerts potent product inhibition on the PDC. It also acts as an allosteric activator of pyruvate carboxylase.",
       simplificationNote: "Because sulfur does not form effective pi-bonds with carbon, thioesters lack the resonance stabilization of oxygen esters. This gives the thioester bond its high chemical transfer potential."
     }
   },
@@ -275,7 +275,7 @@ export const MOLECULES_DATA = {
   |
   O⁻`,
     role: "The 3-carbon carboxylate end-product of glycolysis. Formed in the cytoplasm, it must cross both mitochondrial membranes into the matrix to enter aerobic respiration.",
-    fate: "Decarboxylated by E1 of the PDC to release CO₂ and leave a 2-carbon hydroxyethyl group attached to TPP.",
+    fate: "Decarboxylated by the PDC to release CO₂ and leave a 2-carbon acetyl fragment.",
     alert: "Glycolysis produces 2 pyruvate molecules per glucose. Hence, 2 link reactions occur for every glucose molecule consumed."
   },
   coa: {
@@ -285,7 +285,7 @@ export const MOLECULES_DATA = {
     carbons: 0,
     diagram: `ADP-3'P -- Pantothenate -- Cysteamine -- SH (Thiol)`,
     role: "A universal carrier of acyl groups in all living organisms. Derived from pantothenic acid (Vitamin B5).",
-    fate: "Its terminal thiol (-SH) accepts the 2-carbon acetyl fragment from the PDC lipoamide arm, forming an energy-rich thioester bond in Acetyl-CoA.",
+    fate: "Its terminal thiol (-SH) accepts the 2-carbon acetyl fragment at the PDC active site, forming an energy-rich thioester bond in Acetyl-CoA.",
     alert: "The thioester bond has a high negative standard free energy of hydrolysis (ΔG°' = -31.5 kJ/mol), which provides the driving force for the subsequent Krebs cycle."
   },
   nad: {
@@ -295,7 +295,7 @@ export const MOLECULES_DATA = {
     carbons: 0,
     diagram: `Nicotinamide+ - Ribose - Pyrophosphate - Adenosine`,
     role: "The primary oxidized coenzyme electron acceptor of catabolic metabolism. Derived from niacin (Vitamin B3).",
-    fate: "Accepts 2 electrons and 1 proton (hydride ion :H⁻) from subunit E3 of the PDC, becoming reduced to NADH, while releasing 1 proton (H⁺) into the matrix.",
+    fate: "Accepts 2 electrons and 1 proton (hydride ion :H⁻) from the oxidation reaction catalyzed by the PDC, becoming reduced to NADH, while releasing 1 proton (H⁺) into the matrix.",
     alert: "NAD⁺ is strictly an electron shuttle, NOT ATP. It must be regenerated by the electron transport chain or fermentation."
   },
   nadh: {
@@ -345,10 +345,10 @@ CH₃ - C - S - CoA`,
     formula: "Multi-enzyme Complex (~9.5 MDa)",
     category: "Macromolecular Enzyme Complex",
     carbons: 0,
-    diagram: `[ E1: TPP ] <---> [ E2: Lipoamide Core ] <---> [ E3: FAD ]`,
-    role: "Giant multi-enzyme machine in the matrix coordinating 3 enzymes (E1, E2, E3) and 5 cofactors (TPP, lipoamide, CoA, FAD, NAD⁺).",
-    fate: "Catalyzes oxidative decarboxylation via substrate channeling along the flexible swinging lipoyllysyl arm of E2.",
-    alert: "Multi-enzyme organization ensures that reactive intermediates never escape into the bulk solution."
+    diagram: `[ Pyruvate + CoA + NAD⁺ ] ---> [ PDC ] ---> [ Acetyl-CoA + CO₂ + NADH + H⁺ ]`,
+    role: "A colossal multi-enzyme machine in the mitochondrial matrix that coordinates the reactions of the link reaction.",
+    fate: "Catalyzes oxidative decarboxylation: removes CO₂, transfers electrons to NAD⁺ to form NADH, and couples the remaining acetyl group to Coenzyme A.",
+    alert: "By uniting these reactions into a single complex, intermediate products are directly channeled, maximizing reaction rate and metabolic efficiency."
   },
   mpc: {
     name: "Mitochondrial Pyruvate Carrier (MPC)",
@@ -388,13 +388,24 @@ export const state = {
 // 4. UI INITIALIZATION & EVENT LISTENERS
 // =============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
+function startApp() {
   initBottomProcessBar();
   bindUIEvents();
   renderStage(state.currentStage);
   populateFlatSummary();
   init2DScene();
-});
+
+  // Listen for custom inspect-molecule event dispatched by 2D scene
+  document.addEventListener('inspect-molecule', (e) => {
+    if (e.detail) openMoleculeModal(e.detail);
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}
 
 function bindUIEvents() {
   // Navigation Buttons on Card
