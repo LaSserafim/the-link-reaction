@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body class="theme-dark">
 
@@ -194,12 +194,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Slide down indicator if content overflows -->
-          <div class="anchors-scroll-hint" id="anchors-scroll-hint" title="Scroll down to read more anchors">
-            <span>Slide down for more</span>
-            <span class="scroll-arrow-down">&darr;</span>
-          </div>
         </div>
 
         <!-- Core Educational Text (Always Visible) -->
@@ -245,6 +239,16 @@
         </div>
 
       </article>
+
+      <!-- Visual Affordance: Soft Gradient Fade & Scroll Indicator below the fold -->
+      <div class="panel-scroll-cue" id="panel-scroll-cue" title="Scroll down to read more content">
+        <button class="scroll-cue-badge" id="btn-scroll-down-cue" aria-label="Scroll down to see more content">
+          <span>Scroll for more</span>
+          <svg class="scroll-cue-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
     </aside>
   </div>
 
@@ -482,6 +486,6 @@
   </section>
 
   <!-- Application Controller -->
-  <script type="module" src="app.js?v=5"></script>
+  <script type="module" src="app.js?v=6"></script>
 </body>
 </html>

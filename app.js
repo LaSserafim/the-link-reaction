@@ -463,24 +463,31 @@ function bindUIEvents() {
     }
   });
 
-  // Touch swipe support for mobile
+  // Touch swipe support for mobile (scoped strictly to 2D scene stage area)
+  const stageArea = document.getElementById('scene-stage-area');
   let touchStartX = 0;
   let touchEndX = 0;
-  window.addEventListener('touchstart', (e) => {
+  let touchStartY = 0;
+  let touchEndY = 0;
+  stageArea?.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
   }, { passive: true });
 
-  window.addEventListener('touchend', (e) => {
+  stageArea?.addEventListener('touchend', (e) => {
     touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
     handleSwipe();
   }, { passive: true });
 
   function handleSwipe() {
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && state.currentStage < STAGES_DATA.length - 1) {
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+    // Only trigger if horizontal movement is dominant and exceeds threshold
+    if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
+      if (diffX > 0 && state.currentStage < STAGES_DATA.length - 1) {
         goToStage(state.currentStage + 1); // Swipe left = next
-      } else if (diff < 0 && state.currentStage > 0) {
+      } else if (diffX < 0 && state.currentStage > 0) {
         goToStage(state.currentStage - 1); // Swipe right = prev
       }
     }
@@ -517,12 +524,12 @@ function bindUIEvents() {
 }
 
 function setupAnchorsInteraction() {
-  const grid = document.getElementById('edu-anchors-grid');
   const btnToggleAll = document.getElementById('btn-toggle-anchors');
   const toggleText = document.getElementById('anchors-toggle-text');
   const toggleChevron = document.querySelector('.anchors-toggle-chevron');
   const boxes = document.querySelectorAll('.edu-anchor-box');
-  const scrollHint = document.getElementById('anchors-scroll-hint');
+  const card = document.getElementById('stage-card');
+  const btnScrollCue = document.getElementById('btn-scroll-down-cue');
 
   // Toggle individual box slide down / slide up
   boxes.forEach(box => {
@@ -532,7 +539,8 @@ function setupAnchorsInteraction() {
       const isOpen = box.classList.contains('is-open');
       btn.setAttribute('aria-expanded', isOpen.toString());
       updateToggleAllButton();
-      updateScrollHint();
+      updatePanelScrollCue();
+      setTimeout(updatePanelScrollCue, 280);
     });
   });
 
@@ -550,7 +558,8 @@ function setupAnchorsInteraction() {
       }
     });
     updateToggleAllButton();
-    updateScrollHint();
+    updatePanelScrollCue();
+    setTimeout(updatePanelScrollCue, 280);
   });
 
   function updateToggleAllButton() {
@@ -559,55 +568,35 @@ function setupAnchorsInteraction() {
     if (toggleChevron) toggleChevron.style.transform = allOpen ? 'rotate(180deg)' : 'rotate(0deg)';
   }
 
-  function updateScrollHint() {
-    if (!grid || !scrollHint) return;
-    const canScroll = grid.scrollHeight > grid.clientHeight + 8;
-    const isAtBottom = grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 6;
-    scrollHint.style.display = (canScroll && !isAtBottom) ? 'flex' : 'none';
-  }
-
-  grid?.addEventListener('scroll', updateScrollHint, { passive: true });
-
-  scrollHint?.addEventListener('click', () => {
-    if (grid) {
-      grid.scrollBy({ top: 120, behavior: 'smooth' });
+  // Floating scroll cue button click smoothly scrolls down panel
+  btnScrollCue?.addEventListener('click', () => {
+    if (card) {
+      card.scrollBy({ top: 180, behavior: 'smooth' });
     }
   });
 
-  // Drag-to-slide inside grid
-  let isDragging = false;
-  let startY = 0;
-  let scrollTopStart = 0;
-
-  grid?.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.anchor-box-header') || e.target.closest('button')) return;
-    isDragging = true;
-    startY = e.clientY;
-    scrollTopStart = grid.scrollTop;
-    grid.style.cursor = 'grabbing';
-    try { grid.setPointerCapture(e.pointerId); } catch (_) {}
-  });
-
-  grid?.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    const deltaY = e.clientY - startY;
-    grid.scrollTop = scrollTopStart - deltaY;
-  });
-
-  const endDrag = (e) => {
-    if (isDragging) {
-      isDragging = false;
-      if (grid) grid.style.cursor = 'default';
-      try { grid.releasePointerCapture(e.pointerId); } catch (_) {}
-    }
-  };
-
-  grid?.addEventListener('pointerup', endDrag);
-  grid?.addEventListener('pointercancel', endDrag);
+  // Listen for scroll events on educational card to update scroll cue badge
+  card?.addEventListener('scroll', updatePanelScrollCue, { passive: true });
+  window.addEventListener('resize', updatePanelScrollCue, { passive: true });
 
   // Initial status check
   updateToggleAllButton();
-  setTimeout(updateScrollHint, 150);
+  setTimeout(updatePanelScrollCue, 150);
+}
+
+export function updatePanelScrollCue() {
+  const card = document.getElementById('stage-card');
+  const cue = document.getElementById('panel-scroll-cue');
+  if (!card || !cue) return;
+
+  const canScroll = card.scrollHeight > card.clientHeight + 16;
+  const isNearBottom = card.scrollTop + card.clientHeight >= card.scrollHeight - 24;
+
+  if (canScroll && !isNearBottom) {
+    cue.classList.add('is-visible');
+  } else {
+    cue.classList.remove('is-visible');
+  }
 }
 
 // =============================================================================
@@ -672,16 +661,12 @@ function renderStage(stageIndex) {
     }
   });
 
-  // Check scroll hint for info boxes
-  const grid = document.getElementById('edu-anchors-grid');
-  const scrollHint = document.getElementById('anchors-scroll-hint');
-  if (grid && scrollHint) {
-    setTimeout(() => {
-      const canScroll = grid.scrollHeight > grid.clientHeight + 8;
-      const isAtBottom = grid.scrollTop + grid.clientHeight >= grid.scrollHeight - 6;
-      scrollHint.style.display = (canScroll && !isAtBottom) ? 'flex' : 'none';
-    }, 80);
+  // Reset card scroll position to top and update scroll cue
+  const card = document.getElementById('stage-card');
+  if (card) {
+    card.scrollTop = 0;
   }
+  setTimeout(updatePanelScrollCue, 100);
 
   // 3. Core Text
   const coreEl = document.getElementById('stage-core-text');
@@ -837,6 +822,7 @@ function toggleDeeperAccordion() {
   
   if (btn) btn.setAttribute('aria-expanded', state.isDeeperOpen.toString());
   if (content) content.hidden = !state.isDeeperOpen;
+  setTimeout(updatePanelScrollCue, 100);
 }
 
 // =============================================================================

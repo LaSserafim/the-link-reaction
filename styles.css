@@ -316,6 +316,9 @@ html, body {
   bottom: 84px; /* Space above bottom process bar */
   display: grid;
   grid-template-columns: 1fr 430px;
+  grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  max-height: calc(100vh - 158px);
   gap: 20px;
   z-index: 5;
 }
@@ -482,12 +485,20 @@ html, body {
 .educational-card-container {
   width: 100%;
   height: 100%;
+  min-height: 0;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .educational-card {
+  width: 100%;
   height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  flex: 1 1 0%;
   display: flex;
   flex-direction: column;
   background: var(--bg-glass-card);
@@ -495,9 +506,10 @@ html, body {
   border-radius: var(--radius-xl);
   backdrop-filter: var(--glass-blur);
   box-shadow: var(--shadow-hud);
-  padding: 20px 20px 14px 20px;
+  padding: 20px 20px 18px 20px;
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: contain;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
@@ -650,25 +662,6 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 7px;
-  max-height: 250px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 4px;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(56, 189, 248, 0.4) transparent;
-}
-
-.edu-anchors-grid::-webkit-scrollbar {
-  width: 5px;
-}
-.edu-anchors-grid::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.35);
-  border-radius: var(--radius-full);
-}
-.edu-anchors-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(56, 189, 248, 0.6);
 }
 
 .edu-anchor-box {
@@ -741,6 +734,7 @@ html, body {
 }
 
 .anchor-box-inner {
+  min-height: 0;
   overflow: hidden;
   padding: 0 10px 8px;
 }
@@ -750,6 +744,9 @@ html, body {
   color: var(--text-secondary);
   line-height: 1.45;
   margin: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Fresh slide down animation on stage change */
@@ -768,33 +765,67 @@ html, body {
   animation: slideDownFresh 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Scroll Hint Bar */
-.anchors-scroll-hint {
-  display: none;
-  align-items: center;
+/* Floating Scroll Cue Affordance at bottom of Info Panel */
+.panel-scroll-cue {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  z-index: 10;
+}
+
+.panel-scroll-cue.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-cue-badge {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
-  font-size: 9.5px;
-  font-weight: 600;
-  color: var(--text-muted);
-  padding: 4px 0 0;
+  padding: 5px 13px;
+  background: rgba(12, 20, 36, 0.92);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: var(--radius-full);
+  color: #38bdf8;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), 0 0 10px rgba(56, 189, 248, 0.2);
+  backdrop-filter: blur(8px);
   cursor: pointer;
-  transition: opacity 0.2s ease, color 0.15s ease;
+  transition: all 0.18s ease;
   user-select: none;
 }
 
-.anchors-scroll-hint:hover {
-  color: var(--text-accent);
+.scroll-cue-badge:hover {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: #38bdf8;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.65), 0 0 14px rgba(56, 189, 248, 0.4);
 }
 
-.scroll-arrow-down {
-  animation: bounceDown 1.8s infinite ease-in-out;
-  font-size: 11px;
+.scroll-cue-arrow {
+  animation: bounceDownCue 1.6s infinite ease-in-out;
 }
 
-@keyframes bounceDown {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(3px); }
+@keyframes bounceDownCue {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
 }
 
 .stage-core-text {
@@ -915,17 +946,14 @@ html, body {
 }
 
 .card-footer {
-  margin-top: auto;
-  position: sticky;
-  bottom: -14px;
-  background: linear-gradient(to top, rgba(10, 16, 28, 0.98) 75%, rgba(10, 16, 28, 0.4) 92%, transparent 100%);
+  margin-top: 18px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 14px 0 4px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 6;
 }
 
 .btn-secondary {
@@ -1671,6 +1699,7 @@ html, body {
   }
   .workspace-layout {
     grid-template-columns: 1fr 380px;
+    grid-template-rows: minmax(0, 1fr);
   }
   .flat-anchors-grid {
     grid-template-columns: 1fr 1fr;
@@ -1698,7 +1727,9 @@ html, body {
   
   .workspace-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 280px;
+    grid-template-rows: minmax(0, 1fr) minmax(0, 320px);
+    min-height: 0;
+    max-height: calc(100vh - 134px);
     top: 60px;
     bottom: 74px;
     left: 10px;
