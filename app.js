@@ -20,7 +20,7 @@ export const STAGES_DATA = [
     conceptHeadline: "The molecular bridge between glycolysis and the Krebs cycle.",
     compartment: "Cytosol / Outer Membrane",
     nature: "Preparatory",
-    where: "Cytosol bordering the porous outer mitochondrial membrane.",
+    where: "Cytosol bordering the porous outer membrane and folded inner membrane (cristae).",
     what: "Pyruvate (3C) from glycolysis moves toward the mitochondrion to begin aerobic respiration.",
     how: "Small metabolites diffuse passively across the outer membrane through non-selective porin channels.",
     why: "Links cytosolic glycolysis to the matrix-based Krebs cycle to access high-yield aerobic ATP production.",
@@ -45,7 +45,7 @@ export const STAGES_DATA = [
     conceptHeadline: "Crossing the impermeable inner membrane into the reaction chamber.",
     compartment: "Inner Membrane & Matrix",
     nature: "Active Transport",
-    where: "Across the impermeable inner mitochondrial membrane into the matrix.",
+    where: "Across the inner mitochondrial membrane, whose extensive inward folds are called cristae, into the matrix.",
     what: "Pyruvate enters the mitochondrial matrix where link reaction enzymes reside.",
     how: "The Mitochondrial Pyruvate Carrier (MPC) imports pyruvate via proton-coupled symport driven by the proton gradient.",
     why: "Preserves the chemiosmotic gradient across the inner membrane while delivering substrate to the matrix.",
@@ -699,8 +699,8 @@ function toggleGlucoseYield() {
   const stoichFactors = document.querySelectorAll('.stoich-factor');
   
   if (state.perGlucoseMode) {
-    if (yieldText) yieldText.textContent = 'Per Glucose (2×)';
-    if (badge) badge.textContent = '2× GLUCOSE CYCLE';
+    if (yieldText) yieldText.textContent = '2× GLUCOSE';
+    if (badge) badge.textContent = '2× GLUCOSE';
     if (eqChem) {
       eqChem.innerHTML = `
         <span class="m-react">2 pyruvate</span> + <span class="m-react">2 CoA</span> + <span class="m-react">2 NAD⁺</span>
@@ -710,7 +710,7 @@ function toggleGlucoseYield() {
     }
     stoichFactors.forEach(el => { el.textContent = '2×'; });
   } else {
-    if (yieldText) yieldText.textContent = 'Per Pyruvate (1×)';
+    if (yieldText) yieldText.textContent = '1× PYRUVATE';
     if (badge) badge.textContent = '1× PYRUVATE';
     if (eqChem) {
       eqChem.innerHTML = `

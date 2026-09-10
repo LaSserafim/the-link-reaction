@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body class="theme-dark">
 
@@ -28,7 +28,10 @@
 
     <!-- Active Chemical Reaction Display (Always Centered & Visible) -->
     <div class="reaction-equation-hud" aria-label="Chemical equation of the link reaction">
-      <span class="eq-tag" id="stoichiometry-badge">1&times; PYRUVATE</span>
+      <button class="btn-yield-toggle" id="btn-toggle-glucose" aria-pressed="false" title="Click to toggle stoichiometry (1× Pyruvate vs 2× Glucose cycle)">
+        <span class="yield-badge-text" id="yield-mode-text">1&times; PYRUVATE</span>
+        <span class="yield-badge-hint" aria-hidden="true">&#x21C4;</span>
+      </button>
       <span class="eq-chem" id="hud-equation">
         <span class="m-react">pyruvate</span> + <span class="m-react">CoA</span> + <span class="m-react">NAD⁺</span>
         <span class="eq-arrow">&rarr;</span>
@@ -52,6 +55,15 @@
 
       <!-- Consolidated Settings & Views Cluster -->
       <div class="hud-control-cluster" role="toolbar" aria-label="Reaction settings and views">
+        <!-- Replay Current Scene Animation -->
+        <button class="btn btn-cluster" id="btn-replay-scene" title="Replay current stage biological animation">
+          <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span class="btn-text">Replay</span>
+        </button>
+
         <!-- Toggle: Show All Labels (Section §8 requirement) -->
         <button class="btn btn-cluster" id="btn-toggle-labels" aria-pressed="false" title="Toggle visible labels on all structures">
           <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
@@ -59,15 +71,6 @@
             <rect x="3" y="3" width="18" height="18" rx="3" />
           </svg>
           <span class="btn-text">Labels: <strong id="lbl-status-text">Default</strong></span>
-        </button>
-
-        <!-- Toggle: Per-Glucose (x2) (Section §5 requirement) -->
-        <button class="btn btn-cluster" id="btn-toggle-glucose" aria-pressed="false" title="Toggle stoichiometry between 1x Pyruvate and 1x Glucose (2x Pyruvates)">
-          <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v5l3 3" />
-          </svg>
-          <span class="btn-text">Yield: <strong id="yield-mode-text">Per Pyruvate (1&times;)</strong></span>
         </button>
 
         <!-- Fallback: Flat Summary (Section §13 requirement) -->
@@ -93,15 +96,12 @@
         <!-- Injected dynamically via scene2d.js -->
       </div>
       
-      <!-- Scene Stage Header Overlay: Focus & Replay Controls -->
+      <!-- Scene Stage Header Overlay: Focus Tag -->
       <div class="stage-controls-overlay">
         <div class="stage-focus-pill" id="stage-focus-pill">
           <span class="focus-label">FOCUS:</span>
           <span class="focus-name" id="stage-focus-name">Mitochondrial Anatomy</span>
         </div>
-        <button class="btn btn-glass btn-replay" id="btn-replay-scene" title="Replay current stage biological animation">
-          <span class="replay-icon">&#x21BB;</span> Replay Animation
-        </button>
       </div>
 
       <!-- Interactive Zoom & Pan Controls Overlay (Fix 2) -->
@@ -431,6 +431,6 @@
   </section>
 
   <!-- Application Controller -->
-  <script type="module" src="app.js?v=7"></script>
+  <script type="module" src="app.js?v=8"></script>
 </body>
 </html>

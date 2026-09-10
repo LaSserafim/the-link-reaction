@@ -262,9 +262,9 @@ function getScene00Arrival() {
     <svg viewBox="0 0 800 520" class="scene-svg" aria-label="Mitochondrion cross-section and cytosolic pyruvate">
       <defs>
         <radialGradient id="grad-matrix" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#0e2338" stop-opacity="0.95"/>
-          <stop offset="70%" stop-color="#071322" stop-opacity="0.98"/>
-          <stop offset="100%" stop-color="#040a14" stop-opacity="1"/>
+          <stop offset="0%" stop-color="#0b1e33" stop-opacity="0.95"/>
+          <stop offset="70%" stop-color="#051221" stop-opacity="0.98"/>
+          <stop offset="100%" stop-color="#020812" stop-opacity="1"/>
         </radialGradient>
         <linearGradient id="grad-outer-mem" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#38bdf8"/>
@@ -282,104 +282,114 @@ function getScene00Arrival() {
           <feGaussianBlur stdDeviation="8" result="blur"/>
           <feComposite in="SourceGraphic" in2="blur" operator="over"/>
         </filter>
+        <filter id="glow-green" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
       </defs>
 
-      <!-- Outer Membrane Capsule -->
-      <path d="M 220 140 C 320 80, 520 80, 620 140 C 720 200, 720 320, 620 380 C 520 440, 320 440, 220 380 C 120 320, 120 200, 220 140 Z"
-            fill="url(#grad-matrix)" stroke="url(#grad-outer-mem)" stroke-width="4" filter="url(#glow-cyan)"/>
+      <!-- Beat 1: Outer Membrane Capsule -->
+      <path d="M 250 100 C 350 75, 570 75, 670 100 C 750 125, 750 395, 670 420 C 570 445, 350 445, 250 420 C 170 395, 170 125, 250 100 Z"
+            fill="#071b2f" stroke="url(#grad-outer-mem)" stroke-width="3.5" filter="url(#glow-cyan)" class="anim-beat-1"/>
 
-      <!-- Outer Membrane Porins (VDAC) -->
-      <g class="porin-nodes" fill="#38bdf8">
-        <ellipse cx="300" cy="100" rx="9" ry="4" transform="rotate(-15 300 100)"/>
-        <ellipse cx="540" cy="100" rx="9" ry="4" transform="rotate(15 540 100)"/>
-        <ellipse cx="670" cy="240" rx="4" ry="9"/>
-        <ellipse cx="540" cy="420" rx="9" ry="4" transform="rotate(-15 540 420)"/>
-        <ellipse cx="300" cy="420" rx="9" ry="4" transform="rotate(15 300 420)"/>
-        <ellipse cx="170" cy="240" rx="4" ry="9"/>
+      <!-- Beat 1: Outer Membrane Porins (VDAC) -->
+      <g class="porin-nodes anim-beat-1" fill="#38bdf8" filter="url(#glow-cyan)">
+        <ellipse cx="300" cy="90" rx="9" ry="4" transform="rotate(-12 300 90)"/>
+        <ellipse cx="450" cy="83" rx="9" ry="4"/>
+        <ellipse cx="600" cy="90" rx="9" ry="4" transform="rotate(12 600 90)"/>
+        <ellipse cx="715" cy="180" rx="4" ry="9" transform="rotate(15 715 180)"/>
+        <ellipse cx="730" cy="260" rx="4" ry="9"/>
+        <ellipse cx="715" cy="340" rx="4" ry="9" transform="rotate(-15 715 340)"/>
+        <ellipse cx="600" cy="430" rx="9" ry="4" transform="rotate(-12 600 430)"/>
+        <ellipse cx="450" cy="437" rx="9" ry="4"/>
+        <ellipse cx="300" cy="430" rx="9" ry="4" transform="rotate(12 300 430)"/>
+        <ellipse cx="185" cy="340" rx="4" ry="9" transform="rotate(15 185 340)"/>
+        <ellipse cx="170" cy="260" rx="4" ry="9"/>
+        <ellipse cx="185" cy="180" rx="4" ry="9" transform="rotate(-15 185 180)"/>
       </g>
 
-      <!-- Inner Membrane & Cristae Inward Invaginations -->
-      <path d="M 235 160 
-               C 290 120, 380 120, 410 160 
-               C 420 190, 370 210, 350 240
-               C 330 270, 380 290, 390 320
-               C 400 350, 340 370, 300 350
-               C 270 330, 250 280, 235 260
-               C 220 240, 200 200, 235 160 Z"
-            fill="#062235" stroke="url(#grad-inner-mem)" stroke-width="3" opacity="0.9"/>
+      <!-- Beat 2: Intermembrane Space Band -->
+      <path d="M 245 106 C 345 82, 565 82, 665 106 C 740 130, 740 390, 665 414 C 565 438, 345 438, 245 414 C 175 390, 175 130, 245 106 Z"
+            fill="rgba(14, 165, 233, 0.07)" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.5" stroke-dasharray="4,4" class="anim-beat-2"/>
 
-      <path d="M 605 160 
-               C 550 120, 460 120, 440 170
-               C 430 200, 480 220, 500 250
-               C 520 280, 470 300, 460 330
-               C 450 360, 520 380, 560 350
-               C 590 320, 620 220, 605 160 Z"
-            fill="#062235" stroke="url(#grad-inner-mem)" stroke-width="3" opacity="0.9"/>
+      <!-- Beat 3: Continuous Inner Membrane with 4 Alternating Cristae Folds -->
+      <path d="M 205 260 C 205 200, 220 155, 250 140 C 270 130, 295 128, 318 128 C 318 145, 318 200, 318 265 C 318 285, 342 285, 342 265 C 342 200, 342 145, 342 128 C 380 126, 440 126, 478 128 C 478 145, 478 210, 478 275 C 478 295, 502 295, 502 275 C 502 210, 502 145, 502 128 C 550 128, 620 135, 660 155 C 695 175, 705 220, 705 260 C 705 300, 695 345, 660 365 C 625 385, 600 392, 582 392 C 582 375, 582 300, 582 215 C 582 195, 558 195, 558 215 C 558 300, 558 375, 558 392 C 520 394, 460 394, 422 392 C 422 375, 422 290, 422 210 C 422 190, 398 190, 398 210 C 398 290, 398 375, 398 392 C 350 392, 290 388, 250 380 C 220 365, 205 320, 205 260 Z"
+            fill="url(#grad-matrix)" stroke="url(#grad-inner-mem)" stroke-width="3" filter="url(#glow-cyan)" class="anim-beat-3"/>
 
-      <!-- Matrix Granules & Ribosomes -->
-      <g fill="#10b981" opacity="0.4">
-        <circle cx="420" cy="240" r="3.5"/>
-        <circle cx="435" cy="270" r="3"/>
-        <circle cx="400" cy="290" r="4"/>
-        <circle cx="450" cy="220" r="3.5"/>
-        <circle cx="380" cy="210" r="3"/>
+      <!-- Beat 4: Matrix Granules, mtDNA Loop & Callout Labels -->
+      <path d="M 625 245 Q 650 230 658 255 T 635 280 T 618 255 Z" fill="none" stroke="#facc15" stroke-width="1.8" opacity="0.6" stroke-dasharray="3,2" class="anim-beat-4"/>
+
+      <g fill="#10b981" opacity="0.75" class="anim-beat-4" filter="url(#glow-green)">
+        <circle cx="275" cy="245" r="3.5"/>
+        <circle cx="370" cy="240" r="3.5"/>
+        <circle cx="450" cy="260" r="4"/>
+        <circle cx="535" cy="235" r="3.5"/>
+        <circle cx="635" cy="225" r="3"/>
       </g>
 
-      <!-- Mitochondrial DNA loop -->
-      <path d="M 405 235 Q 435 215 445 245 T 415 275 T 395 245 Z" fill="none" stroke="#facc15" stroke-width="1.8" opacity="0.5" stroke-dasharray="3,2"/>
-
-      <!-- Pyruvate Molecule Drifting in Cytosol -->
-      <g class="mol-pyruvate-float" data-mol="pyruvate" filter="url(#glow-orange)">
-        <line x1="80" y1="180" x2="115" y2="180" stroke="#fdba74" stroke-width="4"/>
-        <line x1="115" y1="180" x2="150" y2="180" stroke="#fdba74" stroke-width="4"/>
-        
-        <circle cx="80" cy="180" r="14" fill="#f97316"/>
-        <text x="80" y="184" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₁</text>
-        <circle cx="65" cy="155" r="9" fill="#ef4444"/>
-        <text x="65" y="158" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">O</text>
-        <circle cx="65" cy="205" r="9" fill="#ef4444"/>
-        <text x="65" y="208" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">O⁻</text>
-        
-        <circle cx="115" cy="180" r="14" fill="#f97316"/>
-        <text x="115" y="184" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₂</text>
-        <circle cx="115" cy="150" r="9" fill="#ef4444"/>
-        <text x="115" y="153" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">O</text>
-        
-        <circle cx="150" cy="180" r="14" fill="#f97316"/>
-        <text x="150" y="184" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₃</text>
-        <circle cx="172" cy="180" r="7" fill="#f1f5f9"/>
-        <text x="172" y="183" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="700">H₃</text>
-      </g>
-
-      <!-- Drift Vector Arrow -->
-      <path d="M 120 215 C 160 235, 200 240, 240 235" fill="none" stroke="#f97316" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
-      <polygon points="245,235 237,231 237,239" fill="#f97316" opacity="0.8"/>
-
-      <!-- Persistent Default Labels -->
-      <g class="scene-labels">
-        <g class="label-tag pin-pyruvate" transform="translate(115, 120)" data-mol="pyruvate">
-          <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#f97316" stroke-width="1.2"/>
-          <text x="0" y="4" text-anchor="middle" fill="#fed7aa" font-size="11" font-weight="700">PYRUVATE (3C)</text>
-        </g>
-
-        <g class="label-tag pin-membrane" transform="translate(300, 70)">
-          <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#38bdf8" stroke-width="1.2"/>
+      <g class="scene-labels anim-beat-4">
+        <g class="label-tag pin-membrane" transform="translate(300, 52)" data-mol="outer-membrane">
+          <line x1="0" y1="12" x2="0" y2="36" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">OUTER MEMBRANE</text>
         </g>
 
-        <g class="label-tag pin-membrane" transform="translate(680, 205)">
-          <rect x="-55" y="-12" width="110" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#38bdf8" stroke-width="1.2"/>
+        <g class="label-tag pin-porin" transform="translate(710, 135)" data-mol="porin">
+          <line x1="-15" y1="0" x2="-28" y2="28" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-55" y="-12" width="110" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">PORIN (VDAC)</text>
         </g>
 
-        <g class="label-tag pin-membrane" transform="translate(235, 390)">
-          <rect x="-70" y="-12" width="140" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#06b6d4" stroke-width="1.2"/>
+        <g class="label-tag pin-ims" transform="translate(580, 52)" data-mol="ims">
+          <line x1="0" y1="12" x2="0" y2="46" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">INTERMEMBRANE SPACE</text>
+        </g>
+
+        <g class="label-tag pin-cristae" transform="translate(360, 468)" data-mol="cristae">
+          <line x1="0" y1="-12" x2="0" y2="-40" stroke="#06b6d4" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#06b6d4" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#67e8f9" font-size="10" font-weight="700">INNER MEMBRANE (CRISTAE)</text>
         </g>
 
-        <g class="label-tag pin-matrix" transform="translate(420, 265)">
-          <rect x="-75" y="-12" width="150" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#10b981" stroke-width="1.2"/>
+        <g class="label-tag pin-matrix" transform="translate(560, 468)" data-mol="matrix">
+          <line x1="0" y1="-12" x2="0" y2="-62" stroke="#10b981" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-75" y="-12" width="150" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#10b981" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700">MITOCHONDRIAL MATRIX</text>
+        </g>
+      </g>
+
+      <!-- Beat 5: Cytosolic Pyruvate Arrival & Vector -->
+      <g class="anim-beat-5">
+        <path d="M 125 240 C 145 248, 160 254, 168 258" fill="none" stroke="#f97316" stroke-width="2.5" stroke-dasharray="4,4" opacity="0.8"/>
+        <polygon points="172,260 162,254 165,263" fill="#f97316"/>
+
+        <g class="mol-pyruvate-float" data-mol="pyruvate" filter="url(#glow-orange)">
+          <line x1="55" y1="210" x2="90" y2="210" stroke="#fdba74" stroke-width="4"/>
+          <line x1="90" y1="210" x2="125" y2="210" stroke="#fdba74" stroke-width="4"/>
+          
+          <circle cx="55" cy="210" r="14" fill="#f97316"/>
+          <text x="55" y="214" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₁</text>
+          <circle cx="40" cy="185" r="9" fill="#ef4444"/>
+          <text x="40" y="188" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">O</text>
+          <circle cx="40" cy="235" r="9" fill="#ef4444"/>
+          <text x="40" y="238" text-anchor="middle" fill="#fff" font-size="8" font-weight="700">O⁻</text>
+          
+          <circle cx="90" cy="210" r="14" fill="#f97316"/>
+          <text x="90" y="214" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₂</text>
+          <circle cx="90" cy="180" r="9" fill="#ef4444"/>
+          <text x="90" y="183" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">O</text>
+          
+          <circle cx="125" cy="210" r="14" fill="#f97316"/>
+          <text x="125" y="214" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">C₃</text>
+          <circle cx="147" cy="210" r="7" fill="#f1f5f9"/>
+          <text x="147" y="213" text-anchor="middle" fill="#0f172a" font-size="8" font-weight="700">H₃</text>
+        </g>
+
+        <g class="label-tag pin-pyruvate" transform="translate(90, 145)" data-mol="pyruvate">
+          <line x1="0" y1="12" x2="0" y2="35" stroke="#f97316" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#f97316" stroke-width="1.2"/>
+          <text x="0" y="4" text-anchor="middle" fill="#fed7aa" font-size="11" font-weight="700">PYRUVATE (3C)</text>
         </g>
       </g>
     </svg>
