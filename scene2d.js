@@ -328,8 +328,8 @@ function getScene00Arrival() {
       </g>
 
       <g class="scene-labels anim-beat-4">
-        <g class="label-tag pin-membrane" transform="translate(300, 52)" data-mol="outer-membrane">
-          <line x1="0" y1="12" x2="0" y2="36" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+        <g class="label-tag pin-membrane" transform="translate(300, 68)" data-mol="outer-membrane">
+          <line x1="0" y1="12" x2="0" y2="20" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
           <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">OUTER MEMBRANE</text>
         </g>
@@ -340,8 +340,8 @@ function getScene00Arrival() {
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">PORIN (VDAC)</text>
         </g>
 
-        <g class="label-tag pin-ims" transform="translate(580, 52)" data-mol="ims">
-          <line x1="0" y1="12" x2="0" y2="46" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+        <g class="label-tag pin-ims" transform="translate(580, 68)" data-mol="ims">
+          <line x1="0" y1="12" x2="0" y2="30" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
           <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">INTERMEMBRANE SPACE</text>
         </g>
@@ -481,7 +481,7 @@ function getScene01Entry() {
 
       <!-- Labels on Compartments & Transporter -->
       <g class="scene-labels">
-        <g class="label-tag pin-membrane" transform="translate(110, 55)">
+        <g class="label-tag pin-membrane" transform="translate(110, 68)">
           <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#64748b" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="700">CYTOSOL (pH ~7.2)</text>
         </g>
@@ -568,7 +568,7 @@ function getScene02Enzyme() {
 
       <!-- Persistent Labels -->
       <g class="scene-labels">
-        <g class="label-tag pin-pdc" transform="translate(380, 50)" data-mol="pdc">
+        <g class="label-tag pin-pdc" transform="translate(380, 72)" data-mol="pdc">
           <rect x="-140" y="-12" width="280" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#ec4899" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#fbcfe8" font-size="10.5" font-weight="700">PYRUVATE DEHYDROGENASE COMPLEX (PDC)</text>
         </g>
@@ -928,7 +928,7 @@ function getScene06CompleteEquation() {
       </g>
 
       <!-- Top Header Reaction Banner -->
-      <g transform="translate(400, 45)">
+      <g transform="translate(400, 62)">
         <rect x="-240" y="-18" width="480" height="36" rx="18" fill="rgba(15,23,42,0.92)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
         <text x="0" y="5" text-anchor="middle" fill="#fff" font-size="12" font-weight="700">
           pyruvate + CoA + NAD⁺ &rarr; acetyl-CoA + CO₂ + NADH + H⁺

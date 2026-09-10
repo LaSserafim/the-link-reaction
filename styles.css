@@ -86,25 +86,35 @@ html, body {
 }
 
 /* ==========================================================================
-   TOP HEADER HUD
+   APPLICATION SHELL (Full-Viewport Flex Column - Eliminates Fixed Overlap)
+   ========================================================================== */
+
+.app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 5;
+}
+
+/* ==========================================================================
+   TOP HEADER HUD (Normal Document Flow Flex Item)
    ========================================================================== */
 
 .hud-header {
-  position: fixed;
-  top: 14px;
-  left: 18px;
-  right: 18px;
+  flex: 0 0 auto;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding: 12px 18px 6px 18px;
   min-width: 0;
-  pointer-events: none;
 }
 
 .hud-header > * {
-  pointer-events: auto;
   min-width: 0;
 }
 
@@ -346,8 +356,13 @@ html, body {
 
 .tracker-status {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-weight: 700;
+  color: var(--text-accent);
+  white-space: nowrap;
+  max-width: 190px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
 
 /* Buttons */
@@ -405,17 +420,13 @@ html, body {
    ========================================================================== */
 
 .workspace-layout {
-  position: fixed;
-  top: 74px;
-  left: 20px;
-  right: 20px;
-  bottom: 84px; /* Space above bottom process bar */
+  flex: 1 1 0;
+  min-height: 0;
   display: grid;
   grid-template-columns: 1fr 430px;
   grid-template-rows: minmax(0, 1fr);
-  min-height: 0;
-  max-height: calc(100vh - 158px);
-  gap: 20px;
+  gap: 16px;
+  padding: 6px 18px 10px 18px;
   z-index: 5;
 }
 
@@ -633,6 +644,7 @@ html, body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  padding-top: 2px;
 }
 
 .stage-tag {
@@ -966,10 +978,7 @@ html, body {
    ========================================================================== */
 
 .bottom-process-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex: 0 0 72px;
   height: 72px;
   z-index: 100;
   background: var(--bg-surface-elevated);
@@ -1724,6 +1733,11 @@ html, body {
   }
   .hud-header {
     gap: 10px;
+    padding: 10px 14px 4px 14px;
+  }
+  .workspace-layout {
+    padding: 4px 14px 8px 14px;
+    gap: 12px;
   }
 }
 
@@ -1742,9 +1756,7 @@ html, body {
 
 @media (max-width: 860px) {
   .hud-header {
-    top: 10px;
-    left: 12px;
-    right: 12px;
+    padding: 8px 12px 4px 12px;
   }
   
   .brand-title {
@@ -1762,13 +1774,8 @@ html, body {
   .workspace-layout {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(0, 1fr) minmax(0, 320px);
-    min-height: 0;
-    max-height: calc(100vh - 134px);
-    top: 60px;
-    bottom: 74px;
-    left: 10px;
-    right: 10px;
     gap: 10px;
+    padding: 4px 10px 6px 10px;
   }
   
   .educational-card {
@@ -1776,6 +1783,7 @@ html, body {
   }
   
   .bottom-process-bar {
+    flex: 0 0 64px;
     height: 64px;
     padding: 0 8px;
   }
