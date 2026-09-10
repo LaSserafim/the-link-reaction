@@ -4,7 +4,7 @@
  * Core/Deeper tiers, and carbon tracker.
  */
 
-import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js';
+import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js?v=14';
 
 // =============================================================================
 // 1. COMPREHENSIVE EDUCATIONAL DATABASE (STAGES 00 - 07)
