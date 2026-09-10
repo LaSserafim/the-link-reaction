@@ -1,7 +1,7 @@
 /**
  * THE LINK REACTION — 2D / Semi-2D Application Controller
  * Manages the Bottom Process Bar, 8-stage narrative progression,
- * Core/Deeper tiers, carbon tracker, and flat summary grading fallback.
+ * Core/Deeper tiers, and carbon tracker.
  */
 
 import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js';
@@ -334,7 +334,6 @@ export const state = {
   currentStage: 0,
   showAllLabels: false,
   perGlucoseMode: false,
-  flatMode: false,
   isDeeperOpen: false
 };
 
@@ -348,7 +347,6 @@ function startApp() {
   initBottomProcessBar();
   bindUIEvents();
   renderStage(state.currentStage);
-  populateFlatSummary();
   init2DScene();
 
   // Listen for custom inspect-molecule event dispatched by 2D scene
@@ -494,11 +492,6 @@ function bindUIEvents() {
 
   // Keyboard navigation (Arrow keys Left / Right)
   window.addEventListener('keydown', (e) => {
-    if (state.flatMode) {
-      if (e.key === 'Escape') toggleFlatMode(false);
-      return;
-    }
-    
     // If modal open, escape closes it
     const molModal = document.getElementById('molecule-modal-backdrop');
     if (molModal && !molModal.hidden) {
@@ -512,8 +505,6 @@ function bindUIEvents() {
       if (state.currentStage > 0) goToStage(state.currentStage - 1);
     } else if (e.key === 'l' || e.key === 'L') {
       toggleLabels();
-    } else if (e.key === 'f' || e.key === 'F') {
-      toggleFlatMode(true);
     } else if (e.key === 'r' || e.key === 'R') {
       replayCurrentStageAnimation();
     }
@@ -556,12 +547,6 @@ function bindUIEvents() {
   // Toggle "Per Glucose (x2)" (§5)
   const btnToggleGlucose = document.getElementById('btn-toggle-glucose');
   btnToggleGlucose?.addEventListener('click', toggleGlucoseYield);
-
-  // Toggle "Flat Summary" Fallback (§13)
-  const btnOpenFlat = document.getElementById('btn-open-flatmode');
-  const btnCloseFlat = document.getElementById('btn-close-flatmode');
-  btnOpenFlat?.addEventListener('click', () => toggleFlatMode(true));
-  btnCloseFlat?.addEventListener('click', () => toggleFlatMode(false));
 
   // Deeper Accordion Toggle
   const btnDeeper = document.getElementById('btn-deeper-toggle');
@@ -873,66 +858,6 @@ export function openMoleculeModal(molKey) {
 function closeMoleculeModal() {
   const backdrop = document.getElementById('molecule-modal-backdrop');
   if (backdrop) backdrop.hidden = true;
-}
-
-// =============================================================================
-// 9. FLAT SUMMARY / OVERVIEW GENERATOR (§13)
-// =============================================================================
-
-function toggleFlatMode(open) {
-  state.flatMode = open;
-  const container = document.getElementById('flat-mode-container');
-  if (container) container.hidden = !open;
-  document.body.style.overflow = open ? 'auto' : 'hidden';
-}
-
-function populateFlatSummary() {
-  const list = document.getElementById('flat-stages-list-container');
-  if (!list) return;
-
-  list.innerHTML = '';
-  STAGES_DATA.forEach(s => {
-    const card = document.createElement('article');
-    card.className = 'flat-stage-card';
-    card.innerHTML = `
-      <div class="flat-stage-head">
-        <span class="flat-stage-num">STAGE ${s.number}</span>
-        <span class="badge badge-compartment">${s.compartment}</span>
-      </div>
-      <h4 class="flat-stage-title">${s.title}</h4>
-      <p style="font-size: 13px; color: #94a3b8; margin: 4px 0 10px;">${s.conceptHeadline}</p>
-      
-      <div class="flat-anchors-grid">
-        <div class="flat-anchor">
-          <h5>📍 WHERE</h5>
-          <p>${s.where}</p>
-        </div>
-        <div class="flat-anchor">
-          <h5>⚡ WHAT</h5>
-          <p>${s.what}</p>
-        </div>
-        <div class="flat-anchor">
-          <h5>🔬 HOW</h5>
-          <p>${s.how}</p>
-        </div>
-        <div class="flat-anchor">
-          <h5>🔗 WHY &amp; CONNECTIONS</h5>
-          <p>${s.why}</p>
-        </div>
-      </div>
-
-      <div class="flat-stage-deeper">
-        <strong style="color: #38bdf8;">Enzymology &amp; Mechanistic Detail (Deeper Tier):</strong><br>
-        ${s.deeper.enzymology}<br><br>
-        <strong>Coupled Mechanism:</strong> ${s.deeper.mechanism}<br>
-        <strong>Regulation:</strong> ${s.deeper.regulation}<br>
-        <span style="color: #f59e0b; font-size: 11.5px; display: inline-block; margin-top: 6px;">
-          <strong>Pedagogical Simplification Note:</strong> ${s.deeper.simplificationNote}
-        </span>
-      </div>
-    `;
-    list.appendChild(card);
-  });
 }
 
 function setText(id, txt) {

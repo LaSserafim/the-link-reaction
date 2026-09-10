@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body class="theme-dark">
 
@@ -71,17 +71,6 @@
             <rect x="3" y="3" width="18" height="18" rx="3" />
           </svg>
           <span class="btn-text">Labels: <strong id="lbl-status-text">Default</strong></span>
-        </button>
-
-        <!-- Fallback: Flat Summary (Section §13 requirement) -->
-        <button class="btn btn-cluster btn-cluster-accent" id="btn-open-flatmode" title="Open static accessible overview for grading without interactions">
-          <svg class="icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-            <line x1="16" y1="13" x2="8" y2="13" />
-            <line x1="16" y1="17" x2="8" y2="17" />
-          </svg>
-          <span class="btn-text">Flat Summary</span>
         </button>
       </div>
     </div>
@@ -265,172 +254,7 @@
     </div>
   </div>
 
-  <!-- FULLSCREEN STATIC "FLAT SUMMARY" (Section §13: Grading-Safety Fallback) -->
-  <section class="flat-mode-container" id="flat-mode-container" hidden aria-label="Static Grading Overview of The Link Reaction">
-    <div class="flat-mode-header">
-      <div class="flat-mode-brand">
-        <h2>THE LINK REACTION &mdash; Complete Pedagogical Specification &amp; Grading Sheet</h2>
-        <p>Static Non-WebGL Fallback View &bull; Syllabus-Verified Aerobic Respiration Curriculum &bull; Designed for Rapid Assessment</p>
-      </div>
-      <button class="btn btn-glass" id="btn-close-flatmode">
-        &times; Exit Flat Summary (Return to Interactive Site)
-      </button>
-    </div>
-
-    <div class="flat-mode-content">
-      
-      <!-- Executive Summary & Rubric Cross-Check -->
-      <section class="flat-section rubric-summary-box">
-        <h3>0. Rubric Cross-Reference &amp; Essential Facts</h3>
-        <div class="rubric-grid">
-          <div class="rubric-card">
-            <h4>1. Location: Mitochondrial Matrix</h4>
-            <p>The Link Reaction occurs strictly within the <strong>mitochondrial matrix</strong>. It does <em>not</em> take place in the cytoplasm (site of glycolysis) nor on the inner mitochondrial membrane/cristae (site of oxidative phosphorylation).</p>
-          </div>
-          <div class="rubric-card">
-            <h4>2. Core Reaction &amp; Classification</h4>
-            <p>Classified as an <strong>oxidative decarboxylation</strong>. Pyruvate is both decarboxylated (loses a carboxyl group as CO₂) and oxidized (loses 2 electrons and a proton, reducing NAD⁺ to NADH + H⁺).</p>
-          </div>
-          <div class="rubric-card">
-            <h4>3. Catalytic Enzyme: Multi-Enzyme PDC</h4>
-            <p>Catalyzed by the <strong>pyruvate dehydrogenase complex (PDC)</strong>, a unified multi-enzyme machine in the mitochondrial matrix that coordinates decarboxylation, oxidation, and CoA attachment.</p>
-          </div>
-          <div class="rubric-card">
-            <h4>4. Stoichiometry: Per-Pyruvate vs Per-Glucose</h4>
-            <p>Glycolysis yields <strong>2 pyruvates</strong> per glucose molecule. Consequently, the Link Reaction turns <strong>twice per glucose</strong>, yielding: <strong>2 Acetyl-CoA + 2 CO₂ + 2 NADH + 2 H⁺</strong>.</p>
-          </div>
-          <div class="rubric-card">
-            <h4>5. Energy Fate: NADH vs ATP</h4>
-            <p><strong>Zero ATP is directly synthesized</strong> in the link reaction. The energy released is conserved in the high-energy thioester bond of acetyl-CoA and the reduced electron carrier <strong>NADH</strong> (which shuttles electrons to Complex I of the electron transport chain).</p>
-          </div>
-          <div class="rubric-card">
-            <h4>6. Thermodynamic Irreversibility</h4>
-            <p>The overall standard free energy change is strongly exergonic (&Delta;G°' = -33.4 kJ/mol). The irreversible loss of gaseous CO₂ locks carbon into aerobic metabolism; animals cannot convert acetyl-CoA back into pyruvate/glucose.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Balanced Chemical Equation Display -->
-      <section class="flat-section equation-spotlight">
-        <h3>1. Complete Stoichiometric Equations</h3>
-        <div class="equation-dual-container">
-          <div class="eq-box">
-            <span class="eq-title">Per Single Molecule of Pyruvate (1&times;):</span>
-            <div class="eq-large">
-              <strong>pyruvate (3C) + CoA-SH + NAD⁺ &rarr; acetyl-CoA (2C) + CO₂ + NADH + H⁺</strong>
-            </div>
-            <p class="eq-desc">Net yield: 1 Acetyl-CoA, 1 CO₂, 1 NADH + 1 H⁺. 0 ATP.</p>
-          </div>
-          <div class="eq-box highlighted">
-            <span class="eq-title">Per Molecule of Glucose (2&times; Link Reaction Cycles):</span>
-            <div class="eq-large">
-              <strong>2 pyruvate (3C) + 2 CoA-SH + 2 NAD⁺ &rarr; 2 acetyl-CoA (2C) + 2 CO₂ + 2 NADH + 2 H⁺</strong>
-            </div>
-            <p class="eq-desc">Net yield: 2 Acetyl-CoA (to Krebs Cycle), 2 CO₂ (diffuses out), 2 NADH (to Oxidative Phosphorylation). 0 ATP.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 8 Stages Sequential Table (Complete Core + Deeper Content) -->
-      <section class="flat-section stages-table-section">
-        <h3>2. Complete Breakdown of the 8 Stages (00 &mdash; 07)</h3>
-        <div class="flat-stages-list" id="flat-stages-list-container">
-          <!-- Populated dynamically with full educational content -->
-        </div>
-      </section>
-
-      <!-- Architecture of the Pyruvate Dehydrogenase Complex -->
-      <section class="flat-section pdc-architecture-section">
-        <h3>3. The Pyruvate Dehydrogenase Complex (PDC) Overview</h3>
-        <p style="color: #cbd5e1; margin-bottom: 14px; font-size: 13.5px;">
-          The Link Reaction is catalysed by the <strong>Pyruvate Dehydrogenase Complex (PDC)</strong>, a colossal multi-enzyme complex located in the mitochondrial matrix. It coordinates the conversion of pyruvate into acetyl-CoA by tightly coupling three vital events: decarboxylation, oxidation, and acetyl transfer.
-        </p>
-        <table class="pdc-table">
-          <thead>
-            <tr>
-              <th>Substrate Inputs</th>
-              <th>Catalytic Machine</th>
-              <th>Product Outputs</th>
-              <th>Biological Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Pyruvate (3C)</strong></td>
-              <td rowspan="3" style="vertical-align: middle; background: rgba(236,72,153,0.08); border-left: 3px solid #ec4899;">
-                <strong style="color: #f472b6;">Pyruvate Dehydrogenase Complex (PDC)</strong><br>
-                <span style="font-size:11px;color:#94a3b8;">Unified Matrix Multi-Enzyme Machine (~9.5 MDa)</span>
-              </td>
-              <td><strong>CO₂ (1C)</strong></td>
-              <td>Decarboxylation cleaves 1 carbon atom, yielding a 2C intermediate</td>
-            </tr>
-            <tr>
-              <td><strong>NAD⁺</strong></td>
-              <td><strong>NADH + H⁺</strong></td>
-              <td>Harvests 2 high-energy electrons for downstream ATP synthesis</td>
-            </tr>
-            <tr>
-              <td><strong>Coenzyme A (CoA)</strong></td>
-              <td><strong>Acetyl-CoA (2C)</strong></td>
-              <td>Forms high-energy thioester bond, priming fuel for the Krebs cycle</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="pedagogical-disclosure">
-          <strong>Key Syllabus Concept:</strong>
-          The Pyruvate Dehydrogenase Complex functions as an integrated molecular machine. Substrates and intermediate fragments remain within the complex throughout the catalytic cycle, ensuring rapid, efficient coupling of decarboxylation, electron capture, and acetyl-CoA formation without side reactions.
-        </div>
-      </section>
-
-      <!-- Metabolic Context Map -->
-      <section class="flat-section pathway-map-section">
-        <h3>4. Whole Respiration Pathway Context</h3>
-        <div class="pathway-flow">
-          <div class="flow-step">
-            <span class="flow-num">1</span>
-            <div class="flow-info">
-              <h4>GLYCOLYSIS</h4>
-              <p>Location: <strong>Cytoplasm (Cytosol)</strong></p>
-              <p>Glucose (6C) &rarr; 2 Pyruvate (3C) + 2 ATP (net) + 2 NADH</p>
-            </div>
-          </div>
-          <div class="flow-arrow">&darr;</div>
-          <div class="flow-step active-flow">
-            <span class="flow-num">2</span>
-            <div class="flow-info">
-              <h4>THE LINK REACTION (Current Focus)</h4>
-              <p>Location: <strong>Mitochondrial Matrix</strong></p>
-              <p>2 Pyruvate (3C) &rarr; 2 Acetyl-CoA (2C) + 2 CO₂ + 2 NADH</p>
-              <p class="flow-highlight">&bull; Irreversible entry into aerobic respiration &bull; No ATP produced</p>
-            </div>
-          </div>
-          <div class="flow-arrow">&darr;</div>
-          <div class="flow-step">
-            <span class="flow-num">3</span>
-            <div class="flow-info">
-              <h4>KREBS CYCLE (Citric Acid Cycle)</h4>
-              <p>Location: <strong>Mitochondrial Matrix</strong></p>
-              <p>Acetyl-CoA (2C) + Oxaloacetate (4C) &rarr; Citrate (6C)</p>
-              <p>Yields: 4 CO₂, 6 NADH, 2 FADH₂, 2 ATP per glucose</p>
-            </div>
-          </div>
-          <div class="flow-arrow">&darr;</div>
-          <div class="flow-step">
-            <span class="flow-num">4</span>
-            <div class="flow-info">
-              <h4>OXIDATIVE PHOSPHORYLATION</h4>
-              <p>Location: <strong>Inner Mitochondrial Membrane / Cristae</strong></p>
-              <p>NADH &amp; FADH₂ donate electrons to ETC &rarr; Proton gradient powers ATP Synthase</p>
-              <p>Yields: ~26-28 ATP</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </section>
-
   <!-- Application Controller -->
-  <script type="module" src="app.js?v=10"></script>
+  <script type="module" src="app.js?v=11"></script>
 </body>
 </html>
