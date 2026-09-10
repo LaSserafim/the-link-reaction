@@ -292,22 +292,6 @@ function getScene00Arrival() {
       <path d="M 250 100 C 350 75, 570 75, 670 100 C 750 125, 750 395, 670 420 C 570 445, 350 445, 250 420 C 170 395, 170 125, 250 100 Z"
             fill="#071b2f" stroke="url(#grad-outer-mem)" stroke-width="3.5" filter="url(#glow-cyan)" class="anim-beat-1"/>
 
-      <!-- Beat 1: Outer Membrane Porins (VDAC) -->
-      <g class="porin-nodes anim-beat-1" fill="#38bdf8" filter="url(#glow-cyan)">
-        <ellipse cx="300" cy="90" rx="9" ry="4" transform="rotate(-12 300 90)"/>
-        <ellipse cx="450" cy="83" rx="9" ry="4"/>
-        <ellipse cx="600" cy="90" rx="9" ry="4" transform="rotate(12 600 90)"/>
-        <ellipse cx="715" cy="180" rx="4" ry="9" transform="rotate(15 715 180)"/>
-        <ellipse cx="730" cy="260" rx="4" ry="9"/>
-        <ellipse cx="715" cy="340" rx="4" ry="9" transform="rotate(-15 715 340)"/>
-        <ellipse cx="600" cy="430" rx="9" ry="4" transform="rotate(-12 600 430)"/>
-        <ellipse cx="450" cy="437" rx="9" ry="4"/>
-        <ellipse cx="300" cy="430" rx="9" ry="4" transform="rotate(12 300 430)"/>
-        <ellipse cx="185" cy="340" rx="4" ry="9" transform="rotate(15 185 340)"/>
-        <ellipse cx="170" cy="260" rx="4" ry="9"/>
-        <ellipse cx="185" cy="180" rx="4" ry="9" transform="rotate(-15 185 180)"/>
-      </g>
-
       <!-- Beat 2: Intermembrane Space Band -->
       <path d="M 245 106 C 345 82, 565 82, 665 106 C 740 130, 740 390, 665 414 C 565 438, 345 438, 245 414 C 175 390, 175 130, 245 106 Z"
             fill="rgba(14, 165, 233, 0.07)" stroke="rgba(56, 189, 248, 0.25)" stroke-width="1.5" stroke-dasharray="4,4" class="anim-beat-2"/>
@@ -328,32 +312,30 @@ function getScene00Arrival() {
       </g>
 
       <g class="scene-labels anim-beat-4">
-        <g class="label-tag pin-membrane" transform="translate(300, 68)" data-mol="outer-membrane">
+        <g class="label-tag pin-membrane" transform="translate(300, 68)" data-mol="outer_membrane">
           <line x1="0" y1="12" x2="0" y2="20" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <circle cx="0" cy="20" r="3" fill="#38bdf8"/>
           <rect x="-65" y="-12" width="130" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">OUTER MEMBRANE</text>
         </g>
 
-        <g class="label-tag pin-porin" transform="translate(710, 135)" data-mol="porin">
-          <line x1="-15" y1="0" x2="-28" y2="28" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
-          <rect x="-55" y="-12" width="110" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
-          <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">PORIN (VDAC)</text>
-        </g>
-
         <g class="label-tag pin-ims" transform="translate(580, 68)" data-mol="ims">
           <line x1="0" y1="12" x2="0" y2="30" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <circle cx="0" cy="30" r="3" fill="#38bdf8"/>
           <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#38bdf8" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">INTERMEMBRANE SPACE</text>
         </g>
 
-        <g class="label-tag pin-cristae" transform="translate(360, 468)" data-mol="cristae">
-          <line x1="0" y1="-12" x2="0" y2="-40" stroke="#06b6d4" stroke-width="1.2" stroke-dasharray="2,2"/>
+        <g class="label-tag pin-cristae" transform="translate(320, 468)" data-mol="cristae">
+          <line x1="0" y1="-12" x2="90" y2="-158" stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <circle cx="90" cy="-158" r="3.5" fill="#06b6d4"/>
           <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#06b6d4" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#67e8f9" font-size="10" font-weight="700">INNER MEMBRANE (CRISTAE)</text>
         </g>
 
         <g class="label-tag pin-matrix" transform="translate(560, 468)" data-mol="matrix">
-          <line x1="0" y1="-12" x2="0" y2="-62" stroke="#10b981" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <line x1="0" y1="-12" x2="-40" y2="-188" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <circle cx="-40" cy="-188" r="3.5" fill="#10b981"/>
           <rect x="-75" y="-12" width="150" height="24" rx="4" fill="rgba(12,18,30,0.92)" stroke="#10b981" stroke-width="1.2"/>
           <text x="0" y="4" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700">MITOCHONDRIAL MATRIX</text>
         </g>
@@ -402,7 +384,7 @@ function getScene00Arrival() {
 
 function getScene01Entry() {
   return `
-    <svg viewBox="0 0 800 520" class="scene-svg" aria-label="Pyruvate entry through outer membrane porin and inner membrane MPC carrier">
+    <svg viewBox="0 0 800 520" class="scene-svg" aria-label="Pyruvate entry across outer membrane and inner membrane MPC carrier">
       <defs>
         <linearGradient id="grad-cyto-bg" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#070c18"/>
@@ -432,13 +414,6 @@ function getScene01Entry() {
       <g stroke="#60a5fa" stroke-width="1.5" opacity="0.4">
         <line x1="0" y1="120" x2="800" y2="120" stroke-dasharray="6,4"/>
         <line x1="0" y1="135" x2="800" y2="135" stroke-dasharray="6,4"/>
-      </g>
-
-      <!-- Outer Membrane Porin Channel -->
-      <g class="porin-channel" data-mol="porin">
-        <rect x="360" y="105" width="80" height="45" rx="8" fill="#0284c7" stroke="#38bdf8" stroke-width="2"/>
-        <rect x="385" y="105" width="30" height="45" fill="#0c1e34" opacity="0.9"/>
-        <text x="400" y="132" text-anchor="middle" fill="#e0f2fe" font-size="9" font-weight="700">PORE</text>
       </g>
 
       <!-- 2. Intermembrane Space (Middle Band) -->
@@ -486,9 +461,9 @@ function getScene01Entry() {
           <text x="0" y="4" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="700">CYTOSOL (pH ~7.2)</text>
         </g>
 
-        <g class="label-tag pin-membrane" transform="translate(560, 128)" data-mol="porin">
-          <rect x="-95" y="-12" width="190" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#38bdf8" stroke-width="1.2"/>
-          <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">OUTER MEMBRANE PORIN (VDAC)</text>
+        <g class="label-tag pin-membrane" transform="translate(560, 128)" data-mol="outer_membrane">
+          <rect x="-85" y="-12" width="170" height="24" rx="4" fill="rgba(12,18,30,0.88)" stroke="#38bdf8" stroke-width="1.2"/>
+          <text x="0" y="4" text-anchor="middle" fill="#7dd3fc" font-size="10" font-weight="700">OUTER MEMBRANE</text>
         </g>
 
         <g class="label-tag pin-membrane" transform="translate(130, 200)">

@@ -20,18 +20,18 @@ export const STAGES_DATA = [
     conceptHeadline: "The molecular bridge between glycolysis and the Krebs cycle.",
     compartment: "Cytosol / Outer Membrane",
     nature: "Preparatory",
-    where: "Cytosol bordering the porous outer mitochondrial membrane. The outer envelope contains large aqueous pores that allow direct diffusion into the intermembrane space.",
+    where: "Cytosol bordering the outer mitochondrial membrane. The outer membrane is freely permeable to small metabolites, allowing direct diffusion into the intermembrane space.",
     what: "Pyruvate (3C), the end-product of cytoplasmic glycolysis, approaches the mitochondrion to begin aerobic respiration. Two pyruvate molecules arrive per glucose metabolized.",
-    how: "Small metabolites diffuse passively across the outer membrane through non-selective VDAC porin channels. Cytosolic thermal motion directs the negatively charged pyruvate molecules toward the envelope.",
+    how: "Small metabolites diffuse passively across the permeable outer membrane. Cytosolic thermal motion directs the negatively charged pyruvate molecules toward the envelope.",
     why: "Forms the crucial cellular bridge linking cytoplasmic glycolysis to the matrix-based Krebs cycle. Without compartmental entry, pyruvate cannot access the pyruvate dehydrogenase enzyme machinery required for complete aerobic oxidation.",
-    moleculesInFocus: ["pyruvate", "porin"],
+    moleculesInFocus: ["pyruvate", "outer_membrane"],
     carbonState: {
       status: "3C (Pyruvate)",
       beads: ["active", "active", "active"]
     },
     deeper: {
-      enzymology: "Glycolysis ends in the cytoplasm with 2 pyruvate molecules per glucose. Porin channels (voltage-dependent anion channels, VDAC) in the outer membrane allow passive diffusion of small molecules under 5,000 Daltons into the intermembrane space.",
-      mechanism: "Pyruvate is an alpha-keto acid (CH₃-CO-COO⁻) with a net negative charge at physiological pH (7.2–7.4), allowing it to traverse the outer membrane aqueous pore.",
+      enzymology: "Glycolysis ends in the cytoplasm with 2 pyruvate molecules per glucose. The outer mitochondrial membrane allows passive diffusion of small molecules under 5,000 Daltons into the intermembrane space.",
+      mechanism: "Pyruvate is an alpha-keto acid (CH₃-CO-COO⁻) with a net negative charge at physiological pH (7.2–7.4), allowing it to traverse the permeable outer membrane.",
       regulation: "If cellular oxygen is depleted, pyruvate cannot proceed through the link reaction; instead, it is diverted to lactate dehydrogenase in animals (fermentation) to regenerate NAD⁺.",
       simplificationNote: "The outer membrane is permeable to small molecules, but the inner membrane is an impermeable barrier that requires specific carrier proteins."
     }
@@ -314,15 +314,15 @@ CH₃ - C - S - CoA`,
     fate: "Couples pyruvate entry to the proton gradient established by the electron transport chain.",
     alert: "Without the MPC, cytosolic pyruvate cannot reach the matrix PDC."
   },
-  porin: {
-    name: "Outer Membrane Porin (VDAC)",
-    formula: "Beta-barrel Protein Pore",
-    category: "Outer Membrane Channel",
+  outer_membrane: {
+    name: "Outer Mitochondrial Membrane",
+    formula: "Phospholipid Bilayer (~6–7 nm)",
+    category: "Mitochondrial Boundary",
     carbons: 0,
-    diagram: `Cytosol |--- 16-stranded Beta-barrel ---| Intermembrane Space`,
-    role: "Provides large, non-selective aqueous channels across the outer mitochondrial membrane.",
-    fate: "Allows free passive diffusion of pyruvate and other small metabolites under 5 kDa.",
-    alert: "Explains why the outer membrane is permeable while the inner membrane requires specific carriers."
+    diagram: `Cytosol |=== Outer Membrane Bilayer ===| Intermembrane Space`,
+    role: "Forms the smooth outer boundary of the mitochondrion, separating organellar compartments from the cytosol.",
+    fate: "Freely permeable to small molecules (<5 kDa), enabling rapid exchange of nutrients and metabolites.",
+    alert: "Unlike the tightly sealed inner membrane, the outer membrane is freely permeable to small solutes."
   }
 };
 

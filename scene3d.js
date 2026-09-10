@@ -198,7 +198,7 @@ function buildBackgroundParticles() {
 }
 
 /**
- * 2. Mitochondrion Cutaway with Porins, Inner Membrane Cristae & MPC Transporter
+ * 2. Mitochondrion Cutaway with Outer Membrane, Inner Membrane Cristae & MPC Transporter
  */
 function buildMitochondrion() {
   mitochondrionGroup = new THREE.Group();
@@ -218,16 +218,6 @@ function buildMitochondrion() {
   const outerMesh = new THREE.Mesh(outerGeom, outerMat);
   outerMesh.rotation.z = Math.PI / 2;
   mitochondrionGroup.add(outerMesh);
-
-  // Outer Membrane Porins (VDAC channels)
-  const porinMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.4 });
-  for (let i = -6; i <= 6; i += 3) {
-    const porinGeom = new THREE.TorusGeometry(0.5, 0.12, 12, 24);
-    const porin = new THREE.Mesh(porinGeom, porinMat);
-    porin.position.set(i, 9.4, 0);
-    porin.rotation.x = Math.PI / 2;
-    mitochondrionGroup.add(porin);
-  }
 
   // Inner Membrane with Cristae folds
   const innerMat = new THREE.MeshPhysicalMaterial({
