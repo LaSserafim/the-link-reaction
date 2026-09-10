@@ -300,8 +300,7 @@ function getScene00Arrival() {
       <path d="M 205 260 C 205 200, 220 155, 250 140 C 270 130, 295 128, 318 128 C 318 145, 318 200, 318 265 C 318 285, 342 285, 342 265 C 342 200, 342 145, 342 128 C 380 126, 440 126, 478 128 C 478 145, 478 210, 478 275 C 478 295, 502 295, 502 275 C 502 210, 502 145, 502 128 C 550 128, 620 135, 660 155 C 695 175, 705 220, 705 260 C 705 300, 695 345, 660 365 C 625 385, 600 392, 582 392 C 582 375, 582 300, 582 215 C 582 195, 558 195, 558 215 C 558 300, 558 375, 558 392 C 520 394, 460 394, 422 392 C 422 375, 422 290, 422 210 C 422 190, 398 190, 398 210 C 398 290, 398 375, 398 392 C 350 392, 290 388, 250 380 C 220 365, 205 320, 205 260 Z"
             fill="url(#grad-matrix)" stroke="url(#grad-inner-mem)" stroke-width="3" filter="url(#glow-cyan)" class="anim-beat-3"/>
 
-      <!-- Beat 4: Matrix Granules, mtDNA Loop & Callout Labels -->
-      <path d="M 625 245 Q 650 230 658 255 T 635 280 T 618 255 Z" fill="none" stroke="#facc15" stroke-width="1.8" opacity="0.6" stroke-dasharray="3,2" class="anim-beat-4"/>
+      <!-- Beat 4: Matrix Granules & Callout Labels -->
 
       <g fill="#10b981" opacity="0.75" class="anim-beat-4" filter="url(#glow-green)">
         <circle cx="275" cy="245" r="3.5"/>
