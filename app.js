@@ -20,14 +20,10 @@ export const STAGES_DATA = [
     conceptHeadline: "The molecular bridge between glycolysis and the Krebs cycle.",
     compartment: "Cytosol / Outer Membrane",
     nature: "Preparatory",
-    where: "Cytoplasm bordering the mitochondrial outer membrane.",
-    what: "Pyruvate (3C), formed by cytosolic glycolysis, drifts toward the powerhouse of the cell.",
-    how: "Small polar metabolites pass through large, non-selective outer membrane porin channels.",
-    why: "Glycolysis yields only 2 net ATP in the cytoplasm. Accessing the ~30 ATP of aerobic respiration requires entering the mitochondrial matrix.",
-    coreText: `
-      Aerobic cellular respiration requires pyruvate to migrate from the <strong>cytosol</strong> into the <strong>mitochondrial matrix</strong>. 
-      The Link Reaction serves as the mandatory, irreversible metabolic gateway linking anaerobic glycolysis to the oxygen-consuming aerobic pathways (Krebs Cycle &amp; Oxidative Phosphorylation).
-    `,
+    where: "Cytosol bordering the porous outer mitochondrial membrane.",
+    what: "Pyruvate (3C) from glycolysis moves toward the mitochondrion to begin aerobic respiration.",
+    how: "Small metabolites diffuse passively across the outer membrane through non-selective porin channels.",
+    why: "Links cytosolic glycolysis to the matrix-based Krebs cycle to access high-yield aerobic ATP production.",
     moleculesInFocus: ["pyruvate", "porin"],
     carbonState: {
       status: "3C (Pyruvate)",
@@ -49,15 +45,10 @@ export const STAGES_DATA = [
     conceptHeadline: "Crossing the impermeable inner membrane into the reaction chamber.",
     compartment: "Inner Membrane & Matrix",
     nature: "Active Transport",
-    where: "Across the inner mitochondrial membrane into the mitochondrial matrix.",
-    what: "Pyruvate moves through the intermembrane space and crosses into the matrix via a specific transport protein.",
-    how: "The Mitochondrial Pyruvate Carrier (MPC) transports pyruvate via proton-coupled symport down the proton motive force.",
-    why: "The inner mitochondrial membrane maintains the chemiosmotic gradient. Pyruvate cannot diffuse freely; it must be specifically imported into the matrix where the link enzymes reside.",
-    coreText: `
-      Unlike the porous outer membrane, the <strong>inner mitochondrial membrane</strong> is strictly impermeable to charged ions and metabolites. 
-      Pyruvate utilizes the <strong>Mitochondrial Pyruvate Carrier (MPC)</strong> to enter the matrix. 
-      This is not passive leakage—it relies directly on the proton motive force created by aerobic respiration.
-    `,
+    where: "Across the impermeable inner mitochondrial membrane into the matrix.",
+    what: "Pyruvate enters the mitochondrial matrix where link reaction enzymes reside.",
+    how: "The Mitochondrial Pyruvate Carrier (MPC) imports pyruvate via proton-coupled symport driven by the proton gradient.",
+    why: "Preserves the chemiosmotic gradient across the inner membrane while delivering substrate to the matrix.",
     moleculesInFocus: ["pyruvate", "mpc"],
     carbonState: {
       status: "3C (Entering Matrix)",
@@ -79,15 +70,10 @@ export const STAGES_DATA = [
     conceptHeadline: "A colossal macromolecular machine coordinating the link reaction.",
     compartment: "Mitochondrial Matrix",
     nature: "Enzyme Assembly",
-    where: "Soluble mitochondrial matrix, surrounded by high concentrations of metabolic enzymes.",
-    what: "Pyruvate encounters the Pyruvate Dehydrogenase Complex (PDC), a multi-enzyme assembly larger than a ribosome.",
-    how: "The PDC organizes multiple catalytic sites that couple decarboxylation, oxidation, and CoA attachment in rapid succession.",
-    why: "A multi-enzyme complex dramatically increases reaction velocity and prevents reactive intermediates from dissipating into the matrix.",
-    coreText: `
-      The link reaction is catalysed by a massive macromolecular assembly: the <strong>Pyruvate Dehydrogenase Complex (PDC)</strong> located in the mitochondrial matrix. 
-      In eukaryotic cells, this multi-enzyme complex is larger than a ribosome. 
-      It coordinates three chemical events—decarboxylation, oxidation, and acetyl-CoA formation—as a single integrated catalytic machine.
-    `,
+    where: "Soluble mitochondrial matrix environment.",
+    what: "Pyruvate binds to the Pyruvate Dehydrogenase Complex (PDC), a colossal multi-enzyme assembly.",
+    how: "The complex groups catalytic sites together to coordinate decarboxylation, oxidation, and CoA coupling in rapid succession.",
+    why: "Maximizes catalytic rate and channels reactive intermediates directly between active sites without leakage.",
     moleculesInFocus: ["pdc", "pyruvate"],
     carbonState: {
       status: "3C (Docked at PDC)",
@@ -109,16 +95,10 @@ export const STAGES_DATA = [
     conceptHeadline: "The loss of the first carbon atom in cellular respiration as CO₂.",
     compartment: "PDC Active Site",
     nature: "Decarboxylation",
-    where: "Active site of the Pyruvate Dehydrogenase Complex (PDC) in the mitochondrial matrix.",
-    what: "Pyruvate (3C) loses its carboxyl group (-COO⁻), releasing one molecule of gaseous carbon dioxide (CO₂).",
-    how: "The active site of the PDC cleaves the carboxyl group from pyruvate, releasing CO₂ gas and retaining the remaining 2-carbon acetyl fragment.",
-    why: "Decarboxylation eliminates a carbon atom, transforming a 3-carbon glycolytic product into a 2-carbon acetyl fragment that fits the entry requirement of the Krebs cycle.",
-    coreText: `
-      This is the first chemical transformation: <strong>Decarboxylation</strong>. 
-      The carboxyl group of pyruvate is cleaved off and diffuses away as <strong>carbon dioxide (CO₂)</strong>. 
-      The carbon backbone is permanently reduced from <strong>3 carbons to 2 carbons</strong>. 
-      This is where the first CO₂ of cellular respiration originates—not solely in the Krebs cycle.
-    `,
+    where: "Active site of the Pyruvate Dehydrogenase Complex in the matrix.",
+    what: "Pyruvate (3C) loses its carboxyl group, releasing the first CO₂ of respiration and leaving a 2C fragment.",
+    how: "The enzyme complex cleaves the terminal carboxyl group from pyruvate, liberating CO₂ gas.",
+    why: "Reduces the carbon chain from 3C to 2C so it can subsequently enter the Krebs cycle.",
     moleculesInFocus: ["pyruvate", "co2"],
     carbonState: {
       status: "2C Fragment + 1C CO₂ (Detached)",
@@ -140,15 +120,10 @@ export const STAGES_DATA = [
     conceptHeadline: "Harvesting high-energy electrons to reduce NAD⁺ into NADH.",
     compartment: "PDC Active Site",
     nature: "Redox Reaction",
-    where: "Catalytic active site of the PDC in the mitochondrial matrix.",
-    what: "The 2-carbon fragment is oxidized to an acetyl group; NAD⁺ is reduced to NADH + H⁺.",
-    how: "High-energy electrons and protons are extracted from the 2-carbon fragment by the PDC and transferred to the electron carrier NAD⁺, yielding NADH + H⁺.",
-    why: "NADH is a high-energy electron carrier. It carries these harvested electrons directly to Complex I of the Electron Transport Chain, which drives bulk ATP synthesis.",
-    coreText: `
-      This is the <strong>oxidation</strong> beat of oxidative decarboxylation. 
-      The 2-carbon fragment loses electrons and protons, which are accepted by the electron carrier <strong>NAD⁺</strong>, reducing it to <strong>NADH + H⁺</strong>. 
-      <strong>Crucial syllabus rule:</strong> NADH is an electron carrier, <em>not</em> ATP. No ATP is directly synthesized during the link reaction.
-    `,
+    where: "Active site of the Pyruvate Dehydrogenase Complex in the matrix.",
+    what: "The 2-carbon fragment is oxidized to an acetyl group while NAD⁺ is reduced to NADH + H⁺ (0 ATP made directly).",
+    how: "High-energy electrons and protons are extracted from the substrate and transferred to the electron carrier NAD⁺.",
+    why: "Harvests high-energy electrons into NADH to feed the electron transport chain for bulk ATP synthesis.",
     moleculesInFocus: ["nad", "nadh", "h_plus"],
     carbonState: {
       status: "2C (Oxidized Acetyl) + NADH",
@@ -170,16 +145,10 @@ export const STAGES_DATA = [
     conceptHeadline: "Coupling the 2-carbon acetyl group to Coenzyme A via a high-energy thioester bond.",
     compartment: "PDC Active Site",
     nature: "Thioester Synthesis",
-    where: "Catalytic active site of the PDC in the mitochondrial matrix.",
-    what: "The 2-carbon acetyl fragment is transferred to the reactive thiol group (-SH) of Coenzyme A, forming Acetyl-CoA.",
-    how: "The PDC attaches the oxidized 2-carbon acetyl fragment to the reactive thiol group (-SH) of Coenzyme A, creating a high-energy thioester bond.",
-    why: "The thioester bond in Acetyl-CoA has a very high free energy of hydrolysis (-31.5 kJ/mol), activating the 2-carbon acetate so it can spontaneously condense with 4-carbon oxaloacetate in the first step of the Krebs cycle.",
-    coreText: `
-      The final chemical step produces <strong>Acetyl-CoA</strong>. 
-      Coenzyme A binds to the 2-carbon acetyl group through a high-energy <strong>carbon-sulfur thioester bond</strong>. 
-      Acetyl-CoA now detaches from the PDC, primed to enter the Krebs cycle. 
-      The Link Reaction is officially complete.
-    `,
+    where: "Active site of the Pyruvate Dehydrogenase Complex in the matrix.",
+    what: "The 2-carbon acetyl group is coupled to Coenzyme A, completing the link reaction as Acetyl-CoA.",
+    how: "The acetyl fragment attaches to the reactive thiol (-SH) group of CoA through a high-energy thioester bond.",
+    why: "Energizes the 2-carbon unit with high transfer potential for spontaneous condensation into the Krebs cycle.",
     moleculesInFocus: ["coa", "acetyl_coa"],
     carbonState: {
       status: "2C-S-CoA (Acetyl-CoA Formed)",
@@ -201,18 +170,10 @@ export const STAGES_DATA = [
     conceptHeadline: "Resolving per-pyruvate versus per-glucose yields.",
     compartment: "Mitochondrial Matrix Chamber",
     nature: "Quantitative Yield",
-    where: "The entire mitochondrial matrix reaction space.",
-    what: "Spatial assembly of all reactants (pyruvate, CoA, NAD⁺) and products (acetyl-CoA, CO₂, NADH, H⁺).",
-    how: "One molecule of glucose (6C) splits in glycolysis to yield 2 molecules of pyruvate (3C). Therefore, the Link Reaction occurs twice per glucose.",
-    why: "Exam questions frequently test students on whether stoichiometric yields are calculated per single pyruvate molecule or per original glucose molecule.",
-    coreText: `
-      Here is the complete balanced Link Reaction: 
-      <br><strong>pyruvate + CoA + NAD⁺ &rarr; acetyl-CoA + CO₂ + NADH + H⁺</strong>
-      <br><br>
-      Because each glucose yields <strong>2 pyruvates</strong> during glycolysis, the Link Reaction operates <strong>twice per glucose</strong>:
-      <br><strong>2 Pyruvate &rarr; 2 Acetyl-CoA + 2 CO₂ + 2 NADH + 2 H⁺</strong>. 
-      Remember: <strong>0 ATP is made directly</strong>.
-    `,
+    where: "Mitochondrial matrix reaction space.",
+    what: "Pyruvate + CoA + NAD⁺ → Acetyl-CoA + CO₂ + NADH + H⁺ (doubled to 2× per original glucose).",
+    how: "Because glycolysis splits each glucose into 2 pyruvates, the link reaction operates twice per glucose molecule.",
+    why: "Yields 2 Acetyl-CoA, 2 CO₂, and 2 NADH per glucose (and 0 direct ATP) to fuel downstream respiration.",
     moleculesInFocus: ["pyruvate", "coa", "nad", "acetyl_coa", "co2", "nadh"],
     carbonState: {
       status: "Complete Equation Balance",
@@ -234,17 +195,10 @@ export const STAGES_DATA = [
     conceptHeadline: "The master metabolic map connecting all four stages of cellular respiration.",
     compartment: "Whole Mitochondrion & Cytosol",
     nature: "Metabolic Integration",
-    where: "From the cytoplasm, through the matrix, to the inner mitochondrial cristae.",
-    what: "Contextual map showing Glycolysis (cytosol) &rarr; Link Reaction (matrix) &rarr; Krebs Cycle (matrix) &rarr; Oxidative Phosphorylation (inner membrane).",
-    how: "The products of the link reaction feed directly into downstream systems: Acetyl-CoA enters the Krebs cycle, and NADH feeds electrons into Complex I of the ETC.",
-    why: "Understanding the spatial compartmentalization of respiration is essential to understanding how eukaryotic cells achieve high metabolic efficiency and ATP yield.",
-    coreText: `
-      The Link Reaction is the central linchpin of cellular respiration:
-      <br>1. <strong>Glycolysis (Cytosol):</strong> Glucose &rarr; 2 Pyruvate + 2 ATP + 2 NADH.
-      <br>2. <strong>Link Reaction (Matrix):</strong> 2 Pyruvate &rarr; 2 Acetyl-CoA + 2 CO₂ + 2 NADH.
-      <br>3. <strong>Krebs Cycle (Matrix):</strong> 2 Acetyl-CoA &rarr; 4 CO₂ + 6 NADH + 2 FADH₂ + 2 ATP.
-      <br>4. <strong>Oxidative Phosphorylation (Cristae):</strong> 10 NADH + 2 FADH₂ drive ~26-28 ATP synthesis.
-    `,
+    where: "Mitochondrial matrix, bridging the cytosol and inner mitochondrial cristae.",
+    what: "Integrates Stage 1 (Glycolysis) with Stage 3 (Krebs Cycle) and Stage 4 (Oxidative Phosphorylation).",
+    how: "Feeds Acetyl-CoA into the matrix Krebs cycle and shuttles NADH electrons to Complex I of the electron transport chain.",
+    why: "Serves as the irreversible commitment point channeling carbohydrate breakdown products into aerobic ATP generation.",
     moleculesInFocus: ["acetyl_coa", "nadh"],
     carbonState: {
       status: "Respiration Network Context",
@@ -519,54 +473,13 @@ function bindUIEvents() {
     if (e.target === modalBackdrop) closeMoleculeModal();
   });
 
-  // Setup interactive slide-down info boxes (WHERE, WHAT, HOW, WHY)
-  setupAnchorsInteraction();
+  // Setup educational info panel interactions & scroll cue
+  setupInfoPanelInteractions();
 }
 
-function setupAnchorsInteraction() {
-  const btnToggleAll = document.getElementById('btn-toggle-anchors');
-  const toggleText = document.getElementById('anchors-toggle-text');
-  const toggleChevron = document.querySelector('.anchors-toggle-chevron');
-  const boxes = document.querySelectorAll('.edu-anchor-box');
+function setupInfoPanelInteractions() {
   const card = document.getElementById('stage-card');
   const btnScrollCue = document.getElementById('btn-scroll-down-cue');
-
-  // Toggle individual box slide down / slide up
-  boxes.forEach(box => {
-    const btn = box.querySelector('.anchor-box-header');
-    btn?.addEventListener('click', () => {
-      box.classList.toggle('is-open');
-      const isOpen = box.classList.contains('is-open');
-      btn.setAttribute('aria-expanded', isOpen.toString());
-      updateToggleAllButton();
-      updatePanelScrollCue();
-      setTimeout(updatePanelScrollCue, 280);
-    });
-  });
-
-  // Toggle all boxes at once
-  btnToggleAll?.addEventListener('click', () => {
-    const allOpen = Array.from(boxes).every(b => b.classList.contains('is-open'));
-    boxes.forEach(b => {
-      const btn = b.querySelector('.anchor-box-header');
-      if (allOpen) {
-        b.classList.remove('is-open');
-        btn?.setAttribute('aria-expanded', 'false');
-      } else {
-        b.classList.add('is-open');
-        btn?.setAttribute('aria-expanded', 'true');
-      }
-    });
-    updateToggleAllButton();
-    updatePanelScrollCue();
-    setTimeout(updatePanelScrollCue, 280);
-  });
-
-  function updateToggleAllButton() {
-    const allOpen = Array.from(boxes).every(b => b.classList.contains('is-open'));
-    if (toggleText) toggleText.textContent = allOpen ? 'Slide Up All' : 'Slide Down All';
-    if (toggleChevron) toggleChevron.style.transform = allOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-  }
 
   // Floating scroll cue button click smoothly scrolls down panel
   btnScrollCue?.addEventListener('click', () => {
@@ -580,7 +493,6 @@ function setupAnchorsInteraction() {
   window.addEventListener('resize', updatePanelScrollCue, { passive: true });
 
   // Initial status check
-  updateToggleAllButton();
   setTimeout(updatePanelScrollCue, 150);
 }
 
@@ -668,11 +580,7 @@ function renderStage(stageIndex) {
   }
   setTimeout(updatePanelScrollCue, 100);
 
-  // 3. Core Text
-  const coreEl = document.getElementById('stage-core-text');
-  if (coreEl) coreEl.innerHTML = `<p>${stage.coreText}</p>`;
-
-  // 4. Molecules in Focus Chips
+  // 3. Molecules in Focus Chips
   const molContainer = document.getElementById('stage-molecules-list');
   if (molContainer) {
     molContainer.innerHTML = '';
@@ -901,10 +809,6 @@ function populateFlatSummary() {
           <h5>🔗 WHY &amp; CONNECTIONS</h5>
           <p>${s.why}</p>
         </div>
-      </div>
-
-      <div class="flat-stage-core">
-        ${s.coreText}
       </div>
 
       <div class="flat-stage-deeper">
