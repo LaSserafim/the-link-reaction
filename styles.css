@@ -86,36 +86,92 @@ html, body {
 }
 
 /* ==========================================================================
-   APPLICATION SHELL (Full-Viewport Flex Column - Eliminates Fixed Overlap)
-   ========================================================================== */
-
-.app-shell {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 5;
-}
-
-/* ==========================================================================
-   TOP HEADER HUD (Normal Document Flow Flex Item)
+   TOP HEADER HUD (Horizontally Scrollable Single-Row Toolbar)
    ========================================================================== */
 
 .hud-header {
-  flex: 0 0 auto;
+  position: fixed;
+  top: 14px;
+  left: 18px;
+  right: 18px;
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; /* was space-between — doesn't make sense once scrollable */
   gap: 12px;
-  padding: 12px 18px 6px 18px;
-  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;           /* never wrap to a second line */
+  pointer-events: auto;        /* was none — the bar itself now needs to receive scroll/drag input */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.4) rgba(15, 23, 42, 0.3);
+  scroll-behavior: smooth;
+  cursor: grab;
+  user-select: none;
+}
+
+.hud-header.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.hud-header::-webkit-scrollbar {
+  height: 5px;
+}
+
+.hud-header::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3);
+  border-radius: 999px;
+}
+
+.hud-header::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.35);
+  border-radius: 999px;
+}
+
+.hud-header::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.55);
+}
+
+/* Edge Fade Scroll Cues for .hud-header */
+.hud-header::before,
+.hud-header::after {
+  content: '';
+  position: fixed;
+  top: 14px;
+  width: 32px;
+  height: 44px;
+  pointer-events: none;
+  z-index: 25;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.hud-header::before {
+  left: 18px;
+  background: linear-gradient(to right, rgba(12, 18, 30, 0.95), transparent);
+  border-top-left-radius: var(--radius-lg);
+  border-bottom-left-radius: var(--radius-lg);
+}
+
+.hud-header::after {
+  right: 18px;
+  background: linear-gradient(to left, rgba(12, 18, 30, 0.95), transparent);
+  border-top-right-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.hud-header.can-scroll-left::before {
+  opacity: 1;
+}
+
+.hud-header.can-scroll-right::after {
+  opacity: 1;
 }
 
 .hud-header > * {
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 .brand-group {
@@ -173,7 +229,8 @@ html, body {
   box-shadow: var(--shadow-hud);
   font-family: 'JetBrains Mono', monospace;
   font-size: 13px;
-  flex-shrink: 1;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .btn-yield-toggle {
@@ -233,6 +290,7 @@ html, body {
 .eq-chem {
   color: var(--text-primary);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .m-react { color: #fed7aa; font-weight: 700; }
@@ -244,6 +302,7 @@ html, body {
   color: var(--text-muted);
   border-left: 1px solid rgba(255, 255, 255, 0.12);
   padding-left: 10px;
+  white-space: nowrap;
 }
 
 /* Carbon Tracker */
@@ -251,6 +310,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .carbon-tracker {
@@ -263,6 +323,8 @@ html, body {
   border-radius: var(--radius-lg);
   backdrop-filter: var(--glass-blur);
   box-shadow: var(--shadow-hud);
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* Consolidated HUD Control Cluster */
@@ -276,6 +338,7 @@ html, body {
   padding: 3px;
   gap: 3px;
   box-shadow: var(--shadow-hud);
+  flex-shrink: 0;
 }
 
 .btn-cluster {
@@ -317,11 +380,13 @@ html, body {
   font-weight: 800;
   letter-spacing: 0.08em;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 
 .carbon-beads {
   display: flex;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .c-bead {
@@ -336,6 +401,7 @@ html, body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .c-bead.active {
@@ -359,10 +425,8 @@ html, body {
   font-weight: 700;
   color: var(--text-accent);
   white-space: nowrap;
-  max-width: 190px;
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 /* Buttons */
@@ -420,13 +484,17 @@ html, body {
    ========================================================================== */
 
 .workspace-layout {
-  flex: 1 1 0;
-  min-height: 0;
+  position: fixed;
+  top: 76px;
+  left: 18px;
+  right: 18px;
+  bottom: 84px; /* Space above bottom process bar */
   display: grid;
   grid-template-columns: 1fr 430px;
   grid-template-rows: minmax(0, 1fr);
+  min-height: 0;
+  max-height: calc(100vh - 160px);
   gap: 16px;
-  padding: 6px 18px 10px 18px;
   z-index: 5;
 }
 
@@ -978,7 +1046,10 @@ html, body {
    ========================================================================== */
 
 .bottom-process-bar {
-  flex: 0 0 72px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 72px;
   z-index: 100;
   background: var(--bg-surface-elevated);
@@ -1733,18 +1804,24 @@ html, body {
   }
   .hud-header {
     gap: 10px;
-    padding: 10px 14px 4px 14px;
+    left: 14px;
+    right: 14px;
+  }
+  .hud-header::before {
+    left: 14px;
+  }
+  .hud-header::after {
+    right: 14px;
   }
   .workspace-layout {
-    padding: 4px 14px 8px 14px;
+    left: 14px;
+    right: 14px;
     gap: 12px;
   }
 }
 
 @media (max-width: 1100px) {
-  .reaction-equation-hud {
-    display: none;
-  }
+  /* .reaction-equation-hud remains visible and scrollable */
   .workspace-layout {
     grid-template-columns: 1fr 380px;
     grid-template-rows: minmax(0, 1fr);
@@ -1756,26 +1833,35 @@ html, body {
 
 @media (max-width: 860px) {
   .hud-header {
-    padding: 8px 12px 4px 12px;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .hud-header::before {
+    top: 10px;
+    left: 10px;
+  }
+
+  .hud-header::after {
+    top: 10px;
+    right: 10px;
   }
   
   .brand-title {
     font-size: 11px;
   }
   
-  .brand-subtitle {
-    display: none;
-  }
-  
-  .carbon-tracker {
-    display: none;
-  }
+  /* .brand-subtitle and .carbon-tracker remain visible and scrollable */
   
   .workspace-layout {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(0, 1fr) minmax(0, 320px);
+    top: 66px;
+    bottom: 74px;
+    left: 10px;
+    right: 10px;
     gap: 10px;
-    padding: 4px 10px 6px 10px;
   }
   
   .educational-card {
@@ -1783,7 +1869,6 @@ html, body {
   }
   
   .bottom-process-bar {
-    flex: 0 0 64px;
     height: 64px;
     padding: 0 8px;
   }
@@ -1812,6 +1897,12 @@ html, body {
   
   .flat-anchors-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 400px) {
+  .brand-subtitle {
+    display: none;
   }
 }
 

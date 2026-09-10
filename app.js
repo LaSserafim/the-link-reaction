@@ -344,6 +344,7 @@ export const state = {
 
 function startApp() {
   initHeaderHeightTracker();
+  initHeaderScroll();
   initBottomProcessBar();
   bindUIEvents();
   renderStage(state.currentStage);
@@ -354,6 +355,85 @@ function startApp() {
   document.addEventListener('inspect-molecule', (e) => {
     if (e.detail) openMoleculeModal(e.detail);
   });
+}
+
+export function updateHeaderScrollCues() {
+  const header = document.querySelector('.hud-header');
+  if (!header) return;
+  const maxScroll = header.scrollWidth - header.clientWidth;
+  if (maxScroll <= 2) {
+    header.classList.remove('can-scroll-left', 'can-scroll-right');
+    return;
+  }
+  const isLeft = header.scrollLeft > 4;
+  const isRight = header.scrollLeft < maxScroll - 4;
+  header.classList.toggle('can-scroll-left', isLeft);
+  header.classList.toggle('can-scroll-right', isRight);
+}
+
+function initHeaderScroll() {
+  const header = document.querySelector('.hud-header');
+  if (!header) return;
+
+  header.addEventListener('scroll', updateHeaderScrollCues, { passive: true });
+  window.addEventListener('resize', updateHeaderScrollCues, { passive: true });
+  if (document.fonts) document.fonts.ready.then(updateHeaderScrollCues);
+  setTimeout(updateHeaderScrollCues, 150);
+
+  // Mouse Click-and-Drag Scrolling
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let isDragging = false;
+
+  header.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isDown = true;
+    startX = e.pageX - header.offsetLeft;
+    scrollLeft = header.scrollLeft;
+    isDragging = false;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    const x = e.pageX - header.offsetLeft;
+    const walk = x - startX;
+    if (Math.abs(walk) > 3) {
+      isDragging = true;
+      header.classList.add('is-dragging');
+    }
+    if (isDragging) {
+      e.preventDefault();
+      header.scrollLeft = scrollLeft - walk;
+    }
+  });
+
+  const stopDrag = () => {
+    if (!isDown) return;
+    isDown = false;
+    setTimeout(() => {
+      header.classList.remove('is-dragging');
+    }, 50);
+  };
+
+  window.addEventListener('mouseup', stopDrag);
+
+  // Prevent accidental clicks on child buttons if mouse was dragged
+  header.addEventListener('click', (e) => {
+    if (isDragging) {
+      e.preventDefault();
+      e.stopPropagation();
+      isDragging = false;
+    }
+  }, true);
+
+  // Translate vertical wheel to horizontal scroll if over header and scrollable
+  header.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && header.scrollWidth > header.clientWidth) {
+      e.preventDefault();
+      header.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
 }
 
 function initHeaderHeightTracker() {
@@ -696,6 +776,7 @@ function updateCarbonTracker(carbonState) {
   });
 
   syncHeaderHeight();
+  updateHeaderScrollCues();
 }
 
 // =============================================================================
@@ -749,6 +830,7 @@ function toggleGlucoseYield() {
   }
 
   syncHeaderHeight();
+  updateHeaderScrollCues();
 }
 
 function toggleDeeperAccordion() {
