@@ -1,10 +1,10 @@
 /**
  * THE LINK REACTION — 2D / Semi-2D Application Controller
  * Manages the Bottom Process Bar, 8-stage narrative progression,
- * Core/Deeper tiers, and carbon tracker.
+ * Core Educational Anchors, and carbon tracker.
  */
 
-import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js?v=14';
+import { init2DScene, render2DStage, replayCurrentStageAnimation, toggleAll2DLabels, getStageFocusName } from './scene2d.js?v=15';
 
 // =============================================================================
 // 1. COMPREHENSIVE EDUCATIONAL DATABASE (STAGES 00 - 07)
@@ -28,12 +28,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "3C (Pyruvate)",
       beads: ["active", "active", "active"]
-    },
-    deeper: {
-      enzymology: "Glycolysis ends in the cytoplasm with 2 pyruvate molecules per glucose. The outer mitochondrial membrane allows passive diffusion of small molecules under 5,000 Daltons into the intermembrane space.",
-      mechanism: "Pyruvate is an alpha-keto acid (CH₃-CO-COO⁻) with a net negative charge at physiological pH (7.2–7.4), allowing it to traverse the permeable outer membrane.",
-      regulation: "If cellular oxygen is depleted, pyruvate cannot proceed through the link reaction; instead, it is diverted to lactate dehydrogenase in animals (fermentation) to regenerate NAD⁺.",
-      simplificationNote: "The outer membrane is permeable to small molecules, but the inner membrane is an impermeable barrier that requires specific carrier proteins."
     }
   },
   {
@@ -53,12 +47,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "3C (Entering Matrix)",
       beads: ["active", "active", "active"]
-    },
-    deeper: {
-      enzymology: "The MPC is an obligate heterodimer of MPC1 and MPC2 proteins located in the inner membrane. It operates as a pyruvate⁻ / H⁺ symporter.",
-      mechanism: "The electron transport chain pumps H⁺ ions into the intermembrane space, creating a membrane potential (~-180 mV) and pH gradient (pH ~8.0 in matrix vs 7.2 in IMS). Pyruvate import is energetically coupled to this electrochemical gradient.",
-      regulation: "MPC activity is a key regulatory bottleneck. In cancer cells (Warburg effect), MPC is frequently downregulated, trapping pyruvate in the cytosol to drive aerobic glycolysis.",
-      simplificationNote: "Many general textbooks omit the MPC and simply state 'pyruvate enters via active transport'."
     }
   },
   {
@@ -78,12 +66,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "3C (Docked at PDC)",
       beads: ["active", "active", "active"]
-    },
-    deeper: {
-      enzymology: "The Pyruvate Dehydrogenase Complex (PDC) is a multi-enzyme machine in the matrix with a mass exceeding 9 million Daltons. It groups the catalytic machinery together so that substrates and intermediates are processed with maximal efficiency.",
-      mechanism: "The complex coordinates three substrates (pyruvate, Coenzyme A, and NAD⁺) to generate three products (acetyl-CoA, CO₂, and NADH + H⁺). All intermediate fragments remain within the complex throughout the catalytic cycle.",
-      regulation: "PDC is tightly controlled. Inactivated by Pyruvate Dehydrogenase Kinase (PDK) in response to high energy states (high ATP, NADH, Acetyl-CoA). Activated by Pyruvate Dehydrogenase Phosphatase (PDP) in response to high ADP, pyruvate, and Ca²⁺.",
-      simplificationNote: "The PDC operates as a unified multi-enzyme complex in the mitochondrial matrix, acting as the primary gateway into aerobic cellular respiration."
     }
   },
   {
@@ -95,7 +77,7 @@ export const STAGES_DATA = [
     conceptHeadline: "The loss of the first carbon atom in cellular respiration as CO₂.",
     compartment: "PDC Active Site",
     nature: "Decarboxylation",
-    where: "Active site cavity of the Pyruvate Dehydrogenase Complex in the mitochondrial matrix.",
+    where: "Active site cavity of the Pyruvate Dehydrogenase Complex in the mitochondrial matrix. This internal compartment provides an alkaline environment optimized for catalytic turnover. Substrates enter the specialized active cleft to initiate carbon cleavage.",
     what: "Pyruvate (3C) loses its terminal carboxyl group, releasing the very first molecule of CO₂ in cellular respiration. This cleaves the 3-carbon skeleton down to an enzyme-bound 2-carbon hydroxyethyl fragment.",
     how: "Catalytic decarboxylation cleaves the carbon-carbon bond holding the carboxyl group, liberating carbon dioxide gas. The volatile CO₂ molecule diffuses away while the remaining 2-carbon fragment remains tethered for oxidation.",
     why: "Reduces the carbon chain length from 3 carbons to 2 carbons to match the acceptor molecule in the Krebs cycle. Rapid diffusion of CO₂ gas out of the matrix makes this step physiologically irreversible in living cells.",
@@ -103,12 +85,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "2C Fragment + 1C CO₂",
       beads: ["detached", "active", "active"]
-    },
-    deeper: {
-      enzymology: "Decarboxylation is the initial step of the link reaction. The PDC specifically targets the carboxyl group of pyruvate, converting a 3-carbon intermediate into a 2-carbon unit.",
-      mechanism: "CO₂ gas is released from pyruvate, leaving a 2-carbon acetyl group retained within the active site of the complex for immediate oxidation.",
-      regulation: "The release of CO₂ gas and large negative free energy make this reaction physiologically irreversible in vivo.",
-      simplificationNote: "CO₂ is a non-polar gas that diffuses freely out of the mitochondrial matrix, across the inner and outer membranes, into the cytosol, and into the bloodstream."
     }
   },
   {
@@ -120,7 +96,7 @@ export const STAGES_DATA = [
     conceptHeadline: "Harvesting high-energy electrons to reduce NAD⁺ into NADH.",
     compartment: "PDC Active Site",
     nature: "Redox Reaction",
-    where: "Catalytic active site of the Pyruvate Dehydrogenase Complex within the mitochondrial matrix.",
+    where: "Catalytic active site of the Pyruvate Dehydrogenase Complex within the mitochondrial matrix. The reaction takes place in close proximity to the electron transport chain on the inner membrane cristae. This spatial arrangement ensures rapid access to oxidized NAD⁺ cofactors.",
     what: "The 2-carbon fragment is oxidized to an acetyl group while NAD⁺ is reduced to NADH and H⁺. Notably, zero ATP is synthesized directly during this oxidation step.",
     how: "Dehydrogenase active sites extract a pair of high-energy electrons and two protons from the 2-carbon substrate. Two electrons and one proton are transferred to NAD⁺ to yield NADH, releasing one free proton (H⁺) into the matrix pool.",
     why: "Harvests high-energy electrons into the mobile carrier NADH to fuel the electron transport chain on the cristae. Each NADH produced will subsequently yield approximately 2.5 ATP via oxidative phosphorylation.",
@@ -128,12 +104,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "2C (Oxidized) + NADH",
       beads: ["detached", "active", "active"]
-    },
-    deeper: {
-      enzymology: "Dehydrogenase activity within the PDC catalyzes the oxidation of the 2-carbon fragment, directly coupling the release of electrons to the reduction of NAD⁺.",
-      mechanism: "NAD⁺ accepts two electrons and one proton (a hydride ion, :H⁻), reducing to NADH, while a second proton (H⁺) is released into the matrix proton pool.",
-      regulation: "High matrix [NADH]/[NAD⁺] ratio strongly inhibits the PDC via competitive product inhibition, signaling that downstream electron transport is saturated.",
-      simplificationNote: "Remember: NADH is an electron shuttle, not an ATP molecule. It will yield ATP later when its electrons are donated to the electron transport chain on the inner mitochondrial membrane."
     }
   },
   {
@@ -145,7 +115,7 @@ export const STAGES_DATA = [
     conceptHeadline: "Coupling the 2-carbon acetyl group to Coenzyme A via a high-energy thioester bond.",
     compartment: "PDC Active Site",
     nature: "Thioester Synthesis",
-    where: "Catalytic active site of the Pyruvate Dehydrogenase Complex within the mitochondrial matrix.",
+    where: "Catalytic active site of the Pyruvate Dehydrogenase Complex within the mitochondrial matrix. Soluble Coenzyme A molecules diffuse through the matrix fluid directly to the enzyme complex. The active site shields the high-energy intermediate from premature aqueous hydrolysis.",
     what: "The oxidized 2-carbon acetyl group is transferred onto Coenzyme A, completing the link reaction as Acetyl-CoA. This successfully yields the central substrate required for the Krebs cycle.",
     how: "The acetyl fragment couples to the reactive terminal thiol (-SH) sulfhydryl group of Coenzyme A. This condensation creates an energy-rich carbon-sulfur thioester bond that preserves the free energy released during oxidation.",
     why: "Energizes the 2-carbon acetyl unit with high group-transfer potential for condensation into the Krebs cycle. This allows Acetyl-CoA to spontaneously combine with 4-carbon oxaloacetate to form 6-carbon citrate.",
@@ -153,12 +123,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "2C-S-CoA (Acetyl-CoA)",
       beads: ["detached", "acetyl", "acetyl"]
-    },
-    deeper: {
-      enzymology: "Coenzyme A consists of a 3'-phosphoadenosine diphosphate linked to pantothenate (vitamin B5) and beta-mercaptoethylamine. The reactive business end is the terminal sulfhydryl / thiol group (-SH).",
-      mechanism: "The PDC transfers the acetyl group to the reactive sulfur of CoA-SH, forming a high-energy thioester bond (C–S–CoA) that preserves the energy released during oxidation.",
-      regulation: "Acetyl-CoA exerts potent product inhibition on the PDC. It also acts as an allosteric activator of pyruvate carboxylase.",
-      simplificationNote: "Because sulfur does not form effective pi-bonds with carbon, thioesters lack the resonance stabilization of oxygen esters. This gives the thioester bond its high chemical transfer potential."
     }
   },
   {
@@ -170,7 +134,7 @@ export const STAGES_DATA = [
     conceptHeadline: "Resolving per-pyruvate versus per-glucose yields.",
     compartment: "Mitochondrial Matrix Chamber",
     nature: "Quantitative Yield",
-    where: "Mitochondrial matrix reaction space, accounting for all inputs and outputs across the link reaction.",
+    where: "Mitochondrial matrix reaction space, where all inputs and outputs of the link reaction are stoichiometrically balanced. Both pyruvates from cytoplasmic glycolysis converge inside this single organellar compartment. All reaction products remain contained within the matrix for subsequent metabolic stages.",
     what: "Pyruvate + CoA + NAD⁺ → Acetyl-CoA + CO₂ + NADH + H⁺. Because glycolysis splits each glucose into two pyruvates, whole-cell yields double per original glucose molecule.",
     how: "Operating twice per glucose, the link reaction consumes 2 pyruvates, 2 CoA, and 2 NAD⁺ to produce 2 Acetyl-CoA, 2 CO₂, and 2 NADH + 2 H⁺. The reaction has a large negative standard free energy change (ΔG°' = -33.4 kJ/mol).",
     why: "Provides rigorous stoichiometric accounting of energy capture and carbon flux entering aerobic metabolism. The 2 NADH will yield ~5 ATP via oxidative phosphorylation, while 2 Acetyl-CoA enter the Krebs cycle to produce another ~20 ATP equivalents.",
@@ -178,12 +142,6 @@ export const STAGES_DATA = [
     carbonState: {
       status: "Complete Equation Balance",
       beads: ["detached", "acetyl", "acetyl"]
-    },
-    deeper: {
-      enzymology: "Standard free energy change: ΔG°' = -33.4 kJ/mol. The large negative free energy and loss of volatile CO₂ gas makes this reaction physiologically irreversible in vivo. Animals cannot convert acetyl-CoA into pyruvate or glucose.",
-      mechanism: "Carbon balance: 3C (Pyruvate) = 2C (Acetyl-CoA) + 1C (CO₂). Redox balance: NAD⁺ + 2e⁻ + 2H⁺ → NADH + H⁺. Energy balance: 0 ATP directly, but the 2 NADH generated will yield ~5 ATP via oxidative phosphorylation.",
-      regulation: "PDC is the central commitment point in animal metabolism: once pyruvate passes this gate, the carbons are destined either for complete oxidation in the Krebs cycle or for fatty acid synthesis.",
-      simplificationNote: "Always check whether an exam question specifies 'per pyruvate' (1 Acetyl-CoA, 1 CO₂, 1 NADH) or 'per glucose' (2 Acetyl-CoA, 2 CO₂, 2 NADH)."
     }
   },
   {
@@ -195,20 +153,14 @@ export const STAGES_DATA = [
     conceptHeadline: "The master metabolic map connecting all four stages of cellular respiration.",
     compartment: "Whole Mitochondrion & Cytosol",
     nature: "Metabolic Integration",
-    where: "Mitochondrial matrix, physically and functionally bridging cytosolic glycolysis with the inner membrane cristae.",
-    what: "Functions as the central metabolic hub integrating glycolysis (Stage 1) with the Krebs cycle (Stage 3) and oxidative phosphorylation (Stage 4).",
-    how: "Delivers Acetyl-CoA directly to matrix citrate synthase in the Krebs cycle while routing generated NADH to Complex I of the respiratory chain on the inner membrane cristae.",
+    where: "Mitochondrial matrix, physically and functionally bridging cytosolic glycolysis with the inner membrane cristae. It positions downstream Krebs cycle enzymes directly alongside the electron transport chain. This shared compartment minimizes transit distances for high-energy electron carriers.",
+    what: "Functions as the central metabolic hub integrating glycolysis with the Krebs cycle and oxidative phosphorylation. It channels the end-products of anaerobic carbohydrate cleavage directly into aerobic energy harvesting pathways.",
+    how: "Delivers Acetyl-CoA directly to matrix citrate synthase in the Krebs cycle. Simultaneously, it routes the generated NADH directly to Complex I of the respiratory chain embedded in the cristae.",
     why: "Operates as the master irreversible commitment point governing carbohydrate breakdown in aerobic respiration. If oxygen is absent, respiratory chain electron transport halts, NADH accumulates, and the link reaction is completely shut down.",
     moleculesInFocus: ["acetyl_coa", "nadh"],
     carbonState: {
       status: "Respiration Network Context",
       beads: ["detached", "acetyl", "acetyl"]
-    },
-    deeper: {
-      enzymology: "The link reaction and Krebs cycle share the same compartment (matrix) which prevents dilution of Acetyl-CoA and maintains high local substrate concentrations for Citrate Synthase.",
-      mechanism: "CO₂ produced by the link reaction (and Krebs cycle) is non-polar and diffuses freely out of the mitochondrion, into the capillaries, to be exhaled by the lungs.",
-      regulation: "If oxygen is unavailable, the electron transport chain halts, NADH and FADH₂ accumulate, matrix NAD⁺ is depleted, and both the Krebs cycle and Link Reaction shut down completely.",
-      simplificationNote: "Although taught as distinct chapters in textbooks, in a living cell these four stages operate simultaneously and in direct physical proximity."
     }
   }
 ];
@@ -333,8 +285,7 @@ CH₃ - C - S - CoA`,
 export const state = {
   currentStage: 0,
   showAllLabels: false,
-  perGlucoseMode: false,
-  isDeeperOpen: false
+  perGlucoseMode: false
 };
 
 // =============================================================================
@@ -548,10 +499,6 @@ function bindUIEvents() {
   const btnToggleGlucose = document.getElementById('btn-toggle-glucose');
   btnToggleGlucose?.addEventListener('click', toggleGlucoseYield);
 
-  // Deeper Accordion Toggle
-  const btnDeeper = document.getElementById('btn-deeper-toggle');
-  btnDeeper?.addEventListener('click', toggleDeeperAccordion);
-
   // Close Molecule Modal
   const btnCloseMol = document.getElementById('btn-close-mol-modal');
   const modalBackdrop = document.getElementById('molecule-modal-backdrop');
@@ -682,26 +629,7 @@ function renderStage(stageIndex) {
     });
   }
 
-  // 5. Deeper Accordion Content
-  const deeperBody = document.getElementById('deeper-body-text');
-  if (deeperBody && stage.deeper) {
-    deeperBody.innerHTML = `
-      <h5>Enzymology &amp; Coenzymes</h5>
-      <p>${stage.deeper.enzymology}</p>
-      
-      <h5>Chemical Mechanism</h5>
-      <p>${stage.deeper.mechanism}</p>
-      
-      <h5>Metabolic Regulation</h5>
-      <p>${stage.deeper.regulation}</p>
-      
-      <div class="deeper-note">
-        <strong>Pedagogical Mechanism Note:</strong> ${stage.deeper.simplificationNote}
-      </div>
-    `;
-  }
-
-  // 6. Navigation Buttons on Card and Process Bar
+  // 5. Navigation Buttons on Card and Process Bar
   const btnPrev = document.getElementById('btn-prev-stage');
   const btnNext = document.getElementById('btn-next-stage');
   const btnBarPrev = document.getElementById('btn-process-prev');
@@ -816,16 +744,6 @@ function toggleGlucoseYield() {
 
   syncHeaderHeight();
   updateHeaderScrollCues();
-}
-
-function toggleDeeperAccordion() {
-  state.isDeeperOpen = !state.isDeeperOpen;
-  const btn = document.getElementById('btn-deeper-toggle');
-  const content = document.getElementById('deeper-content');
-  
-  if (btn) btn.setAttribute('aria-expanded', state.isDeeperOpen.toString());
-  if (content) content.hidden = !state.isDeeperOpen;
-  setTimeout(updatePanelScrollCue, 100);
 }
 
 // =============================================================================

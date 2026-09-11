@@ -685,11 +685,21 @@ html, body {
   padding: 20px 20px 18px 20px;
   overflow-y: auto;
   overflow-x: hidden;
-  overscroll-behavior: contain;
+  overscroll-behavior-y: auto;
+  touch-action: pan-y;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: rgba(56, 189, 248, 0.4) rgba(15, 23, 42, 0.3);
+}
+
+.card-header,
+.stage-title,
+.stage-concept-headline,
+.edu-anchors-list,
+.stage-molecules-bar,
+.card-footer {
+  flex-shrink: 0;
 }
 
 .educational-card::-webkit-scrollbar {
@@ -934,82 +944,16 @@ html, body {
   color: #fff;
 }
 
-/* Deeper Accordion */
-.deeper-accordion {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-md);
-  margin-bottom: 16px;
-  overflow: hidden;
-  background: rgba(15, 23, 42, 0.4);
-}
-
-.deeper-toggle-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 12px;
-  background: transparent;
-  border: none;
-  color: #38bdf8;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: left;
-}
-
-.deeper-toggle-btn:hover {
-  background: rgba(56, 189, 248, 0.08);
-}
-
-.chevron-icon {
-  transition: transform 0.25s ease;
-}
-
-.deeper-toggle-btn[aria-expanded="true"] .chevron-icon {
-  transform: rotate(180deg);
-}
-
-.deeper-content {
-  padding: 10px 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  font-size: 12px;
-  line-height: 1.5;
-  color: #94a3b8;
-}
-
-.deeper-content h5 {
-  color: #e2e8f0;
-  font-size: 11.5px;
-  margin: 6px 0 3px;
-  font-weight: 700;
-}
-
-.deeper-content h5:first-child {
-  margin-top: 0;
-}
-
-.deeper-note {
-  background: rgba(245, 158, 11, 0.1);
-  border-left: 3px solid #f59e0b;
-  padding: 5px 8px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  margin-top: 8px;
-  font-size: 11px;
-  color: #fcd34d;
-}
-
 .card-footer {
-  margin-top: 18px;
+  margin-top: 16px;
+  margin-bottom: 4px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   padding-top: 14px;
+  padding-bottom: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -1571,7 +1515,7 @@ html, body {
   
   .workspace-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) minmax(0, 320px);
+    grid-template-rows: minmax(200px, 1fr) minmax(260px, 1.25fr);
     top: 66px;
     bottom: 74px;
     left: 10px;

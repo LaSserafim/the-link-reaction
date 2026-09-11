@@ -51,7 +51,6 @@ This project uses modern vanilla HTML5, CSS, and ES Modules, requiring **zero bu
 - **Keyboard Shortcuts**: Left/Right Arrow keys jump between stages; `R` replays the active scene animation; `L` toggles all labels.
 - **Mobile Touch**: Swipe left or right on the illustration viewport to change stages, or pinch to zoom.
 - **Molecule Inspector**: Click any molecule tag or diagram item (e.g. *Pyruvate*, *CoA*, *NAD⁺*, *CO₂*, *Acetyl-CoA*) to inspect formula and role.
-- **+ GO DEEPER**: In-place accordion revealing PDC enzymology, allosteric regulation, and pedagogical simplification notes.
 
 ---
 
